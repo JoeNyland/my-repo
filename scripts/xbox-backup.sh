@@ -41,6 +41,7 @@ echo The tarballs from your Xbox have been saved to $BACKUPLOCATION;
 echo This script will now clear up the source files for these tarballs.;
 rm -rfv ./C/ ./E/ ./F/
 echo All done! Here are your Xbox tarballs:;
-ls $BACKUPLOCATION -lh
+ls $BACKUPLOCATION -lh --ignore=*.log
 
+exit
 done
