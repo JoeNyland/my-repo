@@ -27,7 +27,8 @@ rm -rfv ./*.log
 echo Backing up source files from Xbox.;
 lftp -c mirror ftp://xbox:xbox@/C/
 lftp -c mirror ftp://xbox:xbox@/E/
-lftp -c mirror ftp://xbox:xbox@/F/ --exclude rootfs --exclude swap
+lftp -c mirror ftp://xbox:xbox@/F/ --exclude Games/ --exclude rootfs --exclude swap
+# lftp -c mirror ftp://xbox:xbox@/F/ --exclude rootfs --exclude swap
 echo Finished backing up source files.;
 echo Now compressing with bzip2...;
 echo 
