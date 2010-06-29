@@ -65,7 +65,7 @@ echo Using IP of $XBOXIP to connect to Xbox FTP server.
 cd $BACKUPLOCATION || exit
 rm -rfv ./*.log
 echo Backing up source files from Xbox.;
-lftp -c mirror ftp://xbox:xbox@$XBOXIP/C/ || echo "There seems to have been an error. Please check that lftp is installed and the correct IP address was used for your Xbox." && exit
+lftp -c mirror ftp://xbox:xbox@$XBOXIP/C/ || exit
 lftp -c mirror ftp://xbox:xbox@$XBOXIP/E/
 lftp -c mirror ftp://xbox:xbox@$XBOXIP/F/ --exclude Games/ --exclude rootfs --exclude swap
 # lftp -c mirror ftp://xbox:xbox@$XBOXIP/F/ --exclude rootfs --exclude swap
