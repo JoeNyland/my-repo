@@ -1,17 +1,57 @@
-#!/bin/sh
-# Xbox Backup Script. Note: this script does not backup Xbox games (/F/Games/) or Gentoox's rootfs or swap files.
+#!/bin/bash
+# Xbox Backup Script. Note: this script does not backup Gentoox's rootfs or swap files.
 
 BACKUPLOCATION="/mnt/usb_backup/Backups/Xbox/"
+LFTPCONF="$HOME/.lftp"
+RETRY="1"
+MAXRETSET=` grep -i "set net:max-retries $RETRY" $LFTPCONF/rc|wc -l`
+
+if [ -d $LFTPCONF ];
+then
+
+  if [ -f $LFTPCONF/rc ];
+
+  then
+    echo An lftp config file exists.
+
+    if [[ $MAXRETSET = 1 ]]
+
+    then
+    echo The max retry setting is present in the config file.
+
+    else
+    echo The max retry setting is not currently set in the config file.
+    echo "set net:max-retries $RETRY" >> $LFTPCONF/rc
+    echo The max retry setting has now been set in the config file.
+
+    fi
+
+  else
+    touch $LFTPCONF/rc
+    echo An lftp config file has been created.
+    echo "set net:max-retries $RETRY" >> $LFTPCONF/rc
+    echo The max retry setting has now been set in the config file.
+
+  fi
+
+else
+  mkdir $LFTPCONF
+  touch $LFTPCONF/rc
+  echo "set net:max-retries $RETRY" >> $LFTPCONF/rc
+  echo The lftp max retry setting has now been set in the config file.
+
+fi
+
 
 echo "Enter your Xbox IP address";
 
 while read inputline
 do
-xboxip="$inputline"
+XBOXIP="$inputline"
 
-if [ -z "${xboxip}" ];
+if [ -z "${XBOXIP}" ];
 then
-echo 
+echo
 echo You need to enter an IP address for your Xbox for this script to connect to the FTP server.;
 echo Please re-run this script and enter a valid local IP address for your Xbox.;
 echo This script will now exit.;
@@ -20,17 +60,17 @@ exit
 fi
 
 echo Xbox IP saved.
-echo Using IP of $xboxip to connect to Xbox FTP server.
+echo Using IP of $XBOXIP to connect to Xbox FTP server.
 
 cd $BACKUPLOCATION || exit
 rm -rfv ./*.log
 echo Backing up source files from Xbox.;
-lftp -c mirror ftp://xbox:xbox@/C/
-lftp -c mirror ftp://xbox:xbox@/E/
-lftp -c mirror ftp://xbox:xbox@/F/ --exclude rootfs --exclude swap
+lftp -c mirror ftp://xbox:xbox@$XBOXIP/C/ || echo "There seems to have been an error. Please check that lftp is installed and the correct IP addres$
+lftp -c mirror ftp://xbox:xbox@$XBOXIP/E/
+lftp -c mirror ftp://xbox:xbox@$XBOXIP/F/ --exclude rootfs --exclude swap
 echo Finished backing up source files.;
 echo Now compressing with bzip2...;
-echo 
+echo
 echo Compressing C;
 tar cvpjf "Xbox C"-`date +%F`.tar.bz2 ./C/ > "Xbox C".log
 echo Compressing E;
