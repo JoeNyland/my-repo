@@ -1,5 +1,4 @@
 #!/bin/bash
-# Test commit
 # Server Backup Script
 
 cd /mnt/usb_backup/Backups/Server || exit
