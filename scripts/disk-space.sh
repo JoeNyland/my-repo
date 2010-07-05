@@ -9,4 +9,4 @@ echo
 echo Please wait...
 echo 
 echo 
-gksudo du || sudo du -hx --max-depth=1 .
+gksudo du -hx --max-depth=1 . || sudo du -hx --max-depth=1 .
