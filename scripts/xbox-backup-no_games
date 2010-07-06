@@ -1,7 +1,8 @@
 #!/bin/bash
 # Xbox Backup Script. Note: this script does not backup Xbox games (/F/Games/) or Gentoox's rootfs or swap files.
 
-BACKUPLOCATION="/mnt/usb_backup/Backups/Xbox/"
+TEMPBACKUPLOCATION="/tmp/xbox-backup"
+BACKUPLOCATION="/mnt/usb_backup/Backups/Xbox"
 LFTPCONF="$HOME/.lftp"
 RETRY="1"
 MAXRETSET=` grep -i "set net:max-retries $RETRY" $LFTPCONF/rc|wc -l`
@@ -62,8 +63,7 @@ fi
 echo Xbox IP saved.
 echo Using IP of $XBOXIP to connect to Xbox FTP server.
 
-cd $BACKUPLOCATION || exit
-rm -rfv ./*.log
+cd $TEMPBACKUPLOCATION || exit
 echo Backing up source files from Xbox.;
 lftp -c mirror ftp://xbox:xbox@$XBOXIP/C/ || exit
 lftp -c mirror ftp://xbox:xbox@$XBOXIP/E/
@@ -73,14 +73,18 @@ echo Finished backing up source files.;
 echo Now compressing with bzip2...;
 echo 
 echo Compressing C;
-tar cvpjf "Xbox C"-`date +%F`.tar.bz2 ./C/ > "Xbox C".log
+tar cvpjf "Xbox C"-`date +%F`.tar.bz2 ./C/ > "xbox-backup-C".log
 echo Compressing E;
-tar cvpjf "Xbox E"-`date +%F`.tar.bz2 ./E/ > "Xbox E".log
+tar cvpjf "Xbox E"-`date +%F`.tar.bz2 ./E/ > "xbox-backup-E".log
 echo Compressinng F;
-tar cvpjf "Xbox F"-`date +%F`.tar.bz2 ./F/ > "Xbox F".log
+tar cvpjf "Xbox F"-`date +%F`.tar.bz2 ./F/ > "xbox-backup-F".log
+cp $TEMPBACKUPLOCATION/Xbox C* $BACKUPLOCATION || exit
+cp $TEMPBACKUPLOCATION/Xbox E* $BACKUPLOCATION
+cp $TEMPBACKUPLOCATION/Xbox F* $BACKUPLOCATION
+
 echo The tarballs from your Xbox have been saved to $BACKUPLOCATION;
 echo This script will now clear up the source files for these tarballs.;
-rm -rfv ./C/ ./E/ ./F/
+rm -rfv $TEMPBACKUPLOCATION/C/ $TEMPBACKUPLOCATION/E/ $TEMPBACKUPLOCATION/F/
 echo All done! Here are your Xbox tarballs:;
 ls $BACKUPLOCATION -lh --ignore=*.log
 
