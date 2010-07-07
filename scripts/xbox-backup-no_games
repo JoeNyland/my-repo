@@ -63,6 +63,7 @@ fi
 echo Xbox IP saved.
 echo Using IP of $XBOXIP to connect to Xbox FTP server.
 
+mkdir -p $TEMPBACKUPLOCATION
 cd $TEMPBACKUPLOCATION || exit
 echo Backing up source files from Xbox.;
 lftp -c mirror ftp://xbox:xbox@$XBOXIP/C/ || exit
@@ -73,18 +74,16 @@ echo Finished backing up source files.;
 echo Now compressing with bzip2...;
 echo 
 echo Compressing C;
-tar cvpjf "Xbox C"-`date +%F`.tar.bz2 ./C/ > "xbox-backup-C".log
+tar cvpjf "Xbox C"-`date +%F`.tar.bz2 ./C/ > "Xbox-Backup-C".log
 echo Compressing E;
-tar cvpjf "Xbox E"-`date +%F`.tar.bz2 ./E/ > "xbox-backup-E".log
+tar cvpjf "Xbox E"-`date +%F`.tar.bz2 ./E/ > "Xbox-Backup-E".log
 echo Compressinng F;
-tar cvpjf "Xbox F"-`date +%F`.tar.bz2 ./F/ > "xbox-backup-F".log
-cp $TEMPBACKUPLOCATION/Xbox C* $BACKUPLOCATION || exit
-cp $TEMPBACKUPLOCATION/Xbox E* $BACKUPLOCATION
-cp $TEMPBACKUPLOCATION/Xbox F* $BACKUPLOCATION
+tar cvpjf "Xbox F"-`date +%F`.tar.bz2 ./F/ > "Xbox-Backup-F".log
+cp $TEMPBACKUPLOCATION/Xbox* $BACKUPLOCATION || exit
 
 echo The tarballs from your Xbox have been saved to $BACKUPLOCATION;
 echo This script will now clear up the source files for these tarballs.;
-rm -rfv $TEMPBACKUPLOCATION/C/ $TEMPBACKUPLOCATION/E/ $TEMPBACKUPLOCATION/F/
+rm -rfv $TEMPBACKUPLOCATION
 echo All done! Here are your Xbox tarballs:;
 ls $BACKUPLOCATION -lh --ignore=*.log
 
