@@ -77,7 +77,7 @@ tar cvpjf "Xbox C"-`date +%F`.tar.bz2 ./C/ > "Xbox-Backup-C".log
 echo Compressing E;
 tar cvpjf "Xbox E"-`date +%F`.tar.bz2 ./E/ > "Xbox-Backup-E".log
 echo Compressinng F;
-tar cvpjf "Xbox F"-`date +%F`.tar.bz2 ./F/ > "Xbox-Backup-F".log
+tar cvpjf "Xbox F (+ Games)"-`date +%F`.tar.bz2 ./F/ > "Xbox-Backup-F".log
 cp $TEMPBACKUPLOCATION/Xbox* $BACKUPLOCATION || exit
 
 echo The tarballs from your Xbox have been saved to $BACKUPLOCATION;
