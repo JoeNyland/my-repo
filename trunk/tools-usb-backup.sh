@@ -1,6 +1,9 @@
 #!/bin/bash
 # Tools USB Drive Backup Script
+TEMPLOCATION="/tmp/tools-backup"
 
-cd /mnt/usb_backup/Backups/Tools || exit
-tar cvpjf "Tools USB Drive"-`date +%F`.tar.bz2 /mnt/tools > tools-usb-backup.log
-
+mkdir $TEMPLOCATION
+cp -rfv /mnt/tools/* $TEMPLOCATION
+cd /mnt	/usb_backup/Tools
+tar cvpjf "Tools USB Drive"-`date +%F`.tar.bz2 $TEMPLOCATION/* > tools-usb-backup.log
+rm -rfv $TEMPLOCATION
