@@ -6,7 +6,8 @@ MAC_BACKUP=/mnt/mac-backup
 _BACKUP=/mnt/-backup
 
 rsync -vruEthim --progress --log-file=$SHARED_DIR/.shared-backup.log $SHARED_DIR/TV\ Shows $MAC_BACKUP/Server/
-rsync -vruEthim --progress --log-file=$SHARED_DIR/.shared-backup.log $SHARED_DIR/Movies $MAC_BACKUP/Server/
+rsync -vruEthim --progress --log-file=$SHARED_DIR/.shared-backup.log $SHARED_DIR/Movies $MAC_BACKUP/Server/ --exclude=$SHARED_DIR/Movies/Blu\ Ray\ Movies/
 rsync -vruEthim --progress --log-file=$SHARED_DIR/.shared-backup.log $SHARED_DIR/Applications $_BACKUP/
 rsync -vruEthim --progress --log-file=$SHARED_DIR/.shared-backup.log $SHARED_DIR/Disc\ Images $_BACKUP/
 rsync -vruEthim --progress --log-file=$SHARED_DIR/.shared-backup.log $SHARED_DIR/Music $_BACKUP/
+rsync -vruEthim --progress --log-file=$SHARED_DIR/.shared-backup.log $SHARED_DIR/Movies/Blu\ Ray\ Movies/ $_BACKUP/
