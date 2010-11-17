@@ -10,4 +10,4 @@ rsync -vruEthim --progress --log-file=$HOME/.shared-backup.log $SHARED_DIR/Movie
 rsync -vruEthim --progress --log-file=$HOME/.shared-backup.log $SHARED_DIR/Applications $_BACKUP/ --exclude="._*"
 rsync -vruEthim --progress --log-file=$HOME/.shared-backup.log $SHARED_DIR/Disc\ Images $_BACKUP/ --exclude="._*"
 rsync -vruEthim --progress --log-file=$HOME/.shared-backup.log $SHARED_DIR/Music $_BACKUP/ --exclude="._*"
-rsync -vruEthim --progress --log-file=$HOME/.shared-backup.log $SHARED_DIR/Movies/Blu\ Ray\ Movies/ $_BACKUP/ --exclude="._*"
+rsync -vruEthim --progress --log-file=$HOME/.shared-backup.log $SHARED_DIR/Movies/Blu\ Ray\ Movies $_BACKUP/ --exclude="._*"
