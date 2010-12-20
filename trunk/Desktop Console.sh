@@ -1,3 +1,4 @@
 #!/bin/sh
-gnome-terminal --window-with-profile=DesktopConsole --geometry=127x48+1480+25 &
+sleep 10
+gnome-terminal --working-directory=~ --window-with-profile=DesktopConsole --geometry=50x40+200+145 &
 devilspie &

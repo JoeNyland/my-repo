@@ -1,2 +1,2 @@
 #!/bin/bash
-sleep 5 && ssh -X @ conky;
+sleep 10 && ssh -X @ conky;
