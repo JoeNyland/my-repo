@@ -1,0 +1,26 @@
+!#/bin/bash
+
+# Create directories/files
+sudo mkdir /tmp/email-backup
+touch /tmp/email-backup/All_Mail.mbox
+touch /tmp/email-backup/Sent_Mail.mbox
+touch /tmp/email-backup/Spam.mbox
+touch /tmp/email-backup/Backup_Logs.mbox
+#touch /tmp/email-backup/MobileMe*.mbox
+
+# Backup Gmail mailboxes, tar and remove source files.
+getmail -r /home//.getmail/gmail_All_Mail
+tar cvjf /mnt/usb_backup/Backups/Email/Gmail_Archive/All_Mail.tar.bz2 /tmp/email-backup/Gmail/All_Mail.mbox
+
+getmail -r /home//.getmail/gmail_Backup_Logs
+tar cvjf /mnt/usb_backup/Backups/Email/Gmail_Archive/Backup_Logs.tar.bz2 /tmp/email-backup/Gmail/Backup_Logs.mbox
+
+getmail -r /home//.getmail/gmail_Sent_Mail
+tar cvjf /mnt/usb_backup/Backups/Email/Gmail_Archive/Sent_Mail.tar.bz2 /tmp/email-backup/Gmail/Sent_Mail.mbox
+
+getmail -r /home//.getmail/gmail_Spam
+tar cvjf /mnt/usb_backup/Backups/Email/Gmail_Archive/Spam.tar.bz2 /tmp/email-backup/Gmail/Spam.mbox
+
+# Backup Gmail mailboxes, tar and remove source files.
+#getmail -r /home//.getmail/mobileme_Archive
+#tar cvjf /mnt/usb_backup/Backups/Email/MobileMe_Archive/All_Mail.tar.bz2 /tmp/email-backup/MobileMe/Archive.mbox
