@@ -1,12 +1,13 @@
 #!/bin/bash
 
 # Create directories/files
-sudo mkdir /tmp/email-backup
-touch /tmp/email-backup/All_Mail.mbox
-touch /tmp/email-backup/Sent_Mail.mbox
-touch /tmp/email-backup/Spam.mbox
-touch /tmp/email-backup/Backup_Logs.mbox
-#touch /tmp/email-backup/MobileMe*.mbox
+mkdir -p /tmp/email-backup/Gmail
+#mkdir -p /tmp/email-backup/MobileMe
+touch /tmp/email-backup/Gmail/All_Mail.mbox
+touch /tmp/email-backup/Gmail/Sent_Mail.mbox
+touch /tmp/email-backup/Gmail/Spam.mbox
+touch /tmp/email-backup/Gmail/Backup_Logs.mbox
+#touch /tmp/email-backup/MobileMe/*.mbox
 
 # Backup Gmail mailboxes, tar and remove source files.
 getmail -r /home//.getmail/gmail_All_Mail
@@ -26,4 +27,8 @@ tar cvjf /mnt/usb_backup/Backups/Email/Gmail_Archive/Spam.tar.bz2 /tmp/email-bac
 #tar cvjf /mnt/usb_backup/Backups/Email/MobileMe_Archive/All_Mail.tar.bz2 /tmp/email-backup/MobileMe/Archive.mbox
 
 
-if file exists mark as successful, add to email
+
+rm -rfv /tmp/email-backup/*
+
+
+#if file exists mark as successful, add to email
