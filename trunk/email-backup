@@ -28,7 +28,7 @@ tar cvjf /mnt/usb_backup/Backups/Email/Gmail_Archive/Spam.tar.bz2 /tmp/email-bac
 
 
 
-rm -rfv /tmp/email-backup/*
+rm -rfv /tmp/email-backup/
 
 
 #if file exists mark as successful, add to email
