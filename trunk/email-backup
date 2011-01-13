@@ -1,4 +1,4 @@
-!#/bin/bash
+#!/bin/bash
 
 # Create directories/files
 sudo mkdir /tmp/email-backup
@@ -24,3 +24,6 @@ tar cvjf /mnt/usb_backup/Backups/Email/Gmail_Archive/Spam.tar.bz2 /tmp/email-bac
 # Backup Gmail mailboxes, tar and remove source files.
 #getmail -r /home//.getmail/mobileme_Archive
 #tar cvjf /mnt/usb_backup/Backups/Email/MobileMe_Archive/All_Mail.tar.bz2 /tmp/email-backup/MobileMe/Archive.mbox
+
+
+if file exists mark as successful, add to email

@@ -1,0 +1,5 @@
+#!/bin/bash
+
+COMPLETEJOBS=/var/log/complete-jobs.log
+
+cat $COMPLETEJOBS | sendemail && touch $COMPLETEJOBS
