@@ -1,12 +1,17 @@
 #!/bin/bash
 
 COMPLETEJOBS=/tmp/overnight-jobs.log
+SMTPSERVER=
+SMTPUSERNAME=
+SMTPPASSWORD=
+SUCCESSSUBJECT="Overnight jobs report from "
+FAILURESUBJECT="No jobs to report for "
 
 if [ -f $COMPLETEJOBS ]
 
 then
-	cat $COMPLETEJOBS | sendemail -f  -t  -s  -o username= -o password= -u "Overnight jobs report from "
+	cat $COMPLETEJOBS | sendemail -f  -t  -s  -o username= -o password= -u $SUCCESSSUBJECT
 	rm -fv $COMPLETEJOBS
 else
-	echo "No jobs have run last night / Nothing to report" | sendemail -f  -t  -s  -o username= -o password= -u "No jobs to report for "
+	echo "No jobs have run last night or there is nothing to report." | sendemail -f  -t  -s  -o username= -o password= -u $FAILURESUBJECT
 fi
