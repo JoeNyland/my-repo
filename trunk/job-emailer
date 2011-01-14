@@ -1,5 +1,5 @@
 #!/bin/bash
 
-COMPLETEJOBS=/var/log/complete-jobs.log
+COMPLETEJOBS=/tmp/job.log
 
-cat $COMPLETEJOBS | sendemail && touch $COMPLETEJOBS
+cat $COMPLETEJOBS | sendemail -f  -t  -s  -o username= -o password= -u "Overnight jobs report from " && rm -fv $COMPLETEJOBS
