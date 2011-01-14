@@ -1,5 +1,12 @@
 #!/bin/bash
 
-COMPLETEJOBS=/tmp/job.log
+COMPLETEJOBS=/tmp/overnight-jobs.log
 
-cat $COMPLETEJOBS | sendemail -f  -t  -s  -o username= -o password= -u "Overnight jobs report from " && rm -fv $COMPLETEJOBS
+if [ -f $COMPLETEJOBS ]
+
+then
+	cat $COMPLETEJOBS | sendemail -f  -t  -s  -o username= -o password= -u "Overnight jobs report from "
+	rm -fv $COMPLETEJOBS
+else
+	echo "No jobs have run last night / Nothing to report" | sendemail -f  -t  -s  -o username= -o password= -u "No jobs to report for "
+fi

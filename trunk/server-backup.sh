@@ -19,7 +19,3 @@ else
         echo "" >> /tmp/overnight-jobs.log
         echo "" >> /tmp/overnight-jobs.log
 fi
-
-
-cat /tmp/overnight-jobs.log | sendemail -f  -t  -s  -o username= -o password= -u "Overnight full server backup report"
-rm /tmp/overnight-jobs.log
