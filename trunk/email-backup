@@ -1,34 +1,198 @@
 #!/bin/bash
 
 # Create directories/files
-mkdir -p /tmp/email-backup/Gmail
-#mkdir -p /tmp/email-backup/MobileMe
-touch /tmp/email-backup/Gmail/All_Mail.mbox
-touch /tmp/email-backup/Gmail/Sent_Mail.mbox
-touch /tmp/email-backup/Gmail/Spam.mbox
-touch /tmp/email-backup/Gmail/Backup_Logs.mbox
-#touch /tmp/email-backup/MobileMe/*.mbox
+mkdir -p /tmp/email-backup/MobileMe
 
-# Backup Gmail mailboxes, tar and remove source files.
-getmail -r /home//.getmail/gmail_All_Mail
-tar cvjf /mnt/usb_backup/Backups/Email/Gmail_Archive/All_Mail.tar.bz2 /tmp/email-backup/Gmail/All_Mail.mbox
-
-getmail -r /home//.getmail/gmail_Backup_Logs
-tar cvjf /mnt/usb_backup/Backups/Email/Gmail_Archive/Backup_Logs.tar.bz2 /tmp/email-backup/Gmail/Backup_Logs.mbox
-
-getmail -r /home//.getmail/gmail_Sent_Mail
-tar cvjf /mnt/usb_backup/Backups/Email/Gmail_Archive/Sent_Mail.tar.bz2 /tmp/email-backup/Gmail/Sent_Mail.mbox
-
-getmail -r /home//.getmail/gmail_Spam
-tar cvjf /mnt/usb_backup/Backups/Email/Gmail_Archive/Spam.tar.bz2 /tmp/email-backup/Gmail/Spam.mbox
-
-# Backup Gmail mailboxes, tar and remove source files.
-#getmail -r /home//.getmail/mobileme_Archive
-#tar cvjf /mnt/usb_backup/Backups/Email/MobileMe_Archive/All_Mail.tar.bz2 /tmp/email-backup/MobileMe/Archive.mbox
+touch /tmp/email-backup/MobileMe/Backup_Logs.mbox
+touch /tmp/email-backup/MobileMe/Archive.mbox
+touch /tmp/email-backup/MobileMe/ToDo.mbox
+touch /tmp/email-backup/MobileMe/Inbox.mbox
+touch /tmp/email-backup/MobileMe/Deleted_Messages.mbox
+touch /tmp/email-backup/MobileMe/Junk.mbox
+touch /tmp/email-backup/MobileMe/Notes.mbox
+touch /tmp/email-backup/MobileMe/Sent_Messages.mbox
 
 
+# Backup MobileMe mailboxes, tar and remove source files.
+getmail -r /home//.getmail/mobileme_Archive
+getmail -r /home//.getmail/mobileme_Backup_Logs
+getmail -r /home//.getmail/mobileme_Deleted_Messages
+getmail -r /home//.getmail/mobileme_Inbox
+getmail -r /home//.getmail/mobileme_Junk
+getmail -r /home//.getmail/mobileme_Notes
+getmail -r /home//.getmail/mobileme_Sent_Messages
+getmail -r /home//.getmail/mobileme_ToDo
+
+tar cvjf /mnt/usb_backup/Backups/Email/MobileMe/Backup_Logs-`date +%F`.tar.bz2 /tmp/email-backup/MobileMe/Backup_Logs.mbox
+tar cvjf /mnt/usb_backup/Backups/Email/MobileMe/Archive-`date +%F`.tar.bz2 /tmp/email-backup/MobileMe/Archive.mbox
+tar cvjf /mnt/usb_backup/Backups/Email/MobileMe/ToDo-`date +%F`.tar.bz2 /tmp/email-backup/MobileMe/ToDo.mbox
+tar cvjf /mnt/usb_backup/Backups/Email/MobileMe/Inbox-`date +%F`.tar.bz2 /tmp/email-backup/MobileMe/Inbox.mbox
+tar cvjf /mnt/usb_backup/Backups/Email/MobileMe/Deleted_Messages-`date +%F`.tar.bz2 /tmp/email-backup/MobileMe/Deleted_Messages.mbox
+tar cvjf /mnt/usb_backup/Backups/Email/MobileMe/Junk-`date +%F`.tar.bz2 /tmp/email-backup/MobileMe/Junk.mbox
+tar cvjf /mnt/usb_backup/Backups/Email/MobileMe/Notes-`date +%F`.tar.bz2 /tmp/email-backup/MobileMe/Notes.mbox
+tar cvjf /mnt/usb_backup/Backups/Email/MobileMe/Sent_Messages-`date +%F`.tar.bz2 /tmp/email-backup/MobileMe/Sent_Messages.mbox
 
 rm -rfv /tmp/email-backup/
 
 
-#if file exists mark as successful, add to email
+# Check if back files exist, and report success/failure to job emailer.
+
+if [ -f /mnt/usb_backup/Backups/Email/MobileMe/Backup_Logs-`date +%F`.tar.bz2 ]
+	then 
+                echo "" >> /tmp/overnight-jobs.log
+		echo "The backup of 'Backup Logs' folder completed successfully last night." >> /tmp/overnight-jobs.log
+		echo "Please see below for the file name..." >> /tmp/overnight-jobs.log
+		echo "" >> /tmp/overnight-jobs.log
+		ls -lah /mnt/usb_backup/Backups/Email/MobileMe/Backup_Logs-`date +%F`.tar.bz2 >> /tmp/overnight-jobs.log
+	        echo "" >> /tmp/overnight-jobs.log
+        	echo "" >> /tmp/overnight-jobs.log
+        	echo "" >> /tmp/overnight-jobs.log
+	else
+		echo "" >> /tmp/overnight-jobs.log
+		echo "The backup of the 'Backup Logs' folder on MobileMe failed to backup last night. Please verify IMAP backup log below..." >> /tmp/overnight-jobs.log
+        	echo "" >> /tmp/overnight-jobs.log
+		tail /var/log/email-backup/MobileMe_Backup_Logs.log
+        	echo "" >> /tmp/overnight-jobs.log
+        	echo "" >> /tmp/overnight-jobs.log
+	        echo "" >> /tmp/overnight-jobs.log
+fi
+
+if [ -f /mnt/usb_backup/Backups/Email/MobileMe/Archive-`date +%F`.tar.bz2 ]
+	then 
+                echo "" >> /tmp/overnight-jobs.log
+		echo "The backup of 'Archive' folder completed successfully last night." >> /tmp/overnight-jobs.log
+		echo "Please see below for the file name..." >> /tmp/overnight-jobs.log
+		echo "" >> /tmp/overnight-jobs.log
+		ls -lah /mnt/usb_backup/Backups/Email/MobileMe/Archive-`date +%F`.tar.bz2 >> /tmp/overnight-jobs.log
+	        echo "" >> /tmp/overnight-jobs.log
+        	echo "" >> /tmp/overnight-jobs.log
+        	echo "" >> /tmp/overnight-jobs.log
+	else
+		echo "" >> /tmp/overnight-jobs.log
+		echo "The backup of the 'Archive' folder on MobileMe failed to backup last night. Please verify IMAP backup log below..." >> /tmp/overnight-jobs.log
+        	echo "" >> /tmp/overnight-jobs.log
+		tail /var/log/email-backup/MobileMe_Archive.log
+        	echo "" >> /tmp/overnight-jobs.log
+        	echo "" >> /tmp/overnight-jobs.log
+	        echo "" >> /tmp/overnight-jobs.log
+fi
+
+if [ -f /mnt/usb_backup/Backups/Email/MobileMe/ToDo-`date +%F`.tar.bz2 ]
+	then 
+                echo "" >> /tmp/overnight-jobs.log
+		echo "The backup of 'To Do' folder completed successfully last night." >> /tmp/overnight-jobs.log
+		echo "Please see below for the file name..." >> /tmp/overnight-jobs.log
+		echo "" >> /tmp/overnight-jobs.log
+		ls -lah /mnt/usb_backup/Backups/Email/MobileMe/ToDo-`date +%F`.tar.bz2 >> /tmp/overnight-jobs.log
+	        echo "" >> /tmp/overnight-jobs.log
+        	echo "" >> /tmp/overnight-jobs.log
+        	echo "" >> /tmp/overnight-jobs.log
+	else
+		echo "" >> /tmp/overnight-jobs.log
+		echo "The backup of the 'To Do' folder on MobileMe failed to backup last night. Please verify IMAP backup log below..." >> /tmp/overnight-jobs.log
+        	echo "" >> /tmp/overnight-jobs.log
+		tail /var/log/email-backup/MobileMe_ToDo.log
+        	echo "" >> /tmp/overnight-jobs.log
+        	echo "" >> /tmp/overnight-jobs.log
+	        echo "" >> /tmp/overnight-jobs.log
+fi
+
+if [ -f /mnt/usb_backup/Backups/Email/MobileMe/Inbox-`date +%F`.tar.bz2 ]
+	then 
+                echo "" >> /tmp/overnight-jobs.log
+		echo "The backup of 'Inbox' folder completed successfully last night." >> /tmp/overnight-jobs.log
+		echo "Please see below for the file name..." >> /tmp/overnight-jobs.log
+		echo "" >> /tmp/overnight-jobs.log
+		ls -lah /mnt/usb_backup/Backups/Email/MobileMe/Backup_Inbox-`date +%F`.tar.bz2 >> /tmp/overnight-jobs.log
+	        echo "" >> /tmp/overnight-jobs.log
+        	echo "" >> /tmp/overnight-jobs.log
+        	echo "" >> /tmp/overnight-jobs.log
+	else
+		echo "" >> /tmp/overnight-jobs.log
+		echo "The backup of the 'Inbox' folder on MobileMe failed to backup last night. Please verify IMAP backup log below..." >> /tmp/overnight-jobs.log
+        	echo "" >> /tmp/overnight-jobs.log
+		tail /var/log/email-backup/MobileMe_Inbox.log
+        	echo "" >> /tmp/overnight-jobs.log
+        	echo "" >> /tmp/overnight-jobs.log
+	        echo "" >> /tmp/overnight-jobs.log
+fi
+
+if [ -f /mnt/usb_backup/Backups/Email/MobileMe/Deleted_Messages-`date +%F`.tar.bz2 ]
+	then 
+                echo "" >> /tmp/overnight-jobs.log
+		echo "The backup of 'Deleted Messages' folder completed successfully last night." >> /tmp/overnight-jobs.log
+		echo "Please see below for the file name..." >> /tmp/overnight-jobs.log
+		echo "" >> /tmp/overnight-jobs.log
+		ls -lah /mnt/usb_backup/Backups/Email/MobileMe/Deleted_Messages-`date +%F`.tar.bz2 >> /tmp/overnight-jobs.log
+	        echo "" >> /tmp/overnight-jobs.log
+        	echo "" >> /tmp/overnight-jobs.log
+        	echo "" >> /tmp/overnight-jobs.log
+	else
+		echo "" >> /tmp/overnight-jobs.log
+		echo "The backup of the 'Deleted Messages' folder on MobileMe failed to backup last night. Please verify IMAP backup log below..." >> /tmp/overnight-jobs.log
+        	echo "" >> /tmp/overnight-jobs.log
+		tail /var/log/email-backup/MobileMe_Deleted_Messages.log
+        	echo "" >> /tmp/overnight-jobs.log
+        	echo "" >> /tmp/overnight-jobs.log
+	        echo "" >> /tmp/overnight-jobs.log
+fi
+
+if [ -f /mnt/usb_backup/Backups/Email/MobileMe/Junk-`date +%F`.tar.bz2 ]
+	then 
+                echo "" >> /tmp/overnight-jobs.log
+		echo "The backup of 'Junk' folder completed successfully last night." >> /tmp/overnight-jobs.log
+		echo "Please see below for the file name..." >> /tmp/overnight-jobs.log
+		echo "" >> /tmp/overnight-jobs.log
+		ls -lah /mnt/usb_backup/Backups/Email/MobileMe/Junk-`date +%F`.tar.bz2 >> /tmp/overnight-jobs.log
+	        echo "" >> /tmp/overnight-jobs.log
+        	echo "" >> /tmp/overnight-jobs.log
+        	echo "" >> /tmp/overnight-jobs.log
+	else
+		echo "" >> /tmp/overnight-jobs.log
+		echo "The backup of the 'Junk' folder on MobileMe failed to backup last night. Please verify IMAP backup log below..." >> /tmp/overnight-jobs.log
+        	echo "" >> /tmp/overnight-jobs.log
+		tail /var/log/email-backup/MobileMe_Junk.log
+        	echo "" >> /tmp/overnight-jobs.log
+        	echo "" >> /tmp/overnight-jobs.log
+	        echo "" >> /tmp/overnight-jobs.log
+fi
+
+if [ -f /mnt/usb_backup/Backups/Email/MobileMe/Notes-`date +%F`.tar.bz2 ]
+	then 
+                echo "" >> /tmp/overnight-jobs.log
+		echo "The backup of 'Notes' folder completed successfully last night." >> /tmp/overnight-jobs.log
+		echo "Please see below for the file name..." >> /tmp/overnight-jobs.log
+		echo "" >> /tmp/overnight-jobs.log
+		ls -lah /mnt/usb_backup/Backups/Email/MobileMe/Notes-`date +%F`.tar.bz2 >> /tmp/overnight-jobs.log
+	        echo "" >> /tmp/overnight-jobs.log
+        	echo "" >> /tmp/overnight-jobs.log
+        	echo "" >> /tmp/overnight-jobs.log
+	else
+		echo "" >> /tmp/overnight-jobs.log
+		echo "The backup of the 'Notes' folder on MobileMe failed to backup last night. Please verify IMAP backup log below..." >> /tmp/overnight-jobs.log
+        	echo "" >> /tmp/overnight-jobs.log
+		tail /var/log/email-backup/MobileMe_Notes.log
+        	echo "" >> /tmp/overnight-jobs.log
+        	echo "" >> /tmp/overnight-jobs.log
+	        echo "" >> /tmp/overnight-jobs.log
+fi
+
+if [ -f /mnt/usb_backup/Backups/Email/MobileMe/Sent_Messages-`date +%F`.tar.bz2 ]
+	then 
+                echo "" >> /tmp/overnight-jobs.log
+		echo "The backup of 'Sent Messages' folder completed successfully last night." >> /tmp/overnight-jobs.log
+		echo "Please see below for the file name..." >> /tmp/overnight-jobs.log
+		echo "" >> /tmp/overnight-jobs.log
+		ls -lah /mnt/usb_backup/Backups/Email/MobileMe/Sent_Messages-`date +%F`.tar.bz2 >> /tmp/overnight-jobs.log
+	        echo "" >> /tmp/overnight-jobs.log
+        	echo "" >> /tmp/overnight-jobs.log
+        	echo "" >> /tmp/overnight-jobs.log
+	else
+		echo "" >> /tmp/overnight-jobs.log
+		echo "The backup of the 'Sent Messages' folder on MobileMe failed to backup last night. Please verify IMAP backup log below..." >> /tmp/overnight-jobs.log
+        	echo "" >> /tmp/overnight-jobs.log
+		tail /var/log/email-backup/MobileMe_Sent_Messages.log
+        	echo "" >> /tmp/overnight-jobs.log
+        	echo "" >> /tmp/overnight-jobs.log
+	        echo "" >> /tmp/overnight-jobs.log
+fi
