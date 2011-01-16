@@ -35,7 +35,7 @@ tar cvjf /mnt/usb_backup/Backups/Email/MobileMe/Sent_Messages-`date +%F`.tar.bz2
 rm -rfv /tmp/email-backup/
 
 
-# Check if back files exist, and report success/failure to job emailer.
+# Check if backup files exist, and report success/failure to job emailer.
 
 if [ -f /mnt/usb_backup/Backups/Email/MobileMe/Backup_Logs-`date +%F`.tar.bz2 ]
 	then 
