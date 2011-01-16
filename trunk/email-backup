@@ -37,8 +37,7 @@ rm -rfv /tmp/email-backup/
 
 # Check if backup files exist, and report success/failure to job emailer.
 
-if [ -f /mnt/usb_backup/Backups/Email/MobileMe/Backup_Logs-`date +%F`.tar.bz2 ]
-	then 
+if [ -f /mnt/usb_backup/Backups/Email/MobileMe/Backup_Logs-`date +%F`.tar.bz2 ]; then 
                 echo "" >> /tmp/overnight-jobs.log
 		echo "The backup of 'Backup Logs' folder completed successfully last night." >> /tmp/overnight-jobs.log
 		echo "Please see below for the file name..." >> /tmp/overnight-jobs.log
@@ -57,8 +56,7 @@ if [ -f /mnt/usb_backup/Backups/Email/MobileMe/Backup_Logs-`date +%F`.tar.bz2 ]
 	        echo "" >> /tmp/overnight-jobs.log
 fi
 
-if [ -f /mnt/usb_backup/Backups/Email/MobileMe/Archive-`date +%F`.tar.bz2 ]
-	then 
+if [ -f /mnt/usb_backup/Backups/Email/MobileMe/Archive-`date +%F`.tar.bz2 ]; then 
                 echo "" >> /tmp/overnight-jobs.log
 		echo "The backup of 'Archive' folder completed successfully last night." >> /tmp/overnight-jobs.log
 		echo "Please see below for the file name..." >> /tmp/overnight-jobs.log
@@ -77,8 +75,7 @@ if [ -f /mnt/usb_backup/Backups/Email/MobileMe/Archive-`date +%F`.tar.bz2 ]
 	        echo "" >> /tmp/overnight-jobs.log
 fi
 
-if [ -f /mnt/usb_backup/Backups/Email/MobileMe/ToDo-`date +%F`.tar.bz2 ]
-	then 
+if [ -f /mnt/usb_backup/Backups/Email/MobileMe/ToDo-`date +%F`.tar.bz2 ]; then 
                 echo "" >> /tmp/overnight-jobs.log
 		echo "The backup of 'To Do' folder completed successfully last night." >> /tmp/overnight-jobs.log
 		echo "Please see below for the file name..." >> /tmp/overnight-jobs.log
@@ -97,13 +94,12 @@ if [ -f /mnt/usb_backup/Backups/Email/MobileMe/ToDo-`date +%F`.tar.bz2 ]
 	        echo "" >> /tmp/overnight-jobs.log
 fi
 
-if [ -f /mnt/usb_backup/Backups/Email/MobileMe/Inbox-`date +%F`.tar.bz2 ]
-	then 
+if [ -f /mnt/usb_backup/Backups/Email/MobileMe/Inbox-`date +%F`.tar.bz2 ]; then 
                 echo "" >> /tmp/overnight-jobs.log
 		echo "The backup of 'Inbox' folder completed successfully last night." >> /tmp/overnight-jobs.log
 		echo "Please see below for the file name..." >> /tmp/overnight-jobs.log
 		echo "" >> /tmp/overnight-jobs.log
-		ls -lah /mnt/usb_backup/Backups/Email/MobileMe/Backup_Inbox-`date +%F`.tar.bz2 >> /tmp/overnight-jobs.log
+		ls -lah /mnt/usb_backup/Backups/Email/MobileMe/Inbox-`date +%F`.tar.bz2 >> /tmp/overnight-jobs.log
 	        echo "" >> /tmp/overnight-jobs.log
         	echo "" >> /tmp/overnight-jobs.log
         	echo "" >> /tmp/overnight-jobs.log
@@ -117,8 +113,7 @@ if [ -f /mnt/usb_backup/Backups/Email/MobileMe/Inbox-`date +%F`.tar.bz2 ]
 	        echo "" >> /tmp/overnight-jobs.log
 fi
 
-if [ -f /mnt/usb_backup/Backups/Email/MobileMe/Deleted_Messages-`date +%F`.tar.bz2 ]
-	then 
+if [ -f /mnt/usb_backup/Backups/Email/MobileMe/Deleted_Messages-`date +%F`.tar.bz2 ]; then 
                 echo "" >> /tmp/overnight-jobs.log
 		echo "The backup of 'Deleted Messages' folder completed successfully last night." >> /tmp/overnight-jobs.log
 		echo "Please see below for the file name..." >> /tmp/overnight-jobs.log
@@ -137,8 +132,7 @@ if [ -f /mnt/usb_backup/Backups/Email/MobileMe/Deleted_Messages-`date +%F`.tar.b
 	        echo "" >> /tmp/overnight-jobs.log
 fi
 
-if [ -f /mnt/usb_backup/Backups/Email/MobileMe/Junk-`date +%F`.tar.bz2 ]
-	then 
+if [ -f /mnt/usb_backup/Backups/Email/MobileMe/Junk-`date +%F`.tar.bz2 ]; then 
                 echo "" >> /tmp/overnight-jobs.log
 		echo "The backup of 'Junk' folder completed successfully last night." >> /tmp/overnight-jobs.log
 		echo "Please see below for the file name..." >> /tmp/overnight-jobs.log
@@ -157,8 +151,7 @@ if [ -f /mnt/usb_backup/Backups/Email/MobileMe/Junk-`date +%F`.tar.bz2 ]
 	        echo "" >> /tmp/overnight-jobs.log
 fi
 
-if [ -f /mnt/usb_backup/Backups/Email/MobileMe/Notes-`date +%F`.tar.bz2 ]
-	then 
+if [ -f /mnt/usb_backup/Backups/Email/MobileMe/Notes-`date +%F`.tar.bz2 ]; then 
                 echo "" >> /tmp/overnight-jobs.log
 		echo "The backup of 'Notes' folder completed successfully last night." >> /tmp/overnight-jobs.log
 		echo "Please see below for the file name..." >> /tmp/overnight-jobs.log
@@ -177,8 +170,7 @@ if [ -f /mnt/usb_backup/Backups/Email/MobileMe/Notes-`date +%F`.tar.bz2 ]
 	        echo "" >> /tmp/overnight-jobs.log
 fi
 
-if [ -f /mnt/usb_backup/Backups/Email/MobileMe/Sent_Messages-`date +%F`.tar.bz2 ]
-	then 
+if [ -f /mnt/usb_backup/Backups/Email/MobileMe/Sent_Messages-`date +%F`.tar.bz2 ]; then 
                 echo "" >> /tmp/overnight-jobs.log
 		echo "The backup of 'Sent Messages' folder completed successfully last night." >> /tmp/overnight-jobs.log
 		echo "Please see below for the file name..." >> /tmp/overnight-jobs.log
@@ -196,3 +188,4 @@ if [ -f /mnt/usb_backup/Backups/Email/MobileMe/Sent_Messages-`date +%F`.tar.bz2 
         	echo "" >> /tmp/overnight-jobs.log
 	        echo "" >> /tmp/overnight-jobs.log
 fi
+
