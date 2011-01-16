@@ -14,14 +14,14 @@ touch /tmp/email-backup/MobileMe/Sent_Messages.mbox
 
 
 # Backup MobileMe mailboxes, tar and remove source files.
-getmail -r /home//.getmail/mobileme_Archive
-getmail -r /home//.getmail/mobileme_Backup_Logs
-getmail -r /home//.getmail/mobileme_Deleted_Messages
-getmail -r /home//.getmail/mobileme_Inbox
-getmail -r /home//.getmail/mobileme_Junk
-getmail -r /home//.getmail/mobileme_Notes
-getmail -r /home//.getmail/mobileme_Sent_Messages
-getmail -r /home//.getmail/mobileme_ToDo
+getmail -r /home//.getmail/mobileme_Archive || exit
+getmail -r /home//.getmail/mobileme_Backup_Logs || exit
+getmail -r /home//.getmail/mobileme_Deleted_Messages || exit
+getmail -r /home//.getmail/mobileme_Inbox || exit
+getmail -r /home//.getmail/mobileme_Junk || exit
+getmail -r /home//.getmail/mobileme_Notes || exit
+getmail -r /home//.getmail/mobileme_Sent_Messages || exit
+getmail -r /home//.getmail/mobileme_ToDo|| exit
 
 tar cvjf /mnt/usb_backup/Backups/Email/MobileMe/Backup_Logs-`date +%F`.tar.bz2 /tmp/email-backup/MobileMe/Backup_Logs.mbox
 tar cvjf /mnt/usb_backup/Backups/Email/MobileMe/Archive-`date +%F`.tar.bz2 /tmp/email-backup/MobileMe/Archive.mbox
