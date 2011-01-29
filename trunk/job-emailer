@@ -14,6 +14,7 @@ if [ -f $COMPLETEJOBS ]
 then
 	cat $COMPLETEJOBS | sendemail -f $FROMADDRESS -t $TOADDRESS -s $SMTPSERVER -o username=$SMTPUSERNAME -o password=$SMTPPASSWORD -u $SUCCESSSUBJECT
 	rm -fv $COMPLETEJOBS
+	touch $COMPLETEJOBS
 else
 	echo "No jobs have run last night or there is nothing to report." | sendemail -f $FROMADDRESS -t $TOADDRESS -s $SMTPSERVER -o username=$SMTPUSERNAME -o password=$SMTPPASSWORD -u $FAILURESUBJECT
 fi

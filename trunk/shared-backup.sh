@@ -11,7 +11,8 @@ rsync -vruEthim --progress --log-file=/var/log/shared-backup.log $SHARED_DIR/App
 rsync -vruEthim --progress --log-file=/var/log/shared-backup.log $SHARED_DIR/Disc\ Images $_BACKUP/ --exclude="._*" || exit
 rsync -vruEthim --progress --log-file=/var/log/shared-backup.log $SHARED_DIR/Music $_BACKUP/ --exclude="._*" || exit
 rsync -vruEthim --progress --log-file=/var/log/shared-backup.log $SHARED_DIR/Movies/Blu\ Ray\ Movies $_BACKUP/ --exclude="._*" || exit
-echo "______________________________________________________________________________________________________________________" >> tmp/overnight-jobs.log
+echo "______________________________________________________________________________________________________________________" >> /tmp/overnight-jobs.log
+echo "" >> /tmp/overnight-jobs.log
 echo "The Rsync job to synchronise the following items completed successfully last night." >> /tmp/overnight-jobs.log
 echo "/mnt/shared/TV Shows > \\s-iMac\Backups\Shared\TV Shows" >> /tmp/overnight-jobs.log
 echo "/mnt/shared/Movies > \\s-iMac\Backups\Shared\Movies" >> /tmp/overnight-jobs.log

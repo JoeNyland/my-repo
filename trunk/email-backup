@@ -1,4 +1,14 @@
-#!/bin/bash
+EMAILBACKUPLOCAL#!/bin/bash
+
+# Remove previous backup log files
+rm -v /var/log/email-backup/MobileMe_Backup_Logs.log
+rm -v /var/log/email-backup/MobileMe_Archive.log
+rm -v /var/log/email-backup/MobileMe_ToDo.log
+rm -v /var/log/email-backup/MobileMe_Inbox.log
+rm -v /var/log/email-backup/MobileMe_Deleted_Messages.log
+rm -v /var/log/email-backup/MobileMe_Junk.log
+rm -v /var/log/email-backup/MobileMe_Notes.log
+rm -v /var/log/email-backup/MobileMe_Sent_Messages.log
 
 # Create directories/files
 mkdir -p /tmp/email-backup/MobileMe
