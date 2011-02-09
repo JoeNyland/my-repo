@@ -1,4 +1,4 @@
-EMAILBACKUPLOCAL#!/bin/bash
+#!/bin/bash
 
 # Remove previous backup log files
 rm -v /var/log/email-backup/MobileMe_Backup_Logs.log
@@ -22,16 +22,15 @@ touch /tmp/email-backup/MobileMe/Junk.mbox
 touch /tmp/email-backup/MobileMe/Notes.mbox
 touch /tmp/email-backup/MobileMe/Sent_Messages.mbox
 
-
 # Backup MobileMe mailboxes, tar and remove source files.
-getmail -r /home//.getmail/mobileme_Archive || exit
-getmail -r /home//.getmail/mobileme_Backup_Logs || exit
-getmail -r /home//.getmail/mobileme_Deleted_Messages || exit
-getmail -r /home//.getmail/mobileme_Inbox || exit
-getmail -r /home//.getmail/mobileme_Junk || exit
-getmail -r /home//.getmail/mobileme_Notes || exit
-getmail -r /home//.getmail/mobileme_Sent_Messages || exit
-getmail -r /home//.getmail/mobileme_ToDo|| exit
+getmail --getmaildir=/home//.getmail -r mobileme_Archive || exit
+getmail --getmaildir=/home//.getmail -r mobileme_Backup_Logs || exit
+getmail --getmaildir=/home//.getmail -r mobileme_Deleted_Messages || exit
+getmail --getmaildir=/home//.getmail -r mobileme_Inbox || exit
+getmail --getmaildir=/home//.getmail -r mobileme_Junk || exit
+getmail --getmaildir=/home//.getmail -r mobileme_Notes || exit
+getmail --getmaildir=/home//.getmail -r mobileme_Sent_Messages || exit
+getmail --getmaildir=/home//.getmail -r mobileme_ToDo || exit
 
 tar cvjf /mnt/usb_backup/Backups/Email/MobileMe/Backup_Logs-`date +%F`.tar.bz2 /tmp/email-backup/MobileMe/Backup_Logs.mbox
 tar cvjf /mnt/usb_backup/Backups/Email/MobileMe/Archive-`date +%F`.tar.bz2 /tmp/email-backup/MobileMe/Archive.mbox
@@ -48,170 +47,170 @@ rm -rfv /tmp/email-backup/
 # Check if backup files exist, and report success/failure to job emailer.
 
 if [ -f /mnt/usb_backup/Backups/Email/MobileMe/Backup_Logs-`date +%F`.tar.bz2 ]; then 
-		echo "______________________________________________________________________________________________________________________" >> /tmp/overnight-jobs.log
-                echo "" >> /tmp/overnight-jobs.log
-		echo "The backup of 'Backup Logs' folder completed successfully last night." >> /tmp/overnight-jobs.log
-		echo "Please see below for the file name..." >> /tmp/overnight-jobs.log
-		echo "" >> /tmp/overnight-jobs.log
-		ls -lah /mnt/usb_backup/Backups/Email/MobileMe/Backup_Logs-`date +%F`.tar.bz2 >> /tmp/overnight-jobs.log
-	        echo "" >> /tmp/overnight-jobs.log
-        	echo "" >> /tmp/overnight-jobs.log
-        	echo "" >> /tmp/overnight-jobs.log
+		echo "______________________________________________________________________________________________________________________" >> /var/log/overnight-jobs.log
+                echo "" >> /var/log/overnight-jobs.log
+		echo "The backup of 'Backup Logs' folder completed successfully last night." >> /var/log/overnight-jobs.log
+		echo "Please see below for the file name..." >> /var/log/overnight-jobs.log
+		echo "" >> /var/log/overnight-jobs.log
+		ls -lah /mnt/usb_backup/Backups/Email/MobileMe/Backup_Logs-`date +%F`.tar.bz2 >> /var/log/overnight-jobs.log
+	        echo "" >> /var/log/overnight-jobs.log
+        	echo "" >> /var/log/overnight-jobs.log
+        	echo "" >> /var/log/overnight-jobs.log
 	else
-		echo "______________________________________________________________________________________________________________________" >> /tmp/overnight-jobs.log
-		echo "" >> /tmp/overnight-jobs.log
-		echo "The backup of the 'Backup Logs' folder on MobileMe failed to run last night. Please verify IMAP backup log below..." >> /tmp/overnight-jobs.log
-        	echo "" >> /tmp/overnight-jobs.log
+		echo "______________________________________________________________________________________________________________________" >> /var/log/overnight-jobs.log
+		echo "" >> /var/log/overnight-jobs.log
+		echo "The backup of the 'Backup Logs' folder on MobileMe failed to run last night. Please verify IMAP backup log below..." >> /var/log/overnight-jobs.log
+        	echo "" >> /var/log/overnight-jobs.log
 		tail /var/log/email-backup/MobileMe_Backup_Logs.log
-        	echo "" >> /tmp/overnight-jobs.log
-        	echo "" >> /tmp/overnight-jobs.log
-	        echo "" >> /tmp/overnight-jobs.log
+        	echo "" >> /var/log/overnight-jobs.log
+        	echo "" >> /var/log/overnight-jobs.log
+	        echo "" >> /var/log/overnight-jobs.log
 fi
 
 if [ -f /mnt/usb_backup/Backups/Email/MobileMe/Archive-`date +%F`.tar.bz2 ]; then 
-		echo "______________________________________________________________________________________________________________________" >> /tmp/overnight-jobs.log
-                echo "" >> /tmp/overnight-jobs.log
-		echo "The backup of 'Archive' folder completed successfully last night." >> /tmp/overnight-jobs.log
-		echo "Please see below for the file name..." >> /tmp/overnight-jobs.log
-		echo "" >> /tmp/overnight-jobs.log
-		ls -lah /mnt/usb_backup/Backups/Email/MobileMe/Archive-`date +%F`.tar.bz2 >> /tmp/overnight-jobs.log
-	        echo "" >> /tmp/overnight-jobs.log
-        	echo "" >> /tmp/overnight-jobs.log
-        	echo "" >> /tmp/overnight-jobs.log
+		echo "______________________________________________________________________________________________________________________" >> /var/log/overnight-jobs.log
+                echo "" >> /var/log/overnight-jobs.log
+		echo "The backup of 'Archive' folder completed successfully last night." >> /var/log/overnight-jobs.log
+		echo "Please see below for the file name..." >> /var/log/overnight-jobs.log
+		echo "" >> /var/log/overnight-jobs.log
+		ls -lah /mnt/usb_backup/Backups/Email/MobileMe/Archive-`date +%F`.tar.bz2 >> /var/log/overnight-jobs.log
+	        echo "" >> /var/log/overnight-jobs.log
+        	echo "" >> /var/log/overnight-jobs.log
+        	echo "" >> /var/log/overnight-jobs.log
 	else
-		echo "______________________________________________________________________________________________________________________" >> /tmp/overnight-jobs.log
-		echo "" >> /tmp/overnight-jobs.log
-		echo "The backup of the 'Archive' folder on MobileMe failed to run last night. Please verify IMAP backup log below..." >> /tmp/overnight-jobs.log
-        	echo "" >> /tmp/overnight-jobs.log
+		echo "______________________________________________________________________________________________________________________" >> /var/log/overnight-jobs.log
+		echo "" >> /var/log/overnight-jobs.log
+		echo "The backup of the 'Archive' folder on MobileMe failed to run last night. Please verify IMAP backup log below..." >> /var/log/overnight-jobs.log
+        	echo "" >> /var/log/overnight-jobs.log
 		tail /var/log/email-backup/MobileMe_Archive.log
-        	echo "" >> /tmp/overnight-jobs.log
-        	echo "" >> /tmp/overnight-jobs.log
-	        echo "" >> /tmp/overnight-jobs.log
+        	echo "" >> /var/log/overnight-jobs.log
+        	echo "" >> /var/log/overnight-jobs.log
+	        echo "" >> /var/log/overnight-jobs.log
 fi
 
 if [ -f /mnt/usb_backup/Backups/Email/MobileMe/ToDo-`date +%F`.tar.bz2 ]; then 
-		echo "______________________________________________________________________________________________________________________" >> /tmp/overnight-jobs.log
-                echo "" >> /tmp/overnight-jobs.log
-		echo "The backup of 'To Do' folder completed successfully last night." >> /tmp/overnight-jobs.log
-		echo "Please see below for the file name..." >> /tmp/overnight-jobs.log
-		echo "" >> /tmp/overnight-jobs.log
-		ls -lah /mnt/usb_backup/Backups/Email/MobileMe/ToDo-`date +%F`.tar.bz2 >> /tmp/overnight-jobs.log
-	        echo "" >> /tmp/overnight-jobs.log
-        	echo "" >> /tmp/overnight-jobs.log
-        	echo "" >> /tmp/overnight-jobs.log
+		echo "______________________________________________________________________________________________________________________" >> /var/log/overnight-jobs.log
+                echo "" >> /var/log/overnight-jobs.log
+		echo "The backup of 'To Do' folder completed successfully last night." >> /var/log/overnight-jobs.log
+		echo "Please see below for the file name..." >> /var/log/overnight-jobs.log
+		echo "" >> /var/log/overnight-jobs.log
+		ls -lah /mnt/usb_backup/Backups/Email/MobileMe/ToDo-`date +%F`.tar.bz2 >> /var/log/overnight-jobs.log
+	        echo "" >> /var/log/overnight-jobs.log
+        	echo "" >> /var/log/overnight-jobs.log
+        	echo "" >> /var/log/overnight-jobs.log
 	else
-		echo "______________________________________________________________________________________________________________________" >> /tmp/overnight-jobs.log
-		echo "" >> /tmp/overnight-jobs.log
-		echo "The backup of the 'To Do' folder on MobileMe failed to run last night. Please verify IMAP backup log below..." >> /tmp/overnight-jobs.log
-        	echo "" >> /tmp/overnight-jobs.log
+		echo "______________________________________________________________________________________________________________________" >> /var/log/overnight-jobs.log
+		echo "" >> /var/log/overnight-jobs.log
+		echo "The backup of the 'To Do' folder on MobileMe failed to run last night. Please verify IMAP backup log below..." >> /var/log/overnight-jobs.log
+        	echo "" >> /var/log/overnight-jobs.log
 		tail /var/log/email-backup/MobileMe_ToDo.log
-        	echo "" >> /tmp/overnight-jobs.log
-        	echo "" >> /tmp/overnight-jobs.log
-	        echo "" >> /tmp/overnight-jobs.log
+        	echo "" >> /var/log/overnight-jobs.log
+        	echo "" >> /var/log/overnight-jobs.log
+	        echo "" >> /var/log/overnight-jobs.log
 fi
 
 if [ -f /mnt/usb_backup/Backups/Email/MobileMe/Inbox-`date +%F`.tar.bz2 ]; then 
-		echo "______________________________________________________________________________________________________________________" >> /tmp/overnight-jobs.log
-                echo "" >> /tmp/overnight-jobs.log
-		echo "The backup of 'Inbox' folder completed successfully last night." >> /tmp/overnight-jobs.log
-		echo "Please see below for the file name..." >> /tmp/overnight-jobs.log
-		echo "" >> /tmp/overnight-jobs.log
-		ls -lah /mnt/usb_backup/Backups/Email/MobileMe/Inbox-`date +%F`.tar.bz2 >> /tmp/overnight-jobs.log
-	        echo "" >> /tmp/overnight-jobs.log
-        	echo "" >> /tmp/overnight-jobs.log
-        	echo "" >> /tmp/overnight-jobs.log
+		echo "______________________________________________________________________________________________________________________" >> /var/log/overnight-jobs.log
+                echo "" >> /var/log/overnight-jobs.log
+		echo "The backup of 'Inbox' folder completed successfully last night." >> /var/log/overnight-jobs.log
+		echo "Please see below for the file name..." >> /var/log/overnight-jobs.log
+		echo "" >> /var/log/overnight-jobs.log
+		ls -lah /mnt/usb_backup/Backups/Email/MobileMe/Inbox-`date +%F`.tar.bz2 >> /var/log/overnight-jobs.log
+	        echo "" >> /var/log/overnight-jobs.log
+        	echo "" >> /var/log/overnight-jobs.log
+        	echo "" >> /var/log/overnight-jobs.log
 	else
-		echo "______________________________________________________________________________________________________________________" >> /tmp/overnight-jobs.log
-		echo "" >> /tmp/overnight-jobs.log
-		echo "The backup of the 'Inbox' folder on MobileMe failed to run last night. Please verify IMAP backup log below..." >> /tmp/overnight-jobs.log
-        	echo "" >> /tmp/overnight-jobs.log
+		echo "______________________________________________________________________________________________________________________" >> /var/log/overnight-jobs.log
+		echo "" >> /var/log/overnight-jobs.log
+		echo "The backup of the 'Inbox' folder on MobileMe failed to run last night. Please verify IMAP backup log below..." >> /var/log/overnight-jobs.log
+        	echo "" >> /var/log/overnight-jobs.log
 		tail /var/log/email-backup/MobileMe_Inbox.log
-        	echo "" >> /tmp/overnight-jobs.log
-        	echo "" >> /tmp/overnight-jobs.log
-	        echo "" >> /tmp/overnight-jobs.log
+        	echo "" >> /var/log/overnight-jobs.log
+        	echo "" >> /var/log/overnight-jobs.log
+	        echo "" >> /var/log/overnight-jobs.log
 fi
 
 if [ -f /mnt/usb_backup/Backups/Email/MobileMe/Deleted_Messages-`date +%F`.tar.bz2 ]; then 
-		echo "______________________________________________________________________________________________________________________" >> /tmp/overnight-jobs.log
-                echo "" >> /tmp/overnight-jobs.log
-		echo "The backup of 'Deleted Messages' folder completed successfully last night." >> /tmp/overnight-jobs.log
-		echo "Please see below for the file name..." >> /tmp/overnight-jobs.log
-		echo "" >> /tmp/overnight-jobs.log
-		ls -lah /mnt/usb_backup/Backups/Email/MobileMe/Deleted_Messages-`date +%F`.tar.bz2 >> /tmp/overnight-jobs.log
-	        echo "" >> /tmp/overnight-jobs.log
-        	echo "" >> /tmp/overnight-jobs.log
-        	echo "" >> /tmp/overnight-jobs.log
+		echo "______________________________________________________________________________________________________________________" >> /var/log/overnight-jobs.log
+                echo "" >> /var/log/overnight-jobs.log
+		echo "The backup of 'Deleted Messages' folder completed successfully last night." >> /var/log/overnight-jobs.log
+		echo "Please see below for the file name..." >> /var/log/overnight-jobs.log
+		echo "" >> /var/log/overnight-jobs.log
+		ls -lah /mnt/usb_backup/Backups/Email/MobileMe/Deleted_Messages-`date +%F`.tar.bz2 >> /var/log/overnight-jobs.log
+	        echo "" >> /var/log/overnight-jobs.log
+        	echo "" >> /var/log/overnight-jobs.log
+        	echo "" >> /var/log/overnight-jobs.log
 	else
-		echo "______________________________________________________________________________________________________________________" >> /tmp/overnight-jobs.log
-		echo "" >> /tmp/overnight-jobs.log
-		echo "The backup of the 'Deleted Messages' folder on MobileMe failed to run last night. Please verify IMAP backup log below..." >> /tmp/overnight-jobs.log
-        	echo "" >> /tmp/overnight-jobs.log
+		echo "______________________________________________________________________________________________________________________" >> /var/log/overnight-jobs.log
+		echo "" >> /var/log/overnight-jobs.log
+		echo "The backup of the 'Deleted Messages' folder on MobileMe failed to run last night. Please verify IMAP backup log below..." >> /var/log/overnight-jobs.log
+        	echo "" >> /var/log/overnight-jobs.log
 		tail /var/log/email-backup/MobileMe_Deleted_Messages.log
-        	echo "" >> /tmp/overnight-jobs.log
-        	echo "" >> /tmp/overnight-jobs.log
-	        echo "" >> /tmp/overnight-jobs.log
+        	echo "" >> /var/log/overnight-jobs.log
+        	echo "" >> /var/log/overnight-jobs.log
+	        echo "" >> /var/log/overnight-jobs.log
 fi
 
 if [ -f /mnt/usb_backup/Backups/Email/MobileMe/Junk-`date +%F`.tar.bz2 ]; then 
-		echo "______________________________________________________________________________________________________________________" >> /tmp/overnight-jobs.log
-                echo "" >> /tmp/overnight-jobs.log
-		echo "The backup of 'Junk' folder completed successfully last night." >> /tmp/overnight-jobs.log
-		echo "Please see below for the file name..." >> /tmp/overnight-jobs.log
-		echo "" >> /tmp/overnight-jobs.log
-		ls -lah /mnt/usb_backup/Backups/Email/MobileMe/Junk-`date +%F`.tar.bz2 >> /tmp/overnight-jobs.log
-	        echo "" >> /tmp/overnight-jobs.log
-        	echo "" >> /tmp/overnight-jobs.log
-        	echo "" >> /tmp/overnight-jobs.log
+		echo "______________________________________________________________________________________________________________________" >> /var/log/overnight-jobs.log
+                echo "" >> /var/log/overnight-jobs.log
+		echo "The backup of 'Junk' folder completed successfully last night." >> /var/log/overnight-jobs.log
+		echo "Please see below for the file name..." >> /var/log/overnight-jobs.log
+		echo "" >> /var/log/overnight-jobs.log
+		ls -lah /mnt/usb_backup/Backups/Email/MobileMe/Junk-`date +%F`.tar.bz2 >> /var/log/overnight-jobs.log
+	        echo "" >> /var/log/overnight-jobs.log
+        	echo "" >> /var/log/overnight-jobs.log
+        	echo "" >> /var/log/overnight-jobs.log
 	else
-		echo "______________________________________________________________________________________________________________________" >> /tmp/overnight-jobs.log
-		echo "" >> /tmp/overnight-jobs.log
-		echo "The backup of the 'Junk' folder on MobileMe failed to run last night. Please verify IMAP backup log below..." >> /tmp/overnight-jobs.log
-        	echo "" >> /tmp/overnight-jobs.log
+		echo "______________________________________________________________________________________________________________________" >> /var/log/overnight-jobs.log
+		echo "" >> /var/log/overnight-jobs.log
+		echo "The backup of the 'Junk' folder on MobileMe failed to run last night. Please verify IMAP backup log below..." >> /var/log/overnight-jobs.log
+        	echo "" >> /var/log/overnight-jobs.log
 		tail /var/log/email-backup/MobileMe_Junk.log
-        	echo "" >> /tmp/overnight-jobs.log
-        	echo "" >> /tmp/overnight-jobs.log
-	        echo "" >> /tmp/overnight-jobs.log
+        	echo "" >> /var/log/overnight-jobs.log
+        	echo "" >> /var/log/overnight-jobs.log
+	        echo "" >> /var/log/overnight-jobs.log
 fi
 
 if [ -f /mnt/usb_backup/Backups/Email/MobileMe/Notes-`date +%F`.tar.bz2 ]; then 
-		echo "______________________________________________________________________________________________________________________" >> /tmp/overnight-jobs.log
-                echo "" >> /tmp/overnight-jobs.log
-		echo "The backup of 'Notes' folder completed successfully last night." >> /tmp/overnight-jobs.log
-		echo "Please see below for the file name..." >> /tmp/overnight-jobs.log
-		echo "" >> /tmp/overnight-jobs.log
-		ls -lah /mnt/usb_backup/Backups/Email/MobileMe/Notes-`date +%F`.tar.bz2 >> /tmp/overnight-jobs.log
-	        echo "" >> /tmp/overnight-jobs.log
-        	echo "" >> /tmp/overnight-jobs.log
-        	echo "" >> /tmp/overnight-jobs.log
+		echo "______________________________________________________________________________________________________________________" >> /var/log/overnight-jobs.log
+                echo "" >> /var/log/overnight-jobs.log
+		echo "The backup of 'Notes' folder completed successfully last night." >> /var/log/overnight-jobs.log
+		echo "Please see below for the file name..." >> /var/log/overnight-jobs.log
+		echo "" >> /var/log/overnight-jobs.log
+		ls -lah /mnt/usb_backup/Backups/Email/MobileMe/Notes-`date +%F`.tar.bz2 >> /var/log/overnight-jobs.log
+	        echo "" >> /var/log/overnight-jobs.log
+        	echo "" >> /var/log/overnight-jobs.log
+        	echo "" >> /var/log/overnight-jobs.log
 	else
-		echo "______________________________________________________________________________________________________________________" >> /tmp/overnight-jobs.log
-		echo "" >> /tmp/overnight-jobs.log
-		echo "The backup of the 'Notes' folder on MobileMe failed to run last night. Please verify IMAP backup log below..." >> /tmp/overnight-jobs.log
-        	echo "" >> /tmp/overnight-jobs.log
+		echo "______________________________________________________________________________________________________________________" >> /var/log/overnight-jobs.log
+		echo "" >> /var/log/overnight-jobs.log
+		echo "The backup of the 'Notes' folder on MobileMe failed to run last night. Please verify IMAP backup log below..." >> /var/log/overnight-jobs.log
+        	echo "" >> /var/log/overnight-jobs.log
 		tail /var/log/email-backup/MobileMe_Notes.log
-        	echo "" >> /tmp/overnight-jobs.log
-        	echo "" >> /tmp/overnight-jobs.log
-	        echo "" >> /tmp/overnight-jobs.log
+        	echo "" >> /var/log/overnight-jobs.log
+        	echo "" >> /var/log/overnight-jobs.log
+	        echo "" >> /var/log/overnight-jobs.log
 fi
 
 if [ -f /mnt/usb_backup/Backups/Email/MobileMe/Sent_Messages-`date +%F`.tar.bz2 ]; then 
-		echo "______________________________________________________________________________________________________________________" >> /tmp/overnight-jobs.log
-                echo "" >> /tmp/overnight-jobs.log
-		echo "The backup of 'Sent Messages' folder completed successfully last night." >> /tmp/overnight-jobs.log
-		echo "Please see below for the file name..." >> /tmp/overnight-jobs.log
-		echo "" >> /tmp/overnight-jobs.log
-		ls -lah /mnt/usb_backup/Backups/Email/MobileMe/Sent_Messages-`date +%F`.tar.bz2 >> /tmp/overnight-jobs.log
-	        echo "" >> /tmp/overnight-jobs.log
-        	echo "" >> /tmp/overnight-jobs.log
-        	echo "" >> /tmp/overnight-jobs.log
+		echo "______________________________________________________________________________________________________________________" >> /var/log/overnight-jobs.log
+                echo "" >> /var/log/overnight-jobs.log
+		echo "The backup of 'Sent Messages' folder completed successfully last night." >> /var/log/overnight-jobs.log
+		echo "Please see below for the file name..." >> /var/log/overnight-jobs.log
+		echo "" >> /var/log/overnight-jobs.log
+		ls -lah /mnt/usb_backup/Backups/Email/MobileMe/Sent_Messages-`date +%F`.tar.bz2 >> /var/log/overnight-jobs.log
+	        echo "" >> /var/log/overnight-jobs.log
+        	echo "" >> /var/log/overnight-jobs.log
+        	echo "" >> /var/log/overnight-jobs.log
 	else
-		echo "______________________________________________________________________________________________________________________" >> /tmp/overnight-jobs.log
-		echo "" >> /tmp/overnight-jobs.log
-		echo "The backup of the 'Sent Messages' folder on MobileMe failed to run last night. Please verify IMAP backup log below..." >> /tmp/overnight-jobs.log
-        	echo "" >> /tmp/overnight-jobs.log
+		echo "______________________________________________________________________________________________________________________" >> /var/log/overnight-jobs.log
+		echo "" >> /var/log/overnight-jobs.log
+		echo "The backup of the 'Sent Messages' folder on MobileMe failed to run last night. Please verify IMAP backup log below..." >> /var/log/overnight-jobs.log
+        	echo "" >> /var/log/overnight-jobs.log
 		tail /var/log/email-backup/MobileMe_Sent_Messages.log
-        	echo "" >> /tmp/overnight-jobs.log
-        	echo "" >> /tmp/overnight-jobs.log
-	        echo "" >> /tmp/overnight-jobs.log
+        	echo "" >> /var/log/overnight-jobs.log
+        	echo "" >> /var/log/overnight-jobs.log
+	        echo "" >> /var/log/overnight-jobs.log
 fi
 

@@ -6,19 +6,22 @@ tar cvpjf $HOSTNAME-`date +%F`.tar.bz2 --exclude=/tmp --exclude=/proc --exclude=
 
 
 if [ -f /mnt/usb_backup/Backups/Server/$HOSTNAME-`date +%F`.tar.bz2 ]; then
-        echo "______________________________________________________________________________________________________________________" >> /tmp/overnight-jobs.log
-	echo "The full backup of the server completed successfully. See below for the listing of the backup directory to see the files." >> /tmp/overnight-jobs.log
-	echo "" >> /tmp/overnight-jobs.log
-	ls -lah /mnt/usb_backup/Backups/Server | grep -i "$HOSTNAME-`date +%F`.tar.bz2" >> /tmp/overnight-jobs.log
-        echo "" >> /tmp/overnight-jobs.log
-        echo "" >> /tmp/overnight-jobs.log
-        echo "" >> /tmp/overnight-jobs.log
+        echo "______________________________________________________________________________________________________________________" >> /var/log/overnight-jobs.log
+	echo "The full backup of the server completed successfully. See below for the listing of the backup directory to see the files." >> /var/log/overnight-jobs.log
+	echo "" >> /var/log/overnight-jobs.log
+	ls -lah /mnt/usb_backup/Backups/Server | grep -i "$HOSTNAME-`date +%F`.tar.bz2" >> /var/log/overnight-jobs.log
+        echo "" >> /var/log/overnight-jobs.log
+        echo "" >> /var/log/overnight-jobs.log
+        echo "" >> /var/log/overnight-jobs.log
 else
-        echo "______________________________________________________________________________________________________________________" >> /tmp/overnight-jobs.log
-	echo "The full backup of the server failed last night. Please review the backup log file below, for more information..." >> /tmp/overnight-jobs.log
-	echo "" >> /tmp/overnight-jobs.log
-	tail /mnt/usb_backup/Backups/Server/server-backup.log >> /tmp/overnight-jobs.log
-        echo "" >> /tmp/overnight-jobs.log
-        echo "" >> /tmp/overnight-jobs.log
-        echo "" >> /tmp/overnight-jobs.log
+        echo "______________________________________________________________________________________________________________________" >> /var/log/overnight-jobs.log
+	echo "The full backup of the server failed last night. Please review the backup log file below, for more information..." >> /var/log/overnight-jobs.log
+	echo "" >> /var/log/overnight-jobs.log
+	tail /mnt/usb_backup/Backups/Server/server-backup.log >> /var/log/overnight-jobs.log
+        echo "" >> /var/log/overnight-jobs.log
+        echo "" >> /var/log/overnight-jobs.log
+        echo "" >> /var/log/overnight-jobs.log
 fi
+
+chown : /mnt/usb_backup/Backups/Server/*
+chown : /var/log/overnight-jobs.log
