@@ -1,6 +1,6 @@
 #!/bin/bash
 
-COMPLETEJOBS=/tmp/overnight-jobs.log
+COMPLETEJOBS=/var/log/overnight-jobs.log
 SMTPSERVER=
 SMTPUSERNAME=
 SMTPPASSWORD=
