@@ -16,15 +16,12 @@ EMAILBACKUPREMOTE=/mnt/mac_backup/Email/MobileMe
 if [ -f $SERVERBACKUPLOCAL/server-backup.log ]; then
 rm -rfv $SERVERBACKUPREMOTE/*
 cp -v $SERVERBACKUPLOCAL/* $SERVERBACKUPREMOTE > $SERVERBACKUPREMOTE/server-backup-transfer.log
-	elif [ -f $SERVERBACKUPREMOTE/server-backup.log ]; then
-fi
 rm -rfv $SERVERBACKUPLOCAL/*
-
+fi
 
 if [ -f $TOOLSBACKUPLOCAL/tools-usb-backup.log ]; then
 rm -rfv $TOOLSBACKUPREMOTE/*
 cp -v $TOOLSBACKUPLOCAL/* $TOOLSBACKUPREMOTE > $TOOLSBACKUPREMOTE/tools-usb-backup-transfer.log
-	elif [ -f $TOOLSBACKUPREMOTE/tools-usb-backup.log ]; then
 fi
 rm -rfv $TOOLSBACKUPLOCAL/*
 
@@ -32,7 +29,6 @@ rm -rfv $TOOLSBACKUPLOCAL/*
 if [ -f $SVNBACKUPLOCAL/svn-backup.log ]; then
 rm -rfv $SVNBACKUPREMOTE/*
 cp -v $SVNBACKUPLOCAL/* $SVNBACKUPREMOTE > $SVNBACKUPREMOTE/svn-backup-transfer.log
-	elif [ -f $SVNBACKUPREMOTE/svn-backup.log ]; then
 fi
 rm -rfv $SVNBACKUPLOCAL/*
 
@@ -40,7 +36,6 @@ rm -rfv $SVNBACKUPLOCAL/*
 if [ -f /var/log/email-backup/MobileMe_Deleted_Messages.log ]; then
 rm -rfv $EMAILBACKUPREMOTE/*
 cp -v $EMAILBACKUPLOCAL/* $EMAILBACKUPREMOTE > $EMAILBACKUPREMOTE/email-backup-transfer.log
-        elif [ -f $EMAILBACKUPREMOTE/email-backup-transfer.log ]; then
 fi
 rm -rfv $EMAILBACKUPLOCAL/*
 
