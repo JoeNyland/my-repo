@@ -57,7 +57,7 @@ if [ -f $SERVERBACKUPREMOTE/server-backup.log ]; then
 	                        echo "" >> /var/log/overnight-jobs.log
 	                        echo "At least one set of backup files failed to transfer last night from your server to your iMac." >> /var/log/overnight-jobs.log
 	                        echo "" >> /var/log/overnight-jobs.log
-	                        echo "Please view one of the following log files for more information why this job did not compelte successfully..." >> /var/log/overnight-jobs.log
+	                        echo "Please view one of the following log files for more information why this job did not complete successfully..." >> /var/log/overnight-jobs.log
 	                        echo "" >> /var/log/overnight-jobs.log
 	                        tail $SERVERBACKUPREMOTE/server-backup-transfer.log >> /var/log/overnight-jobs.log
 	                        echo "" >> /var/log/overnight-jobs.log
@@ -75,7 +75,7 @@ if [ -f $SERVERBACKUPREMOTE/server-backup.log ]; then
 	                echo "" >> /var/log/overnight-jobs.log
 	                echo "At least one set of backup files failed to transfer last night from your server to your iMac." >> /var/log/overnight-jobs.log
 	                echo "" >> /var/log/overnight-jobs.log
-	                echo "Please view on of the following log files for more information why this job did not compelte successfully..." >> /var/log/overnight-jobs.log
+	                echo "Please view on of the following log files for more information why this job did not complete successfully..." >> /var/log/overnight-jobs.log
 	                echo "" >> /var/log/overnight-jobs.log
 	                tail $SERVERBACKUPREMOTE/server-backup-transfer.log >> /var/log/overnight-jobs.log
 	                echo "" >> /var/log/overnight-jobs.log
@@ -93,7 +93,7 @@ if [ -f $SERVERBACKUPREMOTE/server-backup.log ]; then
 	        echo "" >> /var/log/overnight-jobs.log
 	        echo "At least one set of backup files failed to transfer last night from your server to your iMac." >> /var/log/overnight-jobs.log
 	        echo "" >> /var/log/overnight-jobs.log
-	        echo "Please view on of the following log files for more information why this job did not compelte successfully..." >> /var/log/overnight-jobs.log
+	        echo "Please view on of the following log files for more information why this job did not complete successfully..." >> /var/log/overnight-jobs.log
 	        echo "" >> /var/log/overnight-jobs.log
 	        tail $SERVERBACKUPREMOTE/server-backup-transfer.log >> /var/log/overnight-jobs.log
 	        echo "" >> /var/log/overnight-jobs.log
@@ -111,7 +111,7 @@ else
 	echo "" >> /var/log/overnight-jobs.log
 	echo "At least one set of backup files failed to transfer last night from your server to your iMac." >> /var/log/overnight-jobs.log
 	echo "" >> /var/log/overnight-jobs.log
-	echo "Please view on of the following log files for more information why this job did not compelte successfully..." >> /var/log/overnight-jobs.log
+	echo "Please view on of the following log files for more information why this job did not complete successfully..." >> /var/log/overnight-jobs.log
 	echo "" >> /var/log/overnight-jobs.log
 	tail $SERVERBACKUPREMOTE/server-backup-transfer.log >> /var/log/overnight-jobs.log
 	echo "" >> /var/log/overnight-jobs.log
