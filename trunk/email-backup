@@ -1,5 +1,11 @@
 #!/bin/bash
 
+SMTPSERVER=
+SMTPUSERNAME=
+SMTPPASSWORD=
+FROMADDRESS=
+TOADDRESS=
+
 # Remove previous backup log files
 rm -v /var/log/email-backup/MobileMe_Backup_Logs.log
 rm -v /var/log/email-backup/MobileMe_Archive.log
@@ -40,152 +46,95 @@ tar cvjf /mnt/usb_backup/Backups/Email/MobileMe/Sent_Messages-`date +%F`.tar.bz2
 rm -rfv /tmp/email-backup/
 
 
-# Check if backup files exist, and report success/failure to job emailer.
+# Check if backup files exist, and send notification email.
 
 if [ -f /mnt/usb_backup/Backups/Email/MobileMe/Backup_Logs-`date +%F`.tar.bz2 ]; then 
-		echo "______________________________________________________________________________________________________________________" >> /var/log/overnight-jobs.log
-                echo "" >> /var/log/overnight-jobs.log
-		echo "The backup of 'Backup Logs' folder completed successfully last night." >> /var/log/overnight-jobs.log
-		echo "Please see below for the file name..." >> /var/log/overnight-jobs.log
-		echo "" >> /var/log/overnight-jobs.log
-		ls -lah /mnt/usb_backup/Backups/Email/MobileMe/Backup_Logs-`date +%F`.tar.bz2 >> /var/log/overnight-jobs.log
-	        echo "" >> /var/log/overnight-jobs.log
-        	echo "" >> /var/log/overnight-jobs.log
-        	echo "" >> /var/log/overnight-jobs.log
+		echo "The backup of 'Backup Logs' folder completed successfully last night." > /tmp/email-backup-report.log
+		echo "Please see below for the file name..." >> /tmp/email-backup-report.log
+		echo "" >> /tmp/email-backup-report.log
+		ls -lah /mnt/usb_backup/Backups/Email/MobileMe/Backup_Logs-`date +%F`.tar.bz2 >> /tmp/email-backup-report.log
+		sendemail -f $FROMADDRESS -t $TOADDRESS -s $SMTPSERVER -o username=$SMTPUSERNAME -o password=$SMTPPASSWORD -u "'Backup Logs' on MobileMe backup success for " < /tmp/email-backup-report.log
 	else
-		echo "______________________________________________________________________________________________________________________" >> /var/log/overnight-jobs.log
-		echo "" >> /var/log/overnight-jobs.log
-		echo "The backup of the 'Backup Logs' folder on MobileMe failed to run last night. Please verify IMAP backup log below..." >> /var/log/overnight-jobs.log
-        	echo "" >> /var/log/overnight-jobs.log
-		tail /var/log/email-backup/MobileMe_Backup_Logs.log
-        	echo "" >> /var/log/overnight-jobs.log
-        	echo "" >> /var/log/overnight-jobs.log
-	        echo "" >> /var/log/overnight-jobs.log
+		echo "The backup of the 'Backup Logs' folder on MobileMe failed to run last night. Please verify IMAP backup log below..." > /tmp/email-backup-report.log
+        	echo "" >> /tmp/email-backup-report.log
+		tail /var/log/email-backup/MobileMe_Backup_Logs.log >> /tmp/email-backup-report.log
+		sendemail -f $FROMADDRESS -t $TOADDRESS -s $SMTPSERVER -o username=$SMTPUSERNAME -o password=$SMTPPASSWORD -u "'Backup Logs' on MobileMe backup failure for " < /tmp/email-backup-report.log
 fi
 
 if [ -f /mnt/usb_backup/Backups/Email/MobileMe/Archive-`date +%F`.tar.bz2 ]; then 
-		echo "______________________________________________________________________________________________________________________" >> /var/log/overnight-jobs.log
-                echo "" >> /var/log/overnight-jobs.log
-		echo "The backup of 'Archive' folder completed successfully last night." >> /var/log/overnight-jobs.log
-		echo "Please see below for the file name..." >> /var/log/overnight-jobs.log
-		echo "" >> /var/log/overnight-jobs.log
-		ls -lah /mnt/usb_backup/Backups/Email/MobileMe/Archive-`date +%F`.tar.bz2 >> /var/log/overnight-jobs.log
-	        echo "" >> /var/log/overnight-jobs.log
-        	echo "" >> /var/log/overnight-jobs.log
-        	echo "" >> /var/log/overnight-jobs.log
+		echo "The backup of 'Archive' folder completed successfully last night." > /tmp/email-backup-report.log
+		echo "Please see below for the file name..." >> /tmp/email-backup-report.log
+		echo "" >> /tmp/email-backup-report.log
+		ls -lah /mnt/usb_backup/Backups/Email/MobileMe/Archive-`date +%F`.tar.bz2 >> /tmp/email-backup-report.log
+		sendemail -f $FROMADDRESS -t $TOADDRESS -s $SMTPSERVER -o username=$SMTPUSERNAME -o password=$SMTPPASSWORD -u "'Archive' on MobileMe backup success for " < /tmp/email-backup-report.log
 	else
-		echo "______________________________________________________________________________________________________________________" >> /var/log/overnight-jobs.log
-		echo "" >> /var/log/overnight-jobs.log
-		echo "The backup of the 'Archive' folder on MobileMe failed to run last night. Please verify IMAP backup log below..." >> /var/log/overnight-jobs.log
-        	echo "" >> /var/log/overnight-jobs.log
-		tail /var/log/email-backup/MobileMe_Archive.log
-        	echo "" >> /var/log/overnight-jobs.log
-        	echo "" >> /var/log/overnight-jobs.log
-	        echo "" >> /var/log/overnight-jobs.log
+		echo "The backup of the 'Archive' folder on MobileMe failed to run last night. Please verify IMAP backup log below..." > /tmp/email-backup-report.log
+        	echo "" >> /tmp/email-backup-report.log
+		tail /var/log/email-backup/MobileMe_Archive.log >> /tmp/email-backup-report.log
+		sendemail -f $FROMADDRESS -t $TOADDRESS -s $SMTPSERVER -o username=$SMTPUSERNAME -o password=$SMTPPASSWORD -u "'Archive' on MobileMe backup failure for " < /tmp/email-backup-report.log
 fi
 
 if [ -f /mnt/usb_backup/Backups/Email/MobileMe/ToDo-`date +%F`.tar.bz2 ]; then 
-		echo "______________________________________________________________________________________________________________________" >> /var/log/overnight-jobs.log
-                echo "" >> /var/log/overnight-jobs.log
-		echo "The backup of 'To Do' folder completed successfully last night." >> /var/log/overnight-jobs.log
-		echo "Please see below for the file name..." >> /var/log/overnight-jobs.log
-		echo "" >> /var/log/overnight-jobs.log
-		ls -lah /mnt/usb_backup/Backups/Email/MobileMe/ToDo-`date +%F`.tar.bz2 >> /var/log/overnight-jobs.log
-	        echo "" >> /var/log/overnight-jobs.log
-        	echo "" >> /var/log/overnight-jobs.log
-        	echo "" >> /var/log/overnight-jobs.log
+		echo "The backup of 'To Do' folder completed successfully last night." > /tmp/email-backup-report.log
+		echo "Please see below for the file name..." >> /tmp/email-backup-report.log
+		echo "" >> /tmp/email-backup-report.log
+		ls -lah /mnt/usb_backup/Backups/Email/MobileMe/ToDo-`date +%F`.tar.bz2 >> /tmp/email-backup-report.log
+		sendemail -f $FROMADDRESS -t $TOADDRESS -s $SMTPSERVER -o username=$SMTPUSERNAME -o password=$SMTPPASSWORD -u "'To Do' on MobileMe backup success for " < /tmp/email-backup-report.log
 	else
-		echo "______________________________________________________________________________________________________________________" >> /var/log/overnight-jobs.log
-		echo "" >> /var/log/overnight-jobs.log
-		echo "The backup of the 'To Do' folder on MobileMe failed to run last night. Please verify IMAP backup log below..." >> /var/log/overnight-jobs.log
-        	echo "" >> /var/log/overnight-jobs.log
-		tail /var/log/email-backup/MobileMe_ToDo.log
-        	echo "" >> /var/log/overnight-jobs.log
-        	echo "" >> /var/log/overnight-jobs.log
-	        echo "" >> /var/log/overnight-jobs.log
+		echo "The backup of the 'To Do' folder on MobileMe failed to run last night. Please verify IMAP backup log below..." > /tmp/email-backup-report.log
+        	echo "" >> /tmp/email-backup-report.log
+		tail /var/log/email-backup/MobileMe_ToDo.log >> /tmp/email-backup-report.log
+		sendemail -f $FROMADDRESS -t $TOADDRESS -s $SMTPSERVER -o username=$SMTPUSERNAME -o password=$SMTPPASSWORD -u "'To Do' on MobileMe backup failure for " < /tmp/email-backup-report.log
 fi
 
 if [ -f /mnt/usb_backup/Backups/Email/MobileMe/Deleted_Messages-`date +%F`.tar.bz2 ]; then 
-		echo "______________________________________________________________________________________________________________________" >> /var/log/overnight-jobs.log
-                echo "" >> /var/log/overnight-jobs.log
-		echo "The backup of 'Deleted Messages' folder completed successfully last night." >> /var/log/overnight-jobs.log
-		echo "Please see below for the file name..." >> /var/log/overnight-jobs.log
-		echo "" >> /var/log/overnight-jobs.log
-		ls -lah /mnt/usb_backup/Backups/Email/MobileMe/Deleted_Messages-`date +%F`.tar.bz2 >> /var/log/overnight-jobs.log
-	        echo "" >> /var/log/overnight-jobs.log
-        	echo "" >> /var/log/overnight-jobs.log
-        	echo "" >> /var/log/overnight-jobs.log
+		echo "The backup of 'Deleted Messages' folder completed successfully last night." > /tmp/email-backup-report.log
+		echo "Please see below for the file name..." >> /tmp/email-backup-report.log
+		echo "" >> /tmp/email-backup-report.log
+		ls -lah /mnt/usb_backup/Backups/Email/MobileMe/Deleted_Messages-`date +%F`.tar.bz2 >> /tmp/email-backup-report.log
+		sendemail -f $FROMADDRESS -t $TOADDRESS -s $SMTPSERVER -o username=$SMTPUSERNAME -o password=$SMTPPASSWORD -u "'Deleted Messages' on MobileMe backup success for " < /tmp/email-backup-report.log
 	else
-		echo "______________________________________________________________________________________________________________________" >> /var/log/overnight-jobs.log
-		echo "" >> /var/log/overnight-jobs.log
-		echo "The backup of the 'Deleted Messages' folder on MobileMe failed to run last night. Please verify IMAP backup log below..." >> /var/log/overnight-jobs.log
-        	echo "" >> /var/log/overnight-jobs.log
-		tail /var/log/email-backup/MobileMe_Deleted_Messages.log
-        	echo "" >> /var/log/overnight-jobs.log
-        	echo "" >> /var/log/overnight-jobs.log
-	        echo "" >> /var/log/overnight-jobs.log
+		echo "The backup of the 'Deleted Messages' folder on MobileMe failed to run last night. Please verify IMAP backup log below..." > /tmp/email-backup-report.log
+        	echo "" >> /tmp/email-backup-report.log
+		tail /var/log/email-backup/MobileMe_Deleted_Messages.log >> /tmp/email-backup-report.log
+		sendemail -f $FROMADDRESS -t $TOADDRESS -s $SMTPSERVER -o username=$SMTPUSERNAME -o password=$SMTPPASSWORD -u "'Deleted Messages' on MobileMe backup failure for " < /tmp/email-backup-report.log
 fi
 
 if [ -f /mnt/usb_backup/Backups/Email/MobileMe/Junk-`date +%F`.tar.bz2 ]; then 
-		echo "______________________________________________________________________________________________________________________" >> /var/log/overnight-jobs.log
-                echo "" >> /var/log/overnight-jobs.log
-		echo "The backup of 'Junk' folder completed successfully last night." >> /var/log/overnight-jobs.log
-		echo "Please see below for the file name..." >> /var/log/overnight-jobs.log
-		echo "" >> /var/log/overnight-jobs.log
-		ls -lah /mnt/usb_backup/Backups/Email/MobileMe/Junk-`date +%F`.tar.bz2 >> /var/log/overnight-jobs.log
-	        echo "" >> /var/log/overnight-jobs.log
-        	echo "" >> /var/log/overnight-jobs.log
-        	echo "" >> /var/log/overnight-jobs.log
+		echo "The backup of 'Junk' folder completed successfully last night." > /tmp/email-backup-report.log
+		echo "Please see below for the file name..." >> /tmp/email-backup-report.log
+		echo "" >> /tmp/email-backup-report.log
+		ls -lah /mnt/usb_backup/Backups/Email/MobileMe/Junk-`date +%F`.tar.bz2 >> /tmp/email-backup-report.log
+		sendemail -f $FROMADDRESS -t $TOADDRESS -s $SMTPSERVER -o username=$SMTPUSERNAME -o password=$SMTPPASSWORD -u "'Junk' on MobileMe backup success for " < /tmp/email-backup-report.log
 	else
-		echo "______________________________________________________________________________________________________________________" >> /var/log/overnight-jobs.log
-		echo "" >> /var/log/overnight-jobs.log
-		echo "The backup of the 'Junk' folder on MobileMe failed to run last night. Please verify IMAP backup log below..." >> /var/log/overnight-jobs.log
-        	echo "" >> /var/log/overnight-jobs.log
-		tail /var/log/email-backup/MobileMe_Junk.log
-        	echo "" >> /var/log/overnight-jobs.log
-        	echo "" >> /var/log/overnight-jobs.log
-	        echo "" >> /var/log/overnight-jobs.log
+		echo "The backup of the 'Junk' folder on MobileMe failed to run last night. Please verify IMAP backup log below..." > /tmp/email-backup-report.log
+        	echo "" >> /tmp/email-backup-report.log
+		tail /var/log/email-backup/MobileMe_Junk.log >> /tmp/email-backup-report.log
+		sendemail -f $FROMADDRESS -t $TOADDRESS -s $SMTPSERVER -o username=$SMTPUSERNAME -o password=$SMTPPASSWORD -u "'Junk' on MobileMe backup failure for " < /tmp/email-backup-report.log
 fi
 
 if [ -f /mnt/usb_backup/Backups/Email/MobileMe/Notes-`date +%F`.tar.bz2 ]; then 
-		echo "______________________________________________________________________________________________________________________" >> /var/log/overnight-jobs.log
-                echo "" >> /var/log/overnight-jobs.log
-		echo "The backup of 'Notes' folder completed successfully last night." >> /var/log/overnight-jobs.log
-		echo "Please see below for the file name..." >> /var/log/overnight-jobs.log
-		echo "" >> /var/log/overnight-jobs.log
-		ls -lah /mnt/usb_backup/Backups/Email/MobileMe/Notes-`date +%F`.tar.bz2 >> /var/log/overnight-jobs.log
-	        echo "" >> /var/log/overnight-jobs.log
-        	echo "" >> /var/log/overnight-jobs.log
-        	echo "" >> /var/log/overnight-jobs.log
+		echo "The backup of 'Notes' folder completed successfully last night." > /tmp/email-backup-report.log
+		echo "Please see below for the file name..." >> /tmp/email-backup-report.log
+		echo "" >> /tmp/email-backup-report.log
+		ls -lah /mnt/usb_backup/Backups/Email/MobileMe/Notes-`date +%F`.tar.bz2 >> /tmp/email-backup-report.log
+		sendemail -f $FROMADDRESS -t $TOADDRESS -s $SMTPSERVER -o username=$SMTPUSERNAME -o password=$SMTPPASSWORD -u "'Notes' on MobileMe backup success for " < /tmp/email-backup-report.log
 	else
-		echo "______________________________________________________________________________________________________________________" >> /var/log/overnight-jobs.log
-		echo "" >> /var/log/overnight-jobs.log
-		echo "The backup of the 'Notes' folder on MobileMe failed to run last night. Please verify IMAP backup log below..." >> /var/log/overnight-jobs.log
-        	echo "" >> /var/log/overnight-jobs.log
-		tail /var/log/email-backup/MobileMe_Notes.log
-        	echo "" >> /var/log/overnight-jobs.log
-        	echo "" >> /var/log/overnight-jobs.log
-	        echo "" >> /var/log/overnight-jobs.log
+		echo "The backup of the 'Notes' folder on MobileMe failed to run last night. Please verify IMAP backup log below..." > /tmp/email-backup-report.log
+        	echo "" >> /tmp/email-backup-report.log
+		tail /var/log/email-backup/MobileMe_Notes.log >> /tmp/email-backup-report.log
+		sendemail -f $FROMADDRESS -t $TOADDRESS -s $SMTPSERVER -o username=$SMTPUSERNAME -o password=$SMTPPASSWORD -u "'Notes' on MobileMe backup failure for " < /tmp/email-backup-report.log
 fi
 
 if [ -f /mnt/usb_backup/Backups/Email/MobileMe/Sent_Messages-`date +%F`.tar.bz2 ]; then 
-		echo "______________________________________________________________________________________________________________________" >> /var/log/overnight-jobs.log
-                echo "" >> /var/log/overnight-jobs.log
-		echo "The backup of 'Sent Messages' folder completed successfully last night." >> /var/log/overnight-jobs.log
-		echo "Please see below for the file name..." >> /var/log/overnight-jobs.log
-		echo "" >> /var/log/overnight-jobs.log
-		ls -lah /mnt/usb_backup/Backups/Email/MobileMe/Sent_Messages-`date +%F`.tar.bz2 >> /var/log/overnight-jobs.log
-	        echo "" >> /var/log/overnight-jobs.log
-        	echo "" >> /var/log/overnight-jobs.log
-        	echo "" >> /var/log/overnight-jobs.log
+		echo "The backup of 'Sent Messages' folder completed successfully last night." > /tmp/email-backup-report.log
+		echo "Please see below for the file name..." >> /tmp/email-backup-report.log
+		echo "" >> /tmp/email-backup-report.log
+		ls -lah /mnt/usb_backup/Backups/Email/MobileMe/Sent_Messages-`date +%F`.tar.bz2 >> /tmp/email-backup-report.log
+		sendemail -f $FROMADDRESS -t $TOADDRESS -s $SMTPSERVER -o username=$SMTPUSERNAME -o password=$SMTPPASSWORD -u "'Sent Messages' on MobileMe backup success for " < /tmp/email-backup-report.log
 	else
-		echo "______________________________________________________________________________________________________________________" >> /var/log/overnight-jobs.log
-		echo "" >> /var/log/overnight-jobs.log
-		echo "The backup of the 'Sent Messages' folder on MobileMe failed to run last night. Please verify IMAP backup log below..." >> /var/log/overnight-jobs.log
-        	echo "" >> /var/log/overnight-jobs.log
-		tail /var/log/email-backup/MobileMe_Sent_Messages.log
-        	echo "" >> /var/log/overnight-jobs.log
-        	echo "" >> /var/log/overnight-jobs.log
-	        echo "" >> /var/log/overnight-jobs.log
+		echo "The backup of the 'Sent Messages' folder on MobileMe failed to run last night. Please verify IMAP backup log below..." > /tmp/email-backup-report.log
+        	echo "" >> /tmp/email-backup-report.log
+		tail /var/log/email-backup/MobileMe_Sent_Messages.log >> /tmp/email-backup-report.log
+		sendemail -f $FROMADDRESS -t $TOADDRESS -s $SMTPSERVER -o username=$SMTPUSERNAME -o password=$SMTPPASSWORD -u "'Sent Messages' on MobileMe backup failure for " < /tmp/email-backup-report.log
 fi
-
