@@ -2,7 +2,7 @@
 # Tools USB Drive Backup Script
 
 cd /mnt/usb_backup/Backups/Tools || exit
-tar cvpjf "Tools USB Drive"-`date +%F`.tar.bz2 /mnt/tools > tools-usb-backup.log || exit
+tar cvpjf "Tools USB Drive"-`date +%F`.tar.bz2 /mnt/tools > tools-usb-backup.log
 
 if [ -f /mnt/usb_backup/Backups/Email/MobileMe/Backup_Logs-`date +%F`.tar.bz2 ]; then
                 echo "______________________________________________________________________________________________________________________" >> /var/log/overnight-jobs.log
