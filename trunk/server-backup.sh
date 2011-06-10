@@ -10,7 +10,7 @@ FROMADDRESS=
 TOADDRESS=
 
 cd /mnt/usb_backup/Backups/Server || exit
-tar cvpjf $HOSTNAME-`date +%F`.tar.bz2 --exclude=/tmp --exclude=/proc --exclude=/lost+found --exclude=/cdrom --exclude=/media --exclude=/mnt --exclude=/sys --exclude=/dev / > server-backup.log
+tar cvpjf $HOSTNAME-`date +%F`.tar.bz2 --exclude=/tmp --exclude=/proc --exclude=/lost+found --exclude=/cdrom --exclude=/media --exclude=/mnt --exclude=/sys --exclude=/dev --exclude=/export --exclude=/home//.sabnzbd/downloads --exclude=/home//.sabnzbd/cache --exclude=/var/lib/transmission-daemon/downloads / > server-backup.log
 
 
 if [ -f /mnt/usb_backup/Backups/Server/$HOSTNAME-`date +%F`.tar.bz2 ]; then
