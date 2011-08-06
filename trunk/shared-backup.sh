@@ -1,7 +1,7 @@
 #!/bin/bash
 # Shared files backup script to backup files from /mnt/server to 's iMac
 
-SHARED_DIR=/mnt/shared
+SHARED_DIR=/mnt/array/Shared
 MAC_BACKUP=/mnt/mac_backup
 _BACKUP=/mnt/_backup
 BACKUPDRIVE=/mnt/backup
