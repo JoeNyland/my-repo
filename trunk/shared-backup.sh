@@ -31,8 +31,8 @@ echo "The Rsync job to synchronise the following items completed successfully la
 #echo "/mnt/shared/Movies/Blu Ray Movies --> \\\Backups\Blu Ray Movies" >> /tmp/shared-backup-report.log
 echo "/mnt/shared --> Backup Drive" >> /tmp/shared-backup-report.log
 echo "" >> /tmp/shared-backup-report.log
-echo "If you require more information, please run the following command:" >> /tmp/shared-backup-report.log
-echo "cat /var/log/shared-backup.log" >> /tmp/shared-backup-report.log
+echo "If you require more information, please view the following file:" >> /tmp/shared-backup-report.log
+echo "/var/log/shared-backup.log" >> /tmp/shared-backup-report.log
 echo "" >> /tmp/shared-backup-report.log
 echo "" >> /tmp/shared-backup-report.log
 echo "" >> /tmp/shared-backup-report.log
