@@ -38,8 +38,7 @@ echo "/mnt/array/svn --> Backup Drive" >> /tmp/shared-backup-report.log
 echo "/mnt/array/TimeMachine --> Backup Drive" >> /tmp/shared-backup-report.log
 echo "/mnt/array/mythtv --> Backup Drive" >> /tmp/shared-backup-report.log
 echo "" >> /tmp/shared-backup-report.log
-echo "If you require more information, please view the following file:" >> /tmp/shared-backup-report.log
-echo "/var/log/shared-backup.log" >> /tmp/shared-backup-report.log
+echo "If you require more information, please view the following file: /var/log/shared-backup.log" >> /tmp/shared-backup-report.log
 echo "" >> /tmp/shared-backup-report.log
 echo "" >> /tmp/shared-backup-report.log
 echo "" >> /tmp/shared-backup-report.log
