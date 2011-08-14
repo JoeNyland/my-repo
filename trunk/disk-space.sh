@@ -9,4 +9,14 @@ echo
 echo Please wait...
 echo 
 echo 
-gksudo du -hx --max-depth=1 . || sudo du -hx --max-depth=1 .
+
+if [ -f /usr/bin/gksudo ]; then
+gksudo 'du -hx --max-depth=1 '$1''
+echo 1
+else sudo du -hx --max-depth=1 $1
+echo 2
+fi
+exit
+
+gksudo 'du -hx --max-depth=1 '$1'' || sudo du -hx --max-depth=1 $1
+
