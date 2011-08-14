@@ -43,4 +43,4 @@ echo "" >> /tmp/shared-backup-report.log
 echo "" >> /tmp/shared-backup-report.log
 echo "" >> /tmp/shared-backup-report.log
 
-sendemail -f $FROMADDRESS -t $TOADDRESS -s $SMTPSERVER -o username=$SMTPUSERNAME -o password=$SMTPPASSWORD -u "Shared files backup success for " < /tmp/shared-backup-report.log
+#sendemail -f $FROMADDRESS -t $TOADDRESS -s $SMTPSERVER -o username=$SMTPUSERNAME -o password=$SMTPPASSWORD -u "Shared files backup success for " < /tmp/shared-backup-report.log
