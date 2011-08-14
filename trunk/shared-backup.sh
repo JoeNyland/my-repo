@@ -33,14 +33,13 @@ echo "The Rsync job to synchronise the following items completed successfully la
 #echo "/mnt/shared/Disc Images --> \\\Backups\Disc Images" >> /tmp/shared-backup-report.log
 #echo "/mnt/shared/Music --> \\\Backups\Music" >> /tmp/shared-backup-report.log
 #echo "/mnt/shared/Movies/Blu Ray Movies --> \\\Backups\Blu Ray Movies" >> /tmp/shared-backup-report.log
-echo "/mnt/array/Shared --> Backup Drive" >> /tmp/shared-backup-report.log
-echo "/mnt/array/svn --> Backup Drive" >> /tmp/shared-backup-report.log
-echo "/mnt/array/TimeMachine --> Backup Drive" >> /tmp/shared-backup-report.log
-echo "/mnt/array/mythtv --> Backup Drive" >> /tmp/shared-backup-report.log
+echo "/mnt/shared --> Backup Drive" >> /tmp/shared-backup-report.log
 echo "" >> /tmp/shared-backup-report.log
-echo "If you require more information, please view the following file: /var/log/shared-backup.log" >> /tmp/shared-backup-report.log
+echo "If you require more information, please run the following command:" >> /tmp/shared-backup-report.log
+echo "cat /var/log/shared-backup.log" >> /tmp/shared-backup-report.log
 echo "" >> /tmp/shared-backup-report.log
 echo "" >> /tmp/shared-backup-report.log
 echo "" >> /tmp/shared-backup-report.log
 
-#sendemail -f $FROMADDRESS -t $TOADDRESS -s $SMTPSERVER -o username=$SMTPUSERNAME -o password=$SMTPPASSWORD -u "Shared files backup success for " < /tmp/shared-backup-report.log
+sendemail -f $FROMADDRESS -t $TOADDRESS -s $SMTPSERVER -o username=$SMTPUSERNAME -o password=$SMTPPASSWORD -u "Shared files backup success for " < /tmp/shared-backup-report.log
+
