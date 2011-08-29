@@ -26,14 +26,14 @@ rsync -vruEthm --log-file=/var/log/shared-backup.log $TIMEMACHINE_DIR/ $BACKUPDR
 rsync -vruEthm --log-file=/var/log/shared-backup.log $SVN/ $BACKUPDRIVE/SVN/ --exclude="._*" --exclude=".AppleDB*" || exit
 rsync -vruEthm --log-file=/var/log/shared-backup.log $MYTHTV/ $BACKUPDRIVE/MythTV/ --exclude="._*" --exclude=".AppleDB*" --exclude="livetv/*"|| exit
 
-echo "The Rsync job to synchronise the following items completed successfully last night." > /tmp/shared-backup-report.log
+echo "The Rsync job to synchronise file from your RAID array to the backup HDD completed successfully last night." > /tmp/shared-backup-report.log
 #echo "/mnt/shared/TV Shows --> \\s-iMac\Backups\Shared\TV Shows" >> /tmp/shared-backup-report.log
 #echo "/mnt/shared/Movies --> \\s-iMac\Backups\Shared\Movies" >> /tmp/shared-backup-report.log
 #echo "/mnt/shared/Applications --> \\\Backups\Applications" >> /tmp/shared-backup-report.log
 #echo "/mnt/shared/Disc Images --> \\\Backups\Disc Images" >> /tmp/shared-backup-report.log
 #echo "/mnt/shared/Music --> \\\Backups\Music" >> /tmp/shared-backup-report.log
 #echo "/mnt/shared/Movies/Blu Ray Movies --> \\\Backups\Blu Ray Movies" >> /tmp/shared-backup-report.log
-echo "/mnt/shared --> Backup Drive" >> /tmp/shared-backup-report.log
+#echo "/mnt/shared --> Backup Drive" >> /tmp/shared-backup-report.log
 echo "" >> /tmp/shared-backup-report.log
 echo "If you require more information, please run the following command:" >> /tmp/shared-backup-report.log
 echo "cat /var/log/shared-backup.log" >> /tmp/shared-backup-report.log
