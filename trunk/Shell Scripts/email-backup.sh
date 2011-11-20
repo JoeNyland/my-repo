@@ -19,9 +19,9 @@ touch /tmp/email-backup/iCloud/Deleted_Messages.mbox
 touch /tmp/email-backup/iCloud/Sent_Messages.mbox
 
 # Backup iCloud mailboxes, tar and remove source files.
-getmail --getmaildir=/home//.getmail -r iCloud_Archive || exit
-getmail --getmaildir=/home//.getmail -r iCloud_Deleted_Messages || exit
-getmail --getmaildir=/home//.getmail -r iCloud_Sent_Messages || exit
+getmail --getmaildir=/home//.getmail -r icloud_Archive || exit
+getmail --getmaildir=/home//.getmail -r icloud_Deleted_Messages || exit
+getmail --getmaildir=/home//.getmail -r icloud_Sent_Messages || exit
 
 tar cvjf /mnt/backup/Email/iCloud/Archive-`date +%F`.tar.bz2 /tmp/email-backup/iCloud/Archive.mbox
 tar cvjf /mnt/backup/Email/iCloud/Deleted_Messages-`date +%F`.tar.bz2 /tmp/email-backup/iCloud/Deleted_Messages.mbox
