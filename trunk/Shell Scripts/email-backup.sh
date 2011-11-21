@@ -12,7 +12,8 @@ rm -v /var/log/email-backup/iCloud_Deleted_Messages.log
 rm -v /var/log/email-backup/iCloud_Sent_Messages.log
 
 # Create directories/files
-mkdir -p /tmp/email-backup/iCloud
+[ ! -d /tmp/email-backup/iCloud ] && mkdir -p /tmp/email-backup/iCloud
+[ ! -d /mnt/backup/Email/iCloud ] && mkdir -p /mnt/backup/Email/iCloud
 
 touch /tmp/email-backup/iCloud/Archive.mbox
 touch /tmp/email-backup/iCloud/Deleted_Messages.mbox
