@@ -5,6 +5,7 @@ SMTPUSERNAME=
 SMTPPASSWORD=
 FROMADDRESS=
 TOADDRESS=
+AGE=7
 
 # Remove previous backup log files
 rm -v /var/log/email-backup/iCloud_Archive.log
@@ -82,7 +83,7 @@ rm -rfv /tmp/email-backup-report.log
 
 # Clear up old backups
 if [[ $SUCCESS1 == 1 ]] && [[ $SUCCESS2 == 1 ]] && [[ $SUCCESS3 == 1 ]]; then
-	find /mnt/backup/`hostname -s`/ -iname `hostname -s`*.iso -daystart -mtime +$AGE -exec rm -fv {} \;
+	find /mnt/backup/Email/iCloud/ -iname *.tar.bz2 -daystart -mtime +$AGE -exec rm -fv {} \;
 else
 	echo $SUCCESS1 $SUCCESS2 $SUCCESS3;
 fi
