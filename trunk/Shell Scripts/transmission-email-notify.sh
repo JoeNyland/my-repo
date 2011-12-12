@@ -1,5 +1,5 @@
 #!/bin/bash
-/usr/bin/sendemail -f "Transmission@" -t "" -s "" -o username= -o password= -u "Transmission completed download: $TR_TORRENT_NAME" <<EOF
+/usr/bin/sendemail -f "Transmission@.co.uk" -t "" -s "" -o username= -o password= -u "Transmission completed download: $TR_TORRENT_NAME" <<EOF
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">
 
 <html>
