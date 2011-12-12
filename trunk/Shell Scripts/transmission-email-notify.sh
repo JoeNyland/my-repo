@@ -4,6 +4,12 @@
 
 <html>
 
+<head>
+	<style type="text/css">
+		*{font-family:"Lucida Grande",Verdana;}
+	</style>
+</head>
+
 <body>
     <font face="Lucida Grande" color="#000000">
         <h2>Transmission has completed downloading "$TR_TORRENT_NAME"</h2>
@@ -12,6 +18,7 @@
     <font face="Lucida Grande" color="#000000" size="3">
         <p>The downloaded files can be found here: $TR_TORRENT_DIR</p>
     </font>
+	
     <font face="Lucida Grande" color="#C0C0C0" size="1">
         </br>
         </br>
