@@ -9,8 +9,15 @@ echo
 echo Press return to start this gnome-panel backup script.
 echo -n 
 read ans
-mkdir ~/.gconf/apps/.panel-backup/
-cp -rfv ~/.gconf/apps/panel/* ~/.gconf/apps/.panel-backup/
+if [ -d ~/.gconf/apps/.panel-backup/ ]
+then 
+	rm -rfv ~/.gconf/apps/.panel-backup/;
+	mkdir ~/.gconf/apps/.panel-backup/;
+	cp -rfv ~/.gconf/apps/panel/* ~/.gconf/apps/.panel-backup/;
+else
+	mkdir ~/.gconf/apps/.panel-backup/;
+	cp -rfv ~/.gconf/apps/panel/* ~/.gconf/apps/.panel-backup/;
+fi
 clear
 echo 
 echo Backup Complete.
