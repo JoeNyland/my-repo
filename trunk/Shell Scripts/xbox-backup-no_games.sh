@@ -44,7 +44,7 @@ else
 fi
 
 
-echo "Enter your Xbox IP address";
+echo "Enter your Xbox IP address or hostname";
 
 while read inputline
 do
@@ -53,8 +53,8 @@ XBOXIP="$inputline"
 if [ -z "${XBOXIP}" ];
 then
 echo 
-echo You need to enter an IP address for your Xbox for this script to connect to the FTP server.;
-echo Please re-run this script and enter a valid local IP address for your Xbox.;
+echo You need to enter an IP address or hostname for your Xbox for this script to connect to the FTP server.;
+echo Please re-run this script and enter a valid local IP address or hostname for your Xbox.;
 echo This script will now exit.;
 echo
 exit
@@ -76,7 +76,7 @@ echo Compressing C;
 tar cvpjf "Xbox C"-`date +%F`.tar.bz2 ./C/ > "Xbox-Backup-C".log
 echo Compressing E;
 tar cvpjf "Xbox E"-`date +%F`.tar.bz2 ./E/ > "Xbox-Backup-E".log
-echo Compressinng F;
+echo Compressing F;
 tar cvpjf "Xbox F"-`date +%F`.tar.bz2 ./F/ > "Xbox-Backup-F".log
 cp $TEMPBACKUPLOCATION/Xbox* $BACKUPLOCATION || exit
 
