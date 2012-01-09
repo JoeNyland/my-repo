@@ -69,7 +69,6 @@ echo Backing up source files from Xbox.;
 lftp -c mirror ftp://xbox:xbox@$XBOXIP/C/ || exit
 lftp -c mirror ftp://xbox:xbox@$XBOXIP/E/
 lftp -c mirror ftp://xbox:xbox@$XBOXIP/F/ --exclude ROMs --exclude Games/ --exclude rootfs --exclude swap
-# lftp -c mirror ftp://xbox:xbox@$XBOXIP/F/ --exclude rootfs --exclude swap
 echo Finished backing up source files.;
 echo Now compressing with bzip2...;
 echo 
