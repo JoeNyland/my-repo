@@ -2,7 +2,7 @@
 # Xbox Backup Script. Note: this script does not backup Xbox games (/F/Games/) or Gentoox's rootfs or swap files.
 
 TEMPBACKUPLOCATION="/tmp/xbox-backup"
-BACKUPLOCATION="/mnt/usb_backup/Backups/Xbox"
+BACKUPLOCATION="/mnt/backup/Xbox"
 LFTPCONF="$HOME/.lftp"
 RETRY="1"
 MAXRETSET=` grep -i "set net:max-retries $RETRY" $LFTPCONF/rc|wc -l`
@@ -68,7 +68,7 @@ cd $TEMPBACKUPLOCATION || exit
 echo Backing up source files from Xbox.;
 lftp -c mirror ftp://xbox:xbox@$XBOXIP/C/ || exit
 lftp -c mirror ftp://xbox:xbox@$XBOXIP/E/
-lftp -c mirror ftp://xbox:xbox@$XBOXIP/F/ --exclude Games/ --exclude rootfs --exclude swap
+lftp -c mirror ftp://xbox:xbox@$XBOXIP/F/ --exclude ROMs --exclude Games/ --exclude rootfs --exclude swap
 # lftp -c mirror ftp://xbox:xbox@$XBOXIP/F/ --exclude rootfs --exclude swap
 echo Finished backing up source files.;
 echo Now compressing with bzip2...;
