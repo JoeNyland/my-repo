@@ -6,6 +6,7 @@
 SHARED_DIR=/mnt/array/Shared
 SVN=/mnt/array/svn
 MAC_BACKUP=/mnt/mac_backup
+MAC-MINI_BACKUP=/mnt/mac-mini_backup
 _BACKUP=/mnt/_backup
 BACKUPDRIVE=/mnt/mac_backup
 SERVERBACKUPDRIVE=/mnt/usb_backup
@@ -17,9 +18,19 @@ TOADDRESS=
 LOGFILE=/var/log/shared-backup-to-imac.log
 NOTIFICATIONLOG=/tmp/shared-backup-to-imac-report.log
 
-rsync -vruEthm --log-file=$LOGFILE $SHARED_DIR/ $BACKUPDRIVE/Shared/ --exclude="._*" --exclude="Downloads/" --exclude=".AppleDB*" --exclude="lost+found" || exit
-mkdir $BACKUPDRIVE/Shared/Downloads
-rsync -vruEthm --log-file=$LOGFILE $SVN/ $BACKUPDRIVE/SVN/ --exclude="._*" --exclude=".AppleDB*" || exit
+# TV Shows to iMac
+rsync --dry-run -vruEthm --log-file=$LOGFILE $SHARED_DIR/"TV Shows" $MAC_BACKUP/Shared/"TV Shows" --exclude="._*" --exclude=".AppleDB*" --exclude="lost+found" || exit
+
+# Movies to iMac (without BluRays)
+rsync --dry-run -vruEthm --log-file=$LOGFILE $SHARED_DIR/Movies $MAC_BACKUP/Shared/"Movies" --exclude="Blu Ray Movies" --exclude="._*" --exclude=".AppleDB*" --exclude="lost+found" || exit
+
+# BluRays to 
+rsync --dry-run -vruEthm --log-file=$LOGFILE $SHARED_DIR/Movies/"Blu Ray Movies" $_BACKUP/Shared/Movies/"Blu Ray Movies" --exclude="._*" --exclude=".AppleDB*" --exclude="lost+found" || exit
+
+# Mac mini will take: Apps, Disc Images, Games, Music
+
+# SVN to iMac
+rsync --dry-run -vruEthm --log-file=$LOGFILE $SVN/ $MAC_BACKUP/SVN/ --exclude="._*" --exclude=".AppleDB*" || exit
 
 echo "The Rsync job to synchronise files from your RAID array to your iMac completed successfully." > $NOTIFICATIONLOG
 echo "" >> $NOTIFICATIONLOG
