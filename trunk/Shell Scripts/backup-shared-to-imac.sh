@@ -20,7 +20,6 @@ NOTIFICATIONLOG=/tmp/shared-backup-report.log
 rsync -vruEthm --dry-run --delete --log-file=$LOGFILE $SHARED_DIR/ $BACKUPDRIVE/Shared/ --exclude="._*" --exclude="Downloads/" --exclude=".AppleDB*" --exclude="lost+found" || exit
 mkdir $BACKUPDRIVE/Shared/Downloads
 rsync -vruEthm --dry-run --delete --log-file=$LOGFILE $SVN/ $BACKUPDRIVE/SVN/ --exclude="._*" --exclude=".AppleDB*" || exit
-rsync -vruEthm --dry-run --delete --log-file=$LOGFILE $MYTHTV/ $BACKUPDRIVE/MythTV/ --exclude="._*" --exclude=".AppleDB*" --exclude="livetv/*"|| exit
 
 echo "The Rsync job to synchronise files from your RAID array to your iMac completed successfully." > $NOTIFICATIONLOG
 echo "" >> $NOTIFICATIONLOG
