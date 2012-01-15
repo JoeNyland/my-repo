@@ -14,8 +14,8 @@ SMTPUSERNAME=
 SMTPPASSWORD=
 FROMADDRESS=
 TOADDRESS=
-LOGFILE=/var/log/shared-backup.log
-NOTIFICATIONLOG=/tmp/shared-backup-report.log
+LOGFILE=/var/log/shared-backup-to-imac.log
+NOTIFICATIONLOG=/tmp/shared-backup-to-imac-report.log
 
 rsync -vruEthm --dry-run --delete --log-file=$LOGFILE $SHARED_DIR/ $BACKUPDRIVE/Shared/ --exclude="._*" --exclude="Downloads/" --exclude=".AppleDB*" --exclude="lost+found" || exit
 mkdir $BACKUPDRIVE/Shared/Downloads
