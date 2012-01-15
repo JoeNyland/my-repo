@@ -6,7 +6,7 @@
 SHARED_DIR=/mnt/array/Shared
 SVN=/mnt/array/svn
 MAC_BACKUP=/mnt/mac_backup
-MAC-MINI_BACKUP=/mnt/mac-mini_backup
+MAC_MINI_BACKUP=/mnt/mac-mini_backup
 _BACKUP=/mnt/_backup
 BACKUPDRIVE=/mnt/mac_backup
 SERVERBACKUPDRIVE=/mnt/usb_backup
@@ -28,10 +28,10 @@ rsync --dry-run -vruEthm --log-file=$LOGFILE $SHARED_DIR/Movies $MAC_BACKUP/Shar
 rsync --dry-run -vruEthm --log-file=$LOGFILE $SHARED_DIR/Movies/"Blu Ray Movies" $_BACKUP/Shared/Movies/"Blu Ray Movies" --exclude="._*" --exclude=".AppleDB*" --exclude="lost+found" || exit
 
 # Mac mini will take: Apps, Disc Images, Games, Music
-rsync --dry-run -vruEthm --log-file=$LOGFILE $SHARED_DIR/"Applications and Tools" $MAC-MINI_BACKUP/Shared/"Applications and Tools" --exclude="._*" --exclude=".AppleDB*" --exclude="lost+found" || exit
-rsync --dry-run -vruEthm --log-file=$LOGFILE $SHARED_DIR/"Disc Images" $MAC-MINI_BACKUP/Shared/"Disc Images" --exclude="._*" --exclude=".AppleDB*" --exclude="lost+found" || exit
-rsync --dry-run -vruEthm --log-file=$LOGFILE $SHARED_DIR/"Games" $MAC-MINI_BACKUP/Shared/"Games" --exclude="._*" --exclude=".AppleDB*" --exclude="lost+found" || exit
-rsync --dry-run -vruEthm --log-file=$LOGFILE $SHARED_DIR/"Music" $MAC-MINI_BACKUP/Shared/"Music" --exclude="._*" --exclude=".AppleDB*" --exclude="lost+found" || exit
+rsync --dry-run -vruEthm --log-file=$LOGFILE $SHARED_DIR/"Applications and Tools" $MAC_MINI_BACKUP/Shared/"Applications and Tools" --exclude="._*" --exclude=".AppleDB*" --exclude="lost+found" || exit
+rsync --dry-run -vruEthm --log-file=$LOGFILE $SHARED_DIR/"Disc Images" $MAC_MINI_BACKUP/Shared/"Disc Images" --exclude="._*" --exclude=".AppleDB*" --exclude="lost+found" || exit
+rsync --dry-run -vruEthm --log-file=$LOGFILE $SHARED_DIR/"Games" $MAC_MINI_BACKUP/Shared/"Games" --exclude="._*" --exclude=".AppleDB*" --exclude="lost+found" || exit
+rsync --dry-run -vruEthm --log-file=$LOGFILE $SHARED_DIR/"Music" $MAC_MINI_BACKUP/Shared/"Music" --exclude="._*" --exclude=".AppleDB*" --exclude="lost+found" || exit
 
 # SVN to iMac
 rsync --dry-run -vruEthm --log-file=$LOGFILE $SVN/ $MAC_BACKUP/SVN/ --exclude="._*" --exclude=".AppleDB*" || exit
