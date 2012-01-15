@@ -18,6 +18,8 @@ TOADDRESS=
 LOGFILE=/var/log/shared-backup-to-imac.log
 NOTIFICATIONLOG=/tmp/shared-backup-to-imac-report.log
 
+mkdir -p {$MAC_BACKUP/Shared/"TV Shows",$MAC_BACKUP/Shared/"Movies",$_BACKUP/Shared/Movies/"Blu Ray Movies",$MAC_MINI_BACKUP/Shared/"Applications and Tools",$MAC_MINI_BACKUP/Shared/"Disc Images",$MAC_MINI_BACKUP/Shared/"Games",$SHARED_DIR/"Music",$MAC_BACKUP/SVN/}
+
 # TV Shows to iMac
 rsync --dry-run -vruEthm --log-file=$LOGFILE $SHARED_DIR/"TV Shows" $MAC_BACKUP/Shared/"TV Shows" --exclude="._*" --exclude=".AppleDB*" --exclude="lost+found" || exit
 
