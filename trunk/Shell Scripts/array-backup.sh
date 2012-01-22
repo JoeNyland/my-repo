@@ -9,7 +9,7 @@ BACKUPDRIVE=/mnt/backup														# Where the USB backup HDD is mounted.
 SMTPSERVER=													# SMTP server address.
 SMTPUSER=															# SMTP username.
 SMTPPASS=																# SMTP password.
-FROM=`hostname -s`@.co.uk											# From address for emails.
+FROM=`hostname -s`@`hostname -d`											# From address for emails.
 TO=															# To address for emails.
 
 ############################################################################################################
