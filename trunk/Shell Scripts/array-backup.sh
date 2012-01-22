@@ -18,7 +18,7 @@ TO=															# To address for emails.
 OVER="--exclude='livetv/*'"													# MythTV specific overrides to Rsync (e.g. excluded directories).
 
 # Rsync settings
-STDSWITCHES="-vruEthm --delete -n"											# Standard Rsync switches.
+STDSWITCHES="-vruEthm --delete"												# Standard Rsync switches.
 STDEXCLUDE="--exclude='._*' --exclude='.AppleDB*' --exclude='lost+found' "	# Standard excluded files.
 
 # Logger settings
