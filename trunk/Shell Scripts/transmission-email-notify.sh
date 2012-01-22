@@ -12,7 +12,7 @@
 
 <body>
     <font face="Lucida Grande" color="#000000">
-        <h2>Transmission has completed downloading "$TR_TORRENT_NAME"</h2>
+        <h3>Transmission has completed downloading "$TR_TORRENT_NAME"</h3>
     </font>
 
     <font face="Lucida Grande" color="#000000" size="3">
