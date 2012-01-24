@@ -6,7 +6,7 @@
 # Database name
 DB=bacula
 
-# Where the script should save the MySQL backup before the 
+# Where the script should save the MySQL backup before the database is deleted. 
 BACKUPDIR=/mnt/backup/Databases
 
 
@@ -18,6 +18,16 @@ bindir=/usr/bin
 PATH="$bindir:$PATH"
 db_name=${db_name:-$DB}
 
+if touch $BACKUPDIR/$HOST/test
+then
+	rm $BACKUPDIR/$HOST/test
+else
+	echo "You do not have permission to write to the backup directory:";
+	echo $BACKUPDIR;
+	echo ;
+	echo "The script will not exit. Please re-run from a user account";
+	echo "with the neccessary privileges to write to the directory above";
+fi
 
 if mysqldump -B $DB -u $USER -p | bzip2 -qz > $BACKUPDIR/$HOST/$DB.$DATE.sql.bz2
 then
@@ -25,6 +35,7 @@ then
 else
 	echo "Failed to dump old database.";
 	echo "This script will now exit, to avoid any damage...";
+	exit 10000;
 fi
 
 if mysql -u $USER -p <<EOMYSQLDROP
