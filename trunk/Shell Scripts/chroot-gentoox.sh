@@ -5,6 +5,7 @@
 ROOTFS=$1
 MOUNT=$2
 
+echo <<EOMOTD
 ##########################################################################
 # 																		 #
 # * Welcome to the MasterRoot24 script to provide a chroot environment 	 #
@@ -13,4 +14,6 @@ MOUNT=$2
 # * You will be prompted for the necessary details below.				 #
 #																		 #
 ##########################################################################
+EOMOTD
+
 
