@@ -26,7 +26,8 @@ else
 	echo $BACKUPDIR;
 	echo ;
 	echo "The script will not exit. Please re-run from a user account";
-	echo "with the neccessary privileges to write to the directory above";
+	echo "with the neccessary privileges to write to the above directory";
+	exit 1000;
 fi
 
 echo "Please enter your MySQL password for the user $USER:"
@@ -53,7 +54,7 @@ DROP DATABASE $DB;
 CREATE DATABASE $DB;
 EOMYSQLDROP
 then
-	echo "Old Bacula database has been deleted and reinitialised successfully.";
+	echo "Old Bacula database has been deleted and a new database initialised successfully.";
 	echo "Continuing to build the Bacula database schema...";
 else
 	echo "Failed to drop the old database/Failed to create new blank database.";
