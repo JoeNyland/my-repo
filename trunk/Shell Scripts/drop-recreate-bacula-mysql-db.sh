@@ -1,12 +1,3 @@
-#############################################################################################
-#
-#	NEED TO SOURCE CONTENTS OF /usr/share/bacula-director/make_mysql_tables into this script.
-#
-#############################################################################################
-echo "Not ready yet! - Please see head of this file for more info."
-exit 1000
-#############################################################################################
-
 #!/bin/bash
 # This script was written to perform a drop and recreate of the Bacula catalog database.
 # Please change the database name ($DB) if it is not called Bacula.
@@ -43,13 +34,15 @@ CREATE DATABASE $DB;
 SHOW DATABASES;
 EOMYSQLDROP
 then
-	echo "Old Bacula database has been deleted and reinititalised successfully.";
-	echo "Continuing to build the Bacula database schema.";
+	echo "Old Bacula database has been deleted and reinitialised successfully.";
+	echo "Continuing to build the Bacula database schema...";
 else
 	echo "Failed to drop the old database/Failed to create new blank database.";
 	exit 1000;
 fi
-	
+
+# The code below was taken from /usr/share/bacula-director/make_mysql_tables which was
+# from Bacula 5.0.1 Ubuntu package.
 if mysql -f -u $USER -p <<EOMYSQLINSERT
 USE ${db_name};
 --
