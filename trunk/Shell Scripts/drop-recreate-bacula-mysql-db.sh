@@ -29,7 +29,17 @@ else
 	echo "with the neccessary privileges to write to the directory above";
 fi
 
-if mysqldump -B $DB -u $USER -p | bzip2 -qz > $BACKUPDIR/$HOST/$DB.$DATE.sql.bz2
+echo "Please enter your MySQL password for the user $USER:"
+if read -s -t 30 PASS
+then
+	echo "Proceeding to backup existing database...";
+else
+	echo "You appear to have entered an invalid password";
+	echo "This script will now exit...";
+	exit 1000;
+fi
+
+if mysqldump -B $DB -u $USER --password=$PASS | bzip2 -qz > $BACKUPDIR/$HOST/$DB.$DATE.sql.bz2
 then
 	echo "Old database backed up successfully to: $BACKUPDIR/$HOST/$DB.$DATE.sql.bz2"
 else
@@ -38,11 +48,9 @@ else
 	exit 10000;
 fi
 
-if mysql -u $USER -p <<EOMYSQLDROP
-SHOW DATABASES;
+if mysql -u $USER --password=$PASS <<EOMYSQLDROP
 DROP DATABASE $DB;
 CREATE DATABASE $DB;
-SHOW DATABASES;
 EOMYSQLDROP
 then
 	echo "Old Bacula database has been deleted and reinitialised successfully.";
@@ -54,7 +62,7 @@ fi
 
 # The code below was taken from /usr/share/bacula-director/make_mysql_tables which was
 # from Bacula 5.0.1 Ubuntu package.
-if mysql -f -u $USER -p <<EOMYSQLINSERT
+if mysql -f -u $USER --password=$PASS <<EOMYSQLINSERT
 USE ${db_name};
 --
 -- Note, we use BLOB rather than TEXT because in MySQL,
