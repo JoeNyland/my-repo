@@ -7,12 +7,12 @@ MOUNT=$2
 
 echo <<EOMOTD
 ##########################################################################
-# 																		 #
+# 									 #
 # * Welcome to the MasterRoot24 script to provide a chroot environment 	 #
-#   for Gentoox rootfs file.											 #
-#																		 #
-# * You will be prompted for the necessary details below.				 #
-#																		 #
+#   for Gentoox rootfs file.					         #
+#									 #
+# * You will be prompted for the necessary details below.		 #
+#									 #
 ##########################################################################
 EOMOTD
 
