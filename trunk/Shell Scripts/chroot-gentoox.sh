@@ -8,24 +8,43 @@ MOUNT=$2
 SCRIPTNAME=`basename $0`
 
 cat <<EOWELC
-##########################################################################
-#                                                                        #
-# * Welcome to the MasterRoot24 script to provide a chroot environment   #
-#   for Gentoox rootfs file.                                             #
-#                                                                        #
-# * You will be prompted for the necessary details below.                #
-#                                                                        #
-##########################################################################
+
+###########################################################################
+#                                                                         #
+#  * Welcome to the MasterRoot24 script to provide a chroot environment   #
+#    for Gentoox rootfs file.                                             #
+#                                                                         #
+#  * You will be prompted for the necessary details below.                #
+#                                                                         #
+###########################################################################
 EOWELC
 
-if [ $1 -f ]; then
-	echo "You have selected $1 as the Gentoox rootfs to chroot into.";
+if [ -f $1 ]; then
+	echo "
+You have selected $ROOTFS as the Gentoox rootfs to chroot into.";
 else
-	echo "You have selected an invalid Gentoox rootfs file to chroot into.";
-	echo "Please re-run the script, with the following syntax:";
-	echo ;
+	echo "You have selected an invalid Gentoox rootfs file to chroot into.
+Please re-run the script, with the following syntax:
+";
 cat <<EOSYNTAX
 $SCRIPTNAME [Gentoox_rootfs] [mount_point]
+
 EOSYNTAX
+exit 1000;
+fi
+
+if [ -d $2 ]; then
+	echo "
+You have selected $MOUNT as the location where the Gentoox chroot
+environment will be mounted.";
+else
+	echo "You have selected an invalid mount point.
+Please re-run the script, with the following syntax:
+";
+cat <<EOSYNTAX
+$SCRIPTNAME [Gentoox_rootfs] [mount_point]
+
+EOSYNTAX
+exit 1000;
 fi
 
