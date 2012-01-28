@@ -86,32 +86,36 @@ fi
 echo "Please confirm the following:"
 echo ;
 echo "You have selected $ROOTFS as the Gentoox rootfs to chroot into.";
-read -t $TIMEOUT -n 1 -p "Is this correct? [y/n]" ROOTFSCONF
-if [[ $ROOTFSCONF == "y" || $ROOTFSCONF == "Y" ]]; then
-	echo ;
-else
-	
-	
-	echo;
-	echo "Script cancelled"
-	exit 1005
-fi
+read -n 1 -t 30 -p "Is this correct? [y/n]" ROOTFSCONF
+case "$ROOTFSCONF" in
+  y|Y|yes|Yes ) echo;;
+  n|N|no|No ) echo
+        echo "Script cancelled."
+        exit 1005;;
+  * ) echo
+	echo "[ERROR]"
+  	echo "Please try the script again, answering y = yes or n = no."
+  	echo "Script cancelled."
+	exit 1005;;
+esac
 
+echo
 #	Check with the user if the specified mount point is correct.
 echo "You have selected $MOUNT as the location where the Gentoox chroot environment will be mounted.";
-read -t $TIMEOUT -n 1 -p "Is this correct? [y/n]" -n 1 MOUNTPCONF
-if [[ $MOUNTPCONF == "y" || $MOUNTPCONF == "Y" ]]; then
-		echo ;
-		echo "Ok, proceeding with the script...";
-else
-		
-		
-		echo ;
-		echo "Script cancelled"
-		exit 1005
-fi
+read -n 1 -t 30 -p "Is this correct? [y/n]" MOUNTPCONF
+case "$MOUNTPCONF" in
+  y|Y|yes|Yes ) echo;;
+  n|N|no|No ) echo
+        echo "Script cancelled."
+        exit 1005;;
+  * ) echo
+	echo "[ERROR]"
+  	echo "Please try the script again, answering y = yes or n = no."
+  	echo "Script cancelled."
+	exit 1005;;
+esac
 
-
+echo
 #
 #	Logger
 #
