@@ -210,11 +210,18 @@ else
 	exit 1012;
 fi
 
-##	Perform chroot operation.
-#chroot $MOUNT /bin/bash
-#env-update
-#source /etc/profile
-#export PS1="(chroot-gentoox) $PS1"
+#	Install setup script intp chroot environment.
+touch $MOUNT/tmp/$SCRIPTNAME-setup.sh
+cat > $MOUNT/tmp/$SCRIPTNAME-setup.sh <<EOSETUP
+#!/bin/bash
+env-update
+source /etc/profile
+/bin/bash
+EOSETUP
+chmod +x $MOUNT/tmp/$SCRIPTNAME-setup.sh
+
+#	Perform chroot operation.
+chroot $MOUNT /tmp/$SCRIPTNAME-setup.sh
 
 #	Exit chroot environment.
 echo 
@@ -224,26 +231,37 @@ case "$UNMOUNTFS" in
   y|Y|yes|Yes ) 
   echo "Starting umount of chroot filesystems" | logger $LOGGER
   cd
+  
+  if rm -rfv $MOUNT/tmp/$SCRIPTNAME-setup.sh > /dev/null
+  then
+  	echo "$MOUNT/tmp/$SCRIPTNAME-setup.sh successfully uninstalled successfully" | logger $LOGGER
+  else
+  	echo "[ERROR]: Failed to uninstall $MOUNT/tmp/$SCRIPTNAME-setup.sh" | logger $LOGGER
+  fi
+  	
   if umount -l $MOUNT/dev{/shm,/pts,}
   then
   	echo "$MOUNT/dev unmounted successfully." | logger $LOGGER
   else
-  	echo "$MOUNT/dev failed to unmount successfully." | logger $LOGGER
+  	echo "[ERROR]: $MOUNT/dev failed to unmount successfully." | logger $LOGGER
   fi
+  
   if umount -l $MOUNT/proc
   then
   	echo "$MOUNT/proc unmounted successfully." | logger $LOGGER
   else
-  	echo "$MOUNT/proc failed to unmount successfully." | logger $LOGGER
+  	echo "[ERROR]: $MOUNT/proc failed to unmount successfully." | logger $LOGGER
   fi
+  
   if umount -l $MOUNT
   then
   	echo "$MOUNT unmounted successfully." | logger $LOGGER
   else
-  	echo "$MOUNT failed to unmount successfully." | logger $LOGGER
+  	echo "[ERROR]: $MOUNT failed to unmount successfully." | logger $LOGGER
   	echo "Exit with error" | logger $LOGGER
   	exit 1013
   fi
+  
   echo 
   echo "All filesystems successfully umounted." | logger -s $LOGGER
   echo Exit | logger $LOGGER
