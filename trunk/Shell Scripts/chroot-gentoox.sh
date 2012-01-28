@@ -2,13 +2,6 @@
 # Script to automate chrooting into Gentoox rootfs from another Linux PC.
 # Created by Joe Nyland on 17/01/2012
 
-#
-#	Need to setup so that the script can be run like
-#	init script (chroot-gentoox.sh [start/exit/status]) (if possible).
-#
-#	Need option to create mount point, if it does not already exist.
-#
-
 ROOTFS=`readlink -f "$1"`
 MOUNT=`readlink -f "$2"`
 SCRIPTNAME=`basename $0`
