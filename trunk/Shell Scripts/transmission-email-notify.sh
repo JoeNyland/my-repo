@@ -14,7 +14,8 @@
 		}
 		
 		body {
-			font: 80% "lucida grande", Tahoma, Verdana, Arial, Helvetica, sans-serif; /* Resets 1em to 10px */
+			font: 100% "lucida grande", Tahoma, Verdana, Arial, Helvetica, sans-serif; /* Resets 1em to 10px */
+			font-size: medium;
 			color: #222;/* !important; */
 			background: #FFF;
 			text-align: left;
