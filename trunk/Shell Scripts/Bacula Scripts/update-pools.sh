@@ -10,7 +10,7 @@
 # 
 #
 
-$BACULADIR=`which bacula-dir`
+BACULADIR=`which bacula-dir`
 
 $BACULADIR << EOPFR
 update
