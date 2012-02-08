@@ -13,9 +13,25 @@
 $BACULADIR=`which bacula-dir`
 
 $BACULADIR << EOPFR
-
+update
+2
+43
+update
+2
+44
+update
+2
+45
+quit
 EOPFR
 
 $BACULADIR << EOVP
-
+update
+1
+14
+quit
 EOVP
+
+#$BACULADIR << EOREC
+#
+#EOREC
