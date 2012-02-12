@@ -5,7 +5,7 @@
 PUBLICMIRROR=rsync://rsync.uk.gentoo.org
 LOCALTREE=/mnt/array/portage-mirror
 
-rsync -hav $PUBLICMIRROR/gentoo-portage $LOCALTREE
+rsync -hav --delete --delete-after $PUBLICMIRROR/gentoo-portage $LOCALTREE
 
 if [ $? -eq 0 ]; then
 	#rsync completed sucessfully
