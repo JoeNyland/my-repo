@@ -68,7 +68,7 @@ sendemail -f $FROM -t $TO -s $SMTPSERVER -o username=$SMTPUSER -o password=$SMTP
 		`echo $SRC` --> `echo $DST`</br>
 		</p>
 		
-		If you require more information on the backup, please run the following command from :</br>
+		<p>If you require more information on the backup, please run the following command from :</p>
 		<div class="terminal">tail /var/log/syslog --lines=100 | grep $SRCDIR-backup</div>
 	</BODY>
 </HTML>
