@@ -86,7 +86,7 @@ Incremental)
 	# INCREMENTAL BACKUP
 	# If binary transaction logging is enabled in ${MYSQLCONF}, then the script will copy the transaction logs from ${BINLOGDIR} to ${DST}, ready to be backed up.
 	echo "Incremental MySQL backup selected for ${HOST}";
-	if grep "log_bin" ${MYSQLCONF} | egrep -v '^(#|$)' | grep "${BINLOGDIR}/${BINLOGPREFIX}" # If this returns 0, then binary logging appears to be enabled for MySQL.
+	if grep "log_bin" ${MYSQLCONF} | egrep -v '^(#|$)' | grep "${BINLOGDIR}/${BINLOGPREFIX}" > /dev/null # If this returns 0, then binary logging appears to be enabled for MySQL.
 	then
 		echo "Flushing transaction logs for MySQL databases on ${HOST} to prepare for backup."
 		mysqladmin flush-logs -u ${DBUSER} -p${DBPASS}; # Flushes the current logs, so that MySQL closes it's current file cleanly, then starts writing any new transactions to a new log file.
