@@ -22,6 +22,8 @@ if [[ "$2" == "cleanup" ]]; then
 			echo "Removed temporary files from ${DST}";
 			if [[ "$1" == "Full" ]]; then
 				echo "Performed a full backup of the databases on ${HOST}, so we can truncate the transaction logs.";
+				DBUSER=$3
+				DBPASS=$4
 				if echo "RESET MASTER" | mysql -u ${DBUSER} -p${DBPASS}
 					then
 						echo "Successfully truncated the transaction logs.";
