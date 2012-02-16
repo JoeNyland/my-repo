@@ -15,15 +15,17 @@ IGNREG='information_schema'
 SCRIPTNAME=`basename $0`
 HOST=`hostname -s`
 
-if [[ "$2" == "cleanup" ]]; then
+LEVEL=$1
+DBUSER=$2
+DBPASS=$3
+
+if [[ "$4" == "cleanup" ]]; then
 	if [[ -d ${DST} ]]; then
 		echo "Cleaning up files.";
 		if rm -rf $DST; then
 			echo "Removed temporary files from ${DST}";
-			if [[ "$1" == "Full" ]]; then
+			if [[ "$LEVEL" == "Full" ]]; then
 				echo "Performed a full backup of the databases on ${HOST}, so we can truncate the transaction logs.";
-				DBUSER=$3
-				DBPASS=$4
 				if echo "RESET MASTER" | mysql -u ${DBUSER} -p${DBPASS}
 					then
 						echo "Successfully truncated the transaction logs.";
@@ -40,16 +42,12 @@ if [[ "$2" == "cleanup" ]]; then
 	exit 0;
 fi
 
-LEVEL=$1
-DBUSER=$2
-DBPASS=$3
-
 if [ -z "$DBUSER" -o -z "$DBPASS" ]; then
 	echo "[ERROR]";
 	echo "You have not provided the required information to the script.";
 	echo "Please use the following syntax: $SCRIPTNAME [Level] [MySQL_User] [MySQL_Password]";
 	echo "Or:";
-	echo "$SCRIPTNAME cleanup";
+	echo "$SCRIPTNAME [Level] [MySQL_User] [MySQL_Password] cleanup";
 	exit 1000;
 fi
 
@@ -104,7 +102,7 @@ Incremental)
 	echo "You have not specified the backup level variable in the client-run-before-job resource definition."
 	echo "Please use the following syntax: $SCRIPTNAME [Level] [MySQL_User] [MySQL_Password]";
 	echo "Or:";
-	echo "$SCRIPTNAME cleanup";
+	echo "$SCRIPTNAME [Level] [MySQL_User] [MySQL_Password] cleanup";
 	exit 1005;;
 esac
 
