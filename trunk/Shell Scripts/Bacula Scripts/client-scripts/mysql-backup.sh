@@ -15,11 +15,22 @@ IGNREG='information_schema'
 SCRIPTNAME=`basename $0`
 HOST=`hostname -s`
 
-if [[ "$1" == "cleanup" ]]; then
+if [[ "$2" == "cleanup" ]]; then
 	if [[ -d ${DST} ]]; then
 		echo "Cleaning up files.";
 		if rm -rf $DST; then
 			echo "Removed temporary files from ${DST}";
+			if [[ "$1" == "Full" ]]; then
+				echo "Performed a full backup of the databases on ${HOST}, so we can truncate the transaction logs.";
+				if echo "RESET MASTER" | mysql -u ${DBUSER} -p${DBPASS}
+					then
+						echo "Successfully truncated the transaction logs.";
+					else
+						echo "[WARNING]";
+						echo "FAILED to truncate transaction log files from ${BINLOGDIR}";
+						echo "As this is not a fatal error, the backup will proceed";
+				fi
+			fi
 		fi
 	else
 		echo "No files to be cleaned.";
