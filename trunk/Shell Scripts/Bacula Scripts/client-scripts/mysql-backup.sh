@@ -55,7 +55,7 @@ Full|Differential)
 	then
 		for db in $(echo 'show databases;' | mysql -s -u ${DBUSER} -p${DBPASS} | egrep -v ${IGNREG}) ; do
 				echo "Performing full backup of MySQL database ${db} from $HOST... "
-				if mysqldump --single-transaction --opt -u ${DBUSER} -p${DBPASS} ${db} | bzip2 -c > ${DST}/${HOST}_${db}.sql.bz2
+				if mysqldump --single-transaction --opt -u ${DBUSER} -p${DBPASS} ${db} > ${DST}/${HOST}_${db}.sql.dmp
 				then
 					echo "Completed full backup of MySQL database ${db} from $HOST.";
 				else
