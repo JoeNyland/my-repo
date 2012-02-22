@@ -85,6 +85,7 @@ Incremental)
 		echo "There seems to have been an error backing up the database(s).";
 		echo "Please review the logged messages above.";
 		exit 1007;
+		fi;
 	else
 		echo "[ERROR]";
 		echo "MySQL binary transaction logging does not appear to have been enabled in ${MYSQLCONF}.";
