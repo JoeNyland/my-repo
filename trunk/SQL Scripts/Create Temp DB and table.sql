@@ -8,13 +8,17 @@ USE `test`; -- Connect to the database.
 
 CREATE TABLE IF NOT EXISTS `test_table` (
 id INT(10) NOT NULL AUTO_INCREMENT,
-mytext VARCHAR(10),
+date VARCHAR(10),
 PRIMARY KEY (id)
 ); -- Create a test table.
 
-INSERT INTO `test_table` (`mytext`)
+INSERT INTO `test_table` (`date`)
 VALUES
-	('test'); -- Insert a new row, with the mytext field set to test.
+        (NOW()),
+        (NOW()),
+        (NOW()),
+        (NOW()),
+        (NOW()); -- Insert a new row, with the mytext field set to test.
 
 FLUSH LOGS; -- Flush the binary logs and force MySQL to start a new transaction logs
 
