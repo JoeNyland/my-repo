@@ -15,8 +15,8 @@ LEVEL=$1
 DBUSER=$2
 DBPASS=$3
 
-DATE=`date +%d%m%Y`
-TIME=`date +%H%M`
+DATE=`date +%d-%m-%Y`
+TIME=`date +%H-%M`
 
 if [[ "$4" == "cleanup" ]]; then
 	if [[ -d ${DST} ]]; then
