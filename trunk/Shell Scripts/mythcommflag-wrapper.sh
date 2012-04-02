@@ -7,7 +7,7 @@ MAXCOMMBREAKSECS=400
 # than the actual final frame, so subtract $ENDFUDGEFRAMES from the value mytharchivehelper returns
 ENDFUDGEFRAMES=75
 # -70dB and minimum of 0.15s to be considered 'silent'
-MP3SPLT_OPTS="th=-70,min=0.15"
+MP3SPLT_OPTS="th=-70,min=0.25"
 # Log file
 LOGFILE="/var/log/mythtv/mythcommflag-wrapper"
 # Copy commercial skiplist to cutlist automatically? 1=Enabled
@@ -149,6 +149,8 @@ else
 			mysql -h${MYTHHOST} -u${MYTHUSER} -p${MYTHPASS} -e "update jobqueue set status=272, comment='Finished (Successfully completed). There were $BREAKS break(s) found in the recording.' where id=$JOB;" ${MYTHDB}			
 			if [ $COPYTOCUTLIST -eq 1 ]; then
 			mythutil --gencutlist --chanid $CHANID --starttime ${STARTTIME}
+# echo >>$LOGFILE "CHANID = $CHANID"
+# echo >>$LOGFILE "STARTTIME = ${STARTTIME}"
 				RC=$?
 				if [ $RC -eq 0 ]; then
 					echo >>$LOGFILE "mythutil --gencutlist successfully copied skip list to cut list"
