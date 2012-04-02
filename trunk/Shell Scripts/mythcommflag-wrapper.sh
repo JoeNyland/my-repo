@@ -132,6 +132,7 @@ else
 	if [ "$CALLSIGN" = "FIVE USA" -o "$CALLSIGN" = "FIVE" -o "$CALLSIGN" = "Channel 4" -o "$CALLSIGN" = "Channel 4+1" -o "$CALLSIGN" = "More 4" -o "$CALLSIGN" = "E4" -o "$CALLSIGN" = "E4+1" -o "$CALLSIGN" = "Film4" -o "$CALLSIGN" = "ITV1" -o "$CALLSIGN" = "ITV1 +1" -o "$CALLSIGN" = "ITV2" -o "$CALLSIGN" = "ITV2 +1" -o "$CALLSIGN" = "ITV3" -o "$CALLSIGN" = "ITV4" -o "$CALLSIGN" = "Dave" -o "$CALLSIGN" = "Dave ja vu" ]; then	
 		echo >>$LOGFILE "Callsign in whitelist - will run silence_detect"		
 		mysql -h${MYTHHOST} -u${MYTHUSER} -p${MYTHPASS} -e "update recorded set commflagged=2 where chanid=$CHANID and starttime='${STARTTIME}';" $MYTHDB
+		mysql -h${MYTHHOST} -u${MYTHUSER} -p${MYTHPASS} -e "update jobqueue set status=4, comment='MythCommflag is currently flagging commercials on this recording.' where id=$JOB;" ${MYTHDB}
 		CUTLIST=""
 		echo >>$LOGFILE "silence_detect $FILENAME"
 		silence_detect $FILENAME
@@ -145,14 +146,14 @@ else
 		echo >>$LOGFILE "mysql setskiplist returned $RC"
 		if [ $RC -eq 0 ]; then
 			mysql -h${MYTHHOST} -u${MYTHUSER} -p${MYTHPASS} -e "update recorded set commflagged=1 where chanid=$CHANID and starttime='${STARTTIME}';" ${MYTHDB}
-			mysql -h${MYTHHOST} -u${MYTHUSER} -p${MYTHPASS} -e "update jobqueue set status=272, comment='Finished, $BREAKS break(s) found.' where id=$JOB;" ${MYTHDB}			
+			mysql -h${MYTHHOST} -u${MYTHUSER} -p${MYTHPASS} -e "update jobqueue set status=272, comment='Finished (Successfully completed). There were $BREAKS break(s) found in the recording.' where id=$JOB;" ${MYTHDB}			
 			if [ $COPYTOCUTLIST -eq 1 ]; then
-				mythcommflag --gencutlist -f $FILENAME
+			mythutil --gencutlist --chanid $CHANID --starttime ${STARTTIME}
 				RC=$?
 				if [ $RC -eq 0 ]; then
-					echo >>$LOGFILE "mythcommflag --gencutlist successfully copied skip list to cut list"
+					echo >>$LOGFILE "mythutil --gencutlist successfully copied skip list to cut list"
 				else
-					echo >>$LOGFILE "mythcommflag --gencutlist failed, returned $RC"		
+					echo >>$LOGFILE "mythutil --gencutlist failed, returned $RC"		
 				fi
 			fi			
 		else
