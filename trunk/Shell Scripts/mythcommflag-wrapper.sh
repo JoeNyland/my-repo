@@ -165,7 +165,7 @@ else
 			fi			
 		else
 			echo >>$LOGFILE "mythcommflag failed; returned $RC"
-#### NEED TO CHANGE THIS
+#### NEED TO CHANGE THIS - we don't want jobs which have already been flagged/cut list set being set to not flagged/cut list, just becasue this job has been run again.
 			mysql -h${MYTHHOST} -u${MYTHUSER} -p${MYTHPASS} -e "update recorded set commflagged=0 where chanid=$CHANID and starttime='${STARTTIME}';" ${MYTHDB}
 		fi		
 	else
