@@ -1,5 +1,10 @@
 #!/bin/bash
 
+###
+#	NEED TO SORT OUT LOG FILE
+###
+
+
 # edit/tune these #
 # Allow ad breaks to be upto 400s long by coalescing non-silence
 MAXCOMMBREAKSECS=400
@@ -149,7 +154,7 @@ else
 			mysql -h${MYTHHOST} -u${MYTHUSER} -p${MYTHPASS} -e "update recorded set commflagged=1 where chanid=$CHANID and starttime='${STARTTIME}';" ${MYTHDB}
 			mysql -h${MYTHHOST} -u${MYTHUSER} -p${MYTHPASS} -e "update jobqueue set status=272, comment='Finished (Successfully completed). There were $BREAKS break(s) found in the recording.' where id=$JOB;" ${MYTHDB}			
 			if [ $COPYTOCUTLIST -eq 1 ]; then
-			echo "mythutilstarttime is ${MYTHUTILSTARTTIME}"
+			echo >>$LOGFILE "mythutilstarttime is ${MYTHUTILSTARTTIME}"
 			mythutil --gencutlist --chanid $CHANID --starttime ${MYTHUTILSTARTTIME}
 				RC=$?
 				if [ $RC -eq 0 ]; then
@@ -160,6 +165,7 @@ else
 			fi			
 		else
 			echo >>$LOGFILE "mythcommflag failed; returned $RC"
+#### NEED TO CHANGE THIS
 			mysql -h${MYTHHOST} -u${MYTHUSER} -p${MYTHPASS} -e "update recorded set commflagged=0 where chanid=$CHANID and starttime='${STARTTIME}';" ${MYTHDB}
 		fi		
 	else
