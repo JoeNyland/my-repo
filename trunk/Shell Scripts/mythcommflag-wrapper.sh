@@ -116,6 +116,7 @@ else
 	CALLSIGN=`mysql -h${MYTHHOST} -u${MYTHUSER} -p${MYTHPASS} -e "select channel.callsign from channel join jobqueue where jobqueue.id=$JOB and jobqueue.chanid=channel.chanid;" $MYTHDB | tail -n +2`
 	CHANID=`mysql -h${MYTHHOST} -u${MYTHUSER} -p${MYTHPASS} -e "select chanid from jobqueue where jobqueue.id=$JOB;" $MYTHDB | tail -n +2`	
 	STARTTIME=`mysql -h${MYTHHOST} -u${MYTHUSER} -p${MYTHPASS} -e "select starttime from jobqueue where jobqueue.id=$JOB;" $MYTHDB | tail -n +2`
+	MYTHUTILSTARTTIME=`echo ${STARTTIME} | sed -e 's/-//g' | sed -e 's/://g' | sed -e 's/ //g'`
 	echo >>$LOGFILE "channel callsign is $CALLSIGN"
 	echo >>$LOGFILE "chanid=$CHANID STARTTIME=$STARTTIME"
 	BASENAME=`mysql -h${MYTHHOST} -u${MYTHUSER} -p${MYTHPASS} -e "select recorded.basename from recorded join jobqueue where jobqueue.id=$JOB and jobqueue.chanid=recorded.chanid and jobqueue.starttime=recorded.starttime;" $MYTHDB | tail -n +2`	
@@ -148,9 +149,8 @@ else
 			mysql -h${MYTHHOST} -u${MYTHUSER} -p${MYTHPASS} -e "update recorded set commflagged=1 where chanid=$CHANID and starttime='${STARTTIME}';" ${MYTHDB}
 			mysql -h${MYTHHOST} -u${MYTHUSER} -p${MYTHPASS} -e "update jobqueue set status=272, comment='Finished (Successfully completed). There were $BREAKS break(s) found in the recording.' where id=$JOB;" ${MYTHDB}			
 			if [ $COPYTOCUTLIST -eq 1 ]; then
-			mythutil --gencutlist --chanid $CHANID --starttime ${STARTTIME}
-# echo >>$LOGFILE "CHANID = $CHANID"
-# echo >>$LOGFILE "STARTTIME = ${STARTTIME}"
+			echo "mythutilstarttime is ${MYTHUTILSTARTTIME}"
+			mythutil --gencutlist --chanid $CHANID --starttime ${MYTHUTILSTARTTIME}
 				RC=$?
 				if [ $RC -eq 0 ]; then
 					echo >>$LOGFILE "mythutil --gencutlist successfully copied skip list to cut list"
