@@ -69,7 +69,7 @@ sendemail -f $FROM -t $TO -s $SMTPSERVER -o username=$SMTPUSER -o password=$SMTP
 		</p>
 		
 		<p>If you require more information on the backup, please run the following command from :</p>
-		<div class="terminal">tail /var/log/syslog --lines=100 | grep $SRCDIR-backup</div>
+		<div class="terminal">grep $SRCDIR-backup /var/log/syslog | tail --lines=100</div>
 	</BODY>
 </HTML>
 EOFBODY
@@ -92,8 +92,7 @@ sendemail -f $FROM -t $TO -s $SMTPSERVER -o username=$SMTPUSER -o password=$SMTP
 		<p>The Rsync cron job to synchronise $SRCDIR files from your RAID array to your USB backup HDD failed with one or more errors.</p>
 		
 		<p>If you require more information on the backup, please run the following command from :</p>
-		<div class="terminal">tail /var/log/syslog --lines=100 | grep $SRCDIR-backup</div>
-		
+		<div class="terminal">grep $SRCDIR-backup /var/log/syslog | tail --lines=100</div>		
 	</BODY>
 </HTML>
 EOFBODY
