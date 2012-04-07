@@ -1,6 +1,8 @@
 #!/bin/bash
 
-$1=RECGROUP
-$2=TITLE
+RECGROUP=$1
+TITLE=$2
+MYTHUTIL=`which mythutil`
 
 rm -rfv /var/lib/mythtv/videos/${RECGROUP}/${TITLE}*
+${MYTHUTIL} --scanvideos
