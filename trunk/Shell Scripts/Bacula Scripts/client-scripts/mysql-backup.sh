@@ -55,7 +55,7 @@ Full|Differential)
 	if echo 'show databases;' | mysql -s -u ${DBUSER} -p${DBPASS} >/dev/null
 	then
 		echo "Performing full backup of MySQL databases from $HOST... "
-				if mysqldump --all-databases -u ${DBUSER} -p${DBPASS} --delete-master-logs --master-data=1 --flush-logs > ${DST}/${HOST}_${DATE}_${TIME}.sql.dmp
+				if mysqldump --all-databases -u ${DBUSER} -p${DBPASS} --master-data --delete-master-logs --flush-logs > ${DST}/${HOST}_${DATE}_${TIME}.sql.dmp
 				then
 					echo "Completed full backup of MySQL databases from $HOST.";
 				else
