@@ -6,11 +6,11 @@ ARRAY=/mnt/array															# Where the RAID array is mounted.
 BACKUPDRIVE=/mnt/backup														# Where the USB backup HDD is mounted.
 
 # Email settings
-SMTPSERVER=													# SMTP server address.
-SMTPUSER=															# SMTP username.
-SMTPPASS=																# SMTP password.
+SMTPSERVER=mail											# SMTP server address.
+SMTPUSER=																	# SMTP username.
+SMTPPASS=																	# SMTP password.
 FROM=`hostname -s`@`hostname -d`											# From address for emails.
-TO=															# To address for emails.
+TO=												# To address for emails.
 
 ############################################################################################################
 
