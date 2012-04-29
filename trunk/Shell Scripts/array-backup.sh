@@ -48,7 +48,7 @@ LOGGERTAG=" -t $SRCDIR-backup"
 rsync $STDSWITCHES $SRC/ $DST/ $STDEXCLUDE $OVER | logger $STDLOGGER $LOGGERTAG
 
 if [ $PIPESTATUS = 0 ]; then
-sendemail -f $FROM -t $TO -s $SMTPSERVER -o username=$SMTPUSER -o password=$SMTPPASS -u "$SRCDIR sync successful on `hostname -f`" <<EOFBODY
+sendemail -f $FROM -t $TO -s $SMTPSERVER -o username=$SMTPUSER -o password=$SMTPPASS -u "$SRCDIR backup successful on `hostname -f`" <<EOFBODY
 <HTML>
 	<HEAD>
 		<style type="text/css">
@@ -74,7 +74,7 @@ sendemail -f $FROM -t $TO -s $SMTPSERVER -o username=$SMTPUSER -o password=$SMTP
 </HTML>
 EOFBODY
 else
-sendemail -f $FROM -t $TO -s $SMTPSERVER -o username=$SMTPUSER -o password=$SMTPPASS -u "$SRCDIR sync FAILURE for `hostname -f`" <<EOFBODY
+sendemail -f $FROM -t $TO -s $SMTPSERVER -o username=$SMTPUSER -o password=$SMTPPASS -u "$SRCDIR backup FAILURE for `hostname -f`" <<EOFBODY
 <HTML>
 	<HEAD>
 		<style type="text/css">
