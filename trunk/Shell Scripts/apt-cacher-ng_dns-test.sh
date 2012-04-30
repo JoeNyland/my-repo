@@ -1,6 +1,6 @@
 #!/bin/bash
-LOG=${HOME}/apt-cacher-ng_dns-test.log
-APT-CACHER-NG_MAINT=/etc/cron.daily/apt-cacher-ng
+LOG="${HOME}/apt-cacher-ng_dns-test.log"
+APTCACHERNG_MAINT="/etc/cron.daily/apt-cacher-ng"
 
 QUERY1="www.google.co.uk"
 QUERY2="repo.yaffas.org"
@@ -8,7 +8,7 @@ QUERY3="packages.vmware.com"
 QUERY4="archive.canonical.com"
 
 # Test script setup to run some DNS queries around the apt-cacher-ng maintenance script to help diagnose DNS issues when this is run from cron.
-echo "apt-cacher-ng Diagnostic script started `date %c`" >> ${LOG}
+echo "apt-cacher-ng Diagnostic script started `date`" >> ${LOG}
 
 # First DNS query (before apt-cacher-ng maintenance is run)
 echo "Starting preliminary DNS query checks." >> ${LOG}
@@ -43,7 +43,7 @@ echo "" >> ${LOG}
 
 # Call the apt-cacher-ng maintenance job
 echo "Calling ${APT-CACHER-NG_MAINT}..." >> ${LOG}
-bash ${APT-CACHER-NG_MAINT} >> ${LOG}
+bash ${APTCACHERNG_MAINT} >> ${LOG}
 
 
 # Second DNS query (after apt-cacher-ng maintenance is run)
@@ -76,4 +76,4 @@ dig @8.8.8.8 ${QUERY4} any >> ${LOG}
 echo "" >> ${LOG}
 # End second query
 
-echo "apt-cacher-ng Diagnostic script finished `date %c`" >> ${LOG}
+echo "apt-cacher-ng Diagnostic script finished `date`" >> ${LOG}
