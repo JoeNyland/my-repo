@@ -43,8 +43,12 @@ echo "" >> ${LOG}
 
 # Call the apt-cacher-ng maintenance job
 echo "Calling ${APT-CACHER-NG_MAINT}..." >> ${LOG}
-bash ${APTCACHERNG_MAINT} >> ${LOG}
-
+if bash ${APTCACHERNG_MAINT} >> ${LOG}
+then
+	echo "Finished execuing ${APT-CACHER-NG_MAINT}." >> ${LOG}
+else
+	echo "An error occured whilst execuing ${APT-CACHER-NG_MAINT}. The exit code $? was given." >> ${LOG}
+fi
 
 # Second DNS query (after apt-cacher-ng maintenance is run)
  echo "Starting final DNS query checks." >> ${LOG}
