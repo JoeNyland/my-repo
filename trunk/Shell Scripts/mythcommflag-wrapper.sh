@@ -1,8 +1,6 @@
 ######################################
 #	TO DO
 #
-#	- Need to sort out log file
-#	- Need to check for script dependencies
 #	- Catalog exit codes
 #	- Script syntax summary
 #
@@ -41,6 +39,7 @@ ENDFUDGEFRAMES=75
 MP3SPLT_OPTS="th=-70,min=0.25"
 
 # Log file
+# Note: this file must be writable by the mythtv user.
 LOGFILE="/var/log/mythtv/mythcommflag-wrapper"
 
 # Copy commercial skiplist to cutlist
@@ -55,33 +54,33 @@ COPYTOCUTLIST=1
 if command -v mytharchivehelper
 then
 	MAH=`which mytharchivehelper` 
-	echo "mytharchivehelper found at ${MAH}"
+	echo >>$LOGFILE "mytharchivehelper found at ${MAH}"
 else
-	echo "mytharchivehelper not found."
-	echo "Please install mytharchive from your package manager or edit your configure options for MythTV and rebuild."
-	exit 1
+	echo >>$LOGFILE "mytharchivehelper not found."
+	echo >>$LOGFILE "Please install mytharchive from your package manager or edit your configure options for MythTV and rebuild."
+	exit 10
 fi
 
 # ffmpeg
 if command -v ffmpeg
 then
 	FFMPEG_PATH=`which ffmpeg` 
-	echo "ffmpeg found at ${FFMPEG_PATH}"
+	echo >>$LOGFILE "ffmpeg found at ${FFMPEG_PATH}"
 else
-	echo "ffmpeg not found."
-	echo "Please install ffmpeg from your package manager."
-	exit 1
+	echo >>$LOGFILE "ffmpeg not found."
+	echo >>$LOGFILE "Please install ffmpeg from your package manager."
+	exit 11
 fi
 
 # mp3splt
 if command -v mp3splt
 then
 	MP3SLT_PATH=`which mp3splt` 
-	echo "mp3splt found at ${MP3SLT_PATH}"
+	echo >>$LOGFILE "mp3splt found at ${MP3SLT_PATH}"
 else
-	echo "mp3splt not found."
-	echo "Please install mp3splt from your package manager."
-	exit 1
+	echo >>$LOGFILE "mp3splt not found."
+	echo >>$LOGFILE "Please install mp3splt from your package manager."
+	exit 12
 fi
 
 # End dependency checking.
@@ -98,7 +97,7 @@ fi
 
 if [ "$MYTHCFG" = "" ]; then
 	echo >>$LOGFILE "No mysql.txt found in $HOME or $HOME/.mythtv - exiting!"
-	exit 1
+	exit 13
 fi
 
 # Obtian the DB username and password from MythTV's mysql.txt config file.
@@ -118,7 +117,7 @@ echo >>$LOGFILE "MythTV recordings root is set to: $RECORDINGSROOT"
 	
 			local filename=$1
 			
-			TMPDIR=`mktemp -d /tmp/mythcommflag.XXXXXX` || exit 1		
+			TMPDIR=`mktemp -d /tmp/mythcommflag.XXXXXX` || exit 14		
 			
 			# Get frame count, then subtract frame 'safety' margin. (3 seconds/75 frames is the default).
 			FRAMES=$((`mytharchivehelper --getfileinfo --infile $filename --method=1 --outfile $TMPDIR/streaminfo.xml 2>&1 | grep " frames = " | awk -F"= " '{print $2}'` - ${ENDFUDGEFRAMES}))
