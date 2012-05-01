@@ -219,3 +219,12 @@ else
 	fi		
 fi
 echo >>$LOGFILE
+exit 0
+
+## Error handling function.
+#
+#exit_error() {
+#
+#case $1
+#
+#}
