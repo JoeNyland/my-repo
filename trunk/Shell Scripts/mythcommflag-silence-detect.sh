@@ -96,6 +96,9 @@ echo >>$LOGFILE "The standard syntax for this script is:"
 echo >>$LOGFILE "`basename $0` [-j %JOBID%] [-V %VERBOSELEVEL%]"
 exit $1
 ;;
+
+esac
+
 }
 
 silence_detect() {
