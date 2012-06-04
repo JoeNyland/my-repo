@@ -3,7 +3,7 @@
 # Script to sync from public Gentoo rsync mirrors to local portage mirror.
 
 PUBLICMIRROR=rsync://rsync.uk.gentoo.org
-LOCALTREE=/mnt/array/portage-mirror
+LOCALTREE=/mnt/array/portage
 
 rsync -hav --delete --delete-after $PUBLICMIRROR/gentoo-portage $LOCALTREE
 
