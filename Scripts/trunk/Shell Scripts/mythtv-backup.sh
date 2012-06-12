@@ -6,11 +6,11 @@ MOUNT=/mnt/mythtv_local														# Where the recordings drive is mounted.
 BACKUPDRIVE=/mnt/backup1													# Where the USB backup HDD is mounted.
 
 # Email settings
-SMTPSERVER=mail											# SMTP server address.
-SMTPUSER=																	# SMTP username.
-SMTPPASS=																	# SMTP password.
+SMTPSERVER=													# SMTP server address.
+SMTPUSER=															# SMTP username.
+SMTPPASS=																# SMTP password.
 FROM=`hostname -s`@`hostname -d`											# From address for emails.
-TO=												# To address for emails.
+TO=															# To address for emails.
 
 ############################################################################################################
 
