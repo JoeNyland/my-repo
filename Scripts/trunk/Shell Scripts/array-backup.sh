@@ -5,6 +5,13 @@
 ARRAY=/mnt/array															# Where the RAID array is mounted.
 BACKUPDRIVE=/mnt/backup2													# Where the USB backup HDD is mounted.
 
+# Email settings
+SMTPSERVER=mail											# SMTP server address.
+SMTPUSER=																	# SMTP username.
+SMTPPASS=																	# SMTP password.
+FROM=`hostname -s`@`hostname -d`											# From address for emails.
+TO=												# To address for emails.
+
 ############################################################################################################
 
 # MythTV overrides
@@ -39,3 +46,54 @@ DST=$BACKUPDRIVE/$DSTDIR
 LOGGERTAG=" -t $SRCDIR-backup"
 
 rsync $STDSWITCHES $SRC/ $DST/ $STDEXCLUDE $OVER | logger $STDLOGGER $LOGGERTAG
+
+if [ $PIPESTATUS = 0 ]; then
+sendemail -f $FROM -t $TO -s $SMTPSERVER -o username=$SMTPUSER -o password=$SMTPPASS -u "$SRCDIR backup successful on `hostname -f`" <<EOFBODY
+<HTML>
+	<HEAD>
+		<style type="text/css">
+			*{font-family:"Lucida Grande",Verdana;}
+			h3.success{color:rgb(151,192,5);}
+			.terminal{font-family:"Courier";
+			background-color:rgb(0,0,0);
+			color:rgb(255,255,255);}
+		</style>
+	</HEAD>
+	
+	<BODY>
+		<h3 class="success">$SRCDIR Backup Successful</h3>
+		
+		<p>The Rsync cron job to synchronise $SRCDIR files from your RAID array to your USB backup HDD completed successfully.</p>
+		<p>The following directories were synchronised:</br>
+		`echo $SRC` --> `echo $DST`</br>
+		</p>
+		
+		<p>If you require more information on the backup, please run the following command from :</p>
+		<div class="terminal">grep $SRCDIR-backup /var/log/syslog | tail --lines=100</div>
+	</BODY>
+</HTML>
+EOFBODY
+else
+sendemail -f $FROM -t $TO -s $SMTPSERVER -o username=$SMTPUSER -o password=$SMTPPASS -u "$SRCDIR backup FAILURE for `hostname -f`" <<EOFBODY
+<HTML>
+	<HEAD>
+		<style type="text/css">
+			*{font-family:"Lucida Grande",Verdana;}
+			h3.fail{color:rgb(228,32,11);}
+			.terminal{font-family:"Courier";
+			background-color:rgb(0,0,0);
+			color:rgb(255,255,255);}
+		</style>
+	</HEAD>
+	
+	<BODY>
+		<h3 class="fail">$SRCDIR Backup FAILURE</h3>
+		
+		<p>The Rsync cron job to synchronise $SRCDIR files from your RAID array to your USB backup HDD failed with one or more errors.</p>
+		
+		<p>If you require more information on the backup, please run the following command from :</p>
+		<div class="terminal">grep $SRCDIR-backup /var/log/syslog | tail --lines=100</div>		
+	</BODY>
+</HTML>
+EOFBODY
+fi
