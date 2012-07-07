@@ -3,7 +3,7 @@
 
 # General settings
 ARRAY=/mnt/array															# Where the RAID array is mounted.
-BACKUPDRIVE=/mnt/backup2													# Where the USB backup HDD is mounted.
+BACKUPDRIVE=/mnt/backup1													# Where the USB backup HDD is mounted.
 
 # Email settings
 SMTPSERVER=mail											# SMTP server address.
