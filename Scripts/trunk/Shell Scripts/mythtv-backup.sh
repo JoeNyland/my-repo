@@ -2,15 +2,15 @@
 # Script to sync files from RAID array on /mnt/array to USB backup HDD on /mnt/backup.
 
 # General settings
-MOUNT=/mnt/mythtv_local														# Where the recordings drive is mounted.
+MOUNT=/mnt/data/mythtv														# Where the MythTV recordings directory is located.
 BACKUPDRIVE=/mnt/backup1													# Where the USB backup HDD is mounted.
 
 # Email settings
-SMTPSERVER=mail											# SMTP server address.
-SMTPUSER=																	# SMTP username.
-SMTPPASS=																	# SMTP password.
+SMTPSERVER=													# SMTP server address.
+SMTPUSER=															# SMTP username.
+SMTPPASS=																# SMTP password.
 FROM=`hostname -s`@`hostname -d`											# From address for emails.
-TO=												# To address for emails.
+TO=															# To address for emails.
 
 ############################################################################################################
 
