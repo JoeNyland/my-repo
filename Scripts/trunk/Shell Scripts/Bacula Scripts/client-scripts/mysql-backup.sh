@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Directory to store backups in
-DST=/var/backups/mysql
+DST=/mnt/db/.backups
 
 # MySQL Binary logging configuration
 MYSQLCONF=/etc/mysql/my.cnf
