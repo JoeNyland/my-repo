@@ -5,7 +5,7 @@ DST=/var/backups/mysql
 
 # MySQL Binary logging configuration
 MYSQLCONF=/etc/mysql/my.cnf
-BINLOGDIR=/var/log/mysql
+BINLOGDIR=/mnt/db/mysql/binlog
 BINLOGPREFIX=mysql-bin
 
 SCRIPTNAME=`basename $0`
