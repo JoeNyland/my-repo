@@ -30,7 +30,7 @@ MP3SPLT_OPTS="th=-70,min=0.25"
 
 # Log file
 # Note: this file must be writable by the mythtv user.
-LOGFILE="/var/log/mythtv/mythcommflag-silence-detect"
+LOGFILE="/var/log/mythtv/mythcommflag-silence-detect.log"
 
 # Copy commercial skiplist to cutlist
 # 0=Disabled 1=Enabled
