@@ -28,9 +28,9 @@ ENDFUDGEFRAMES=75
 # -70dB and minimum of 0.15s to be considered 'silent'
 MP3SPLT_OPTS="th=-70,min=0.25"
 
-# Log file
-# Note: this file must be writable by the mythtv user.
-LOGFILE="/var/log/mythtv/mythcommflag-silence-detect.log"
+# Logging
+# logger config
+LOGGERPREFS="-st mythcommflag -p daemon.info"
 
 # Copy commercial skiplist to cutlist
 # 0=Disabled 1=Enabled
@@ -45,55 +45,55 @@ exit_error() {
 # Error handling function.
 # "$1" = Exit code
 
-echo >>$LOGFILE "ERROR"
+echo "ERROR" | logger ${LOGGERPREFS}
 
 case $1 in
 10)
 # mytharchivehelper not found/installed
-echo >>$LOGFILE "MythArchive has not been found on your system."
-echo >>$LOGFILE "Please install this from your package manager."
+echo "MythArchive has not been found on your system." | logger ${LOGGERPREFS}
+echo "Please install this from your package manager." | logger ${LOGGERPREFS}
 exit $1
 ;;
 
 11)
 # ffmpeg not found/installed
-echo >>$LOGFILE "ffmpeg has not been found on your system."
-echo >>$LOGFILE "Please install this from your package manager."
+echo "ffmpeg has not been found on your system." | logger ${LOGGERPREFS}
+echo "Please install this from your package manager." | logger ${LOGGERPREFS}
 exit $1
 ;;
 
 12)
 # mp3splt not found/installed
-echo >>$LOGFILE "mp3splt has not been found on your system."
-echo >>$LOGFILE "Please install this from your package manager."
+echo "mp3splt has not been found on your system." | logger ${LOGGERPREFS}
+echo "Please install this from your package manager." | logger ${LOGGERPREFS}
 exit $1
 ;;
 
 13)
 # no mysql.txt config file found
-echo >>$LOGFILE "A MythTV mysql.txt config file has not been found on your system."
-echo >>$LOGFILE "Please correct this to proceed."
+echo "A MythTV mysql.txt config file has not been found on your system." | logger ${LOGGERPREFS}
+echo "Please correct this to proceed." | logger ${LOGGERPREFS}
 exit $1
 ;;
 
 14)
 # unable to create temp directory
-echo >>$LOGFILE "The script has been unable to create a temporary working directory."
-echo >>$LOGFILE "Please check permissions for the user that MythBackend is running as to proceed."
+echo "The script has been unable to create a temporary working directory." | logger ${LOGGERPREFS}
+echo "Please check permissions for the user that MythBackend is running as to proceed." | logger ${LOGGERPREFS}
 exit $1
 ;;
 
 15)
 # recording not in channel ID whitelist
-echo >>$LOGFILE "The channel that the selected recording is from is not on the `basename $0` whitelist."
+echo "The channel that the selected recording is from is not on the `basename $0` whitelist." | logger ${LOGGERPREFS}
 exit $1
 ;;
 
 1000)
 # incorrect combination/no parameters
-echo >>$LOGFILE "You have supplied an incorrect combination of arguments to the script."
-echo >>$LOGFILE "The standard syntax for this script is:"
-echo >>$LOGFILE "`basename $0` [-j %JOBID%] [-V %VERBOSELEVEL%]"
+echo "You have supplied an incorrect combination of arguments to the script." | logger ${LOGGERPREFS}
+echo "The standard syntax for this script is:" | logger ${LOGGERPREFS}
+echo "`basename $0` [-j %JOBID%] [-V %VERBOSELEVEL%]" | logger ${LOGGERPREFS}
 exit $1
 ;;
 
@@ -110,7 +110,7 @@ silence_detect() {
 		
 		# Get frame count, then subtract frame 'safety' margin. (3 seconds/75 frames is the default).
 		FRAMES=$((`mytharchivehelper --getfileinfo --infile $filename --method=1 --outfile $TMPDIR/streaminfo.xml 2>&1 | grep " frames = " | awk -F"= " '{print $2}'` - ${ENDFUDGEFRAMES}))
-		echo >>$LOGFILE "Total frames = $FRAMES (+/- 75)"		
+		echo "Total frames = $FRAMES (+/- 75)" | logger ${LOGGERPREFS}
 
 		cd $TMPDIR
 		touch `basename $filename`.touch
@@ -121,9 +121,9 @@ silence_detect() {
 			   awk 'BEGIN{start=0;ORS=","}{if($2-start<'$MAXCOMMBREAKSECS')
 			   {finish=$2} else {print int(start*25+1)"-"int(finish*25-25);
 			   start=$1; finish=$2;}}END{print int(start*25+1)"-"'$FRAMES'}'`
-		echo >>$LOGFILE "silence-detect has generated cutlist: $CUTLIST"
+		echo "silence-detect has generated cutlist: $CUTLIST" | logger ${LOGGERPREFS}
 
-		echo >>$LOGFILE "silence-detect(): CHANID=$CHANID, STARTTIME=$STARTTIME, FRAMES=$FRAMES"		
+		echo "silence-detect(): CHANID=$CHANID, STARTTIME=$STARTTIME, FRAMES=$FRAMES" | logger ${LOGGERPREFS}		
 		CUTLIST=`tail --lines=+3 mp3splt.log|sort -g |\
 		awk 'BEGIN{start=0;ORS="\n"}{if($2-start<'$MAXCOMMBREAKSECS') {finish=$2} else {print "INSERT INTO recordedmarkup (chanid,starttime,mark,type) VALUES ('$CHANID',\"'"$STARTTIME"'\","int(start*25+1)",4);\nINSERT INTO recordedmarkup (chanid,starttime,mark,type) VALUES ('$CHANID',\"'"$STARTTIME"'\","int(finish*25-25)",5);"; start=$1; finish=$2;}}END{print "INSERT INTO recordedmarkup (chanid,starttime,mark,type) VALUES ('$CHANID',\"'"$STARTTIME"'\","int(start*25+1)",4);\nINSERT INTO recordedmarkup (chanid,starttime,mark,type) VALUES ('$CHANID',\"'"$STARTTIME"'\",'$FRAMES',5);"}' | sed 's/\"/'\''/g'`
 		RC=$?
@@ -139,7 +139,7 @@ silence_detect() {
 if command -v mytharchivehelper
 then
 	MAH=`which mytharchivehelper` 
-	echo >>$LOGFILE "mytharchivehelper found at ${MAH}"
+	echo "mytharchivehelper found at ${MAH}" | logger ${LOGGERPREFS}
 else
 	exit_error 10
 fi
@@ -148,7 +148,7 @@ fi
 if command -v ffmpeg
 then
 	FFMPEG_PATH=`which ffmpeg` 
-	echo >>$LOGFILE "ffmpeg found at ${FFMPEG_PATH}"
+	echo "ffmpeg found at ${FFMPEG_PATH}" | logger ${LOGGERPREFS}
 else
 	exit_error 11
 fi
@@ -157,7 +157,7 @@ fi
 if command -v mp3splt
 then
 	MP3SLT_PATH=`which mp3splt` 
-	echo >>$LOGFILE "mp3splt found at ${MP3SLT_PATH}"
+	echo "mp3splt found at ${MP3SLT_PATH}" | logger ${LOGGERPREFS}
 else
 	exit_error 12
 fi
@@ -187,8 +187,8 @@ MYTHDB=`grep DBName <$MYTHCFG | awk -F= '{print $2}'`
 # Root of MythTV recordings
 RECORDINGSROOT=`mysql -h${MYTHHOST} -u${MYTHUSER} -p${MYTHPASS} -e "select dirname from storagegroup;" $MYTHDB | tail -n +2 | sort | uniq | tr '\n' ' '`
 
-echo >>$LOGFILE "$0 run with [$*] at `date` by `whoami`"
-echo >>$LOGFILE "MythTV recordings root is set to: $RECORDINGSROOT"
+echo "$0 run with [$*] at `date` by `whoami`" | logger ${LOGGERPREFS}
+echo "MythTV recordings root is set to: $RECORDINGSROOT" | logger ${LOGGERPREFS}
 
 if [ $# -eq 0 ]; then
 	# If the script is run with no parameters, error out with exit code 1000.
@@ -198,17 +198,17 @@ else
 		JOB=$2
 	else
 		# We're being used in some other way, run the real mythcommmflag
-		echo >>$LOGFILE "Invalid argument combination."
-		echo >>$LOGFILE "Running mythcommflag $* instead"
+		echo "Invalid argument combination." | logger ${LOGGERPREFS}
+		echo "Running mythcommflag $* instead" | logger ${LOGGERPREFS}
 		exec mythcommflag $*
 		exit $?
 	fi
-	echo >>$LOGFILE "Running job $JOB"
+	echo "Running job $JOB" | logger ${LOGGERPREFS}
 		
 	HASCUTLIST=`mysql -h${MYTHHOST} -u${MYTHUSER} -p${MYTHPASS} -e "select recorded.cutlist from recorded join jobqueue where jobqueue.id=$JOB and jobqueue.chanid=recorded.chanid and jobqueue.starttime=recorded.starttime;" $MYTHDB | tail -n +2`	
 	if [ "$HASCUTLIST" = "1" ]; then
-		echo >>$LOGFILE "Program already has a cutlist set."
-		echo >>$LOGFILE "COPYTOCUTLIST disabled. The original cut list has been retained."
+		echo "Program already has a cutlist set." | logger ${LOGGERPREFS}
+		echo "COPYTOCUTLIST disabled. The original cut list has been retained." | logger ${LOGGERPREFS}
 		export COPYTOCUTLIST=0
 	fi
 	
@@ -216,55 +216,54 @@ else
 	CHANID=`mysql -h${MYTHHOST} -u${MYTHUSER} -p${MYTHPASS} -e "select chanid from jobqueue where jobqueue.id=$JOB;" $MYTHDB | tail -n +2`	
 	STARTTIME=`mysql -h${MYTHHOST} -u${MYTHUSER} -p${MYTHPASS} -e "select starttime from jobqueue where jobqueue.id=$JOB;" $MYTHDB | tail -n +2`
 	MYTHUTILSTARTTIME=`echo ${STARTTIME} | sed -e 's/-//g' | sed -e 's/://g' | sed -e 's/ //g'`
-	echo >>$LOGFILE "Channel callsign is $CALLSIGN"
-	echo >>$LOGFILE "Channel ID is $CHANID"
-	echo >>$LOGFILE "Recording start time is $STARTTIME"
+	echo "Channel callsign is $CALLSIGN" | logger ${LOGGERPREFS}
+	echo "Channel ID is $CHANID" | logger ${LOGGERPREFS}
+	echo "Recording start time is $STARTTIME" | logger ${LOGGERPREFS}
 	BASENAME=`mysql -h${MYTHHOST} -u${MYTHUSER} -p${MYTHPASS} -e "select recorded.basename from recorded join jobqueue where jobqueue.id=$JOB and jobqueue.chanid=recorded.chanid and jobqueue.starttime=recorded.starttime;" $MYTHDB | tail -n +2`	
-	echo >>$LOGFILE "Basename is $BASENAME"
+	echo "Basename is $BASENAME" | logger ${LOGGERPREFS}
 	FILENAME=`ionice -c3 nice find ${RECORDINGSROOT} -name $BASENAME`
-	echo >>$LOGFILE "Filename is $FILENAME"	
+	echo "Filename is $FILENAME" | logger ${LOGGERPREFS}	
 
 # Notes on callsigns:
 # Channel 4 channels seem to work too, but sometimes last cut is too long?
 # Fails on FIVER and cuts almost entire recording. Works for other FIVE channels with caveat that they include news bulletins which are't cut
 
 	if [ "$CALLSIGN" = "FIVE USA" -o "$CALLSIGN" = "FIVE" -o "$CALLSIGN" = "Channel 4" -o "$CALLSIGN" = "Channel 4+1" -o "$CALLSIGN" = "More 4" -o "$CALLSIGN" = "E4" -o "$CALLSIGN" = "E4+1" -o "$CALLSIGN" = "Film4" -o "$CALLSIGN" = "ITV1" -o "$CALLSIGN" = "ITV1 +1" -o "$CALLSIGN" = "ITV2" -o "$CALLSIGN" = "ITV2 +1" -o "$CALLSIGN" = "ITV3" -o "$CALLSIGN" = "ITV4" -o "$CALLSIGN" = "Dave" -o "$CALLSIGN" = "Dave ja vu" ]; then	
-		echo >>$LOGFILE "Callsign in whitelist - will run silence_detect"		
+		echo "Callsign in whitelist - will run silence_detect" | logger ${LOGGERPREFS}		
 		mysql -h${MYTHHOST} -u${MYTHUSER} -p${MYTHPASS} -e "update recorded set commflagged=2 where chanid=$CHANID and starttime='${STARTTIME}';" $MYTHDB
 		mysql -h${MYTHHOST} -u${MYTHUSER} -p${MYTHPASS} -e "update jobqueue set status=4, comment='`basename $0` is currently flagging commercials on this recording.' where id=$JOB;" ${MYTHDB}
 		CUTLIST=""
-		echo >>$LOGFILE "silence_detect $FILENAME"
+		echo "silence_detect $FILENAME" | logger ${LOGGERPREFS}
 		silence_detect $FILENAME
-		echo >>$LOGFILE "silect_detect() set CUTLIST to $CUTLIST"
+		echo "silect_detect() set CUTLIST to $CUTLIST" | logger ${LOGGERPREFS}
 		export BREAKS=$((`echo "$CUTLIST"|wc -l` / 2))
-		echo >>$LOGFILE "$BREAKS break(s) found."
+		echo "$BREAKS break(s) found." | logger ${LOGGERPREFS}
 		mysql -h${MYTHHOST} -u${MYTHUSER} -p${MYTHPASS} -e "$CUTLIST" $MYTHDB
 		RC=$?
-		echo >>$LOGFILE "Setting skip list in MySQL DB returned $RC"
+		echo "Setting skip list in MySQL DB returned $RC" | logger ${LOGGERPREFS}
 		if [ $RC -eq 0 ]; then
 			mysql -h${MYTHHOST} -u${MYTHUSER} -p${MYTHPASS} -e "update recorded set commflagged=1 where chanid=$CHANID and starttime='${STARTTIME}';" ${MYTHDB}
 			mysql -h${MYTHHOST} -u${MYTHUSER} -p${MYTHPASS} -e "update jobqueue set status=272, comment='Finished (Successfully completed). There were $BREAKS break(s) found in the recording.' where id=$JOB;" ${MYTHDB}			
 			if [ $COPYTOCUTLIST -eq 1 ]; then
-			echo >>$LOGFILE "mythutilstarttime is $MYTHUTILSTARTTIME"
 			mythutil --gencutlist --chanid $CHANID --starttime $MYTHUTILSTARTTIME
 				RC=$?
 				if [ $RC -eq 0 ]; then
-					echo >>$LOGFILE "mythutil --gencutlist successfully copied skip list to cut list"
+					echo "mythutil --gencutlist successfully copied skip list to cut list" | logger ${LOGGERPREFS}
 				else
-					echo >>$LOGFILE "mythutil --gencutlist failed, returned $RC"		
+					echo "mythutil --gencutlist failed, returned $RC" | logger ${LOGGERPREFS}		
 				fi
 			fi			
 		else
-			echo >>$LOGFILE "mythcommflag failed; returned $RC"
+			echo "mythcommflag failed; returned $RC" | logger ${LOGGERPREFS}
 			mysql -h${MYTHHOST} -u${MYTHUSER} -p${MYTHPASS} -e "update recorded set commflagged=0 where chanid=$CHANID and starttime='${STARTTIME}';" ${MYTHDB}
 		fi		
 	else
 		# Not a whitelisted channel for silence_detect
-		echo >>$LOGFILE "The requested recording is not on the silence-detect whitelist."
-		echo >>$LOGFILE "Running mythcommflag $* instead."
+		echo "The requested recording is not on the silence-detect whitelist." | logger ${LOGGERPREFS}
+		echo "Running mythcommflag $* instead." | logger ${LOGGERPREFS}
 		exec mythcommflag $*
 		exit $?
 	fi		
 fi
-echo >>$LOGFILE
+echo "" | logger ${LOGGERPREFS}
 exit 0
