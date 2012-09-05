@@ -114,7 +114,7 @@ silence_detect() {
 
 		cd $TMPDIR
 		touch `basename $filename`.touch
-		ionice -c3 nice ffmpeg -i $filename -acodec copy sound.mp3
+		ionice -c3 nice ffmpeg -i $filename -acodec copy -map 0:1 sound.mp3
 		ionice -c3 nice mp3splt -s -p $MP3SPLT_OPTS sound.mp3
 
 		CUTLIST=`tail --lines=+3 mp3splt.log|sort -g |\
