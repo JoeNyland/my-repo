@@ -272,7 +272,7 @@ if [ "$CALLSIGN" = "FIVE USA" -o "$CALLSIGN" = "FIVE" -o "$CALLSIGN" = "Channel 
 		mythutil --gencutlist --chanid $CHANID --starttime $MYTHUTILSTARTTIME
 			RC=$?
 			if [ $RC -eq 0 ]; then
-				echo "mythutil --gencutlist successfully copied skip list to cut list" | logger ${LOGGERPREFS}
+				if [[ $VERBOSE == 1 ]]; then echo "mythutil --gencutlist successfully copied skip list to cut list" | logger ${LOGGERPREFS}; fi
 			else
 				echo "mythutil --gencutlist failed, returned $RC" | logger ${LOGGERPREFS}		
 			fi
