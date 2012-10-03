@@ -257,7 +257,7 @@ if [ "$CALLSIGN" = "FIVE USA" -o "$CALLSIGN" = "FIVE" -o "$CALLSIGN" = "Channel 
 	mysql -h${MYTHHOST} -u${MYTHUSER} -p${MYTHPASS} -e "update recorded set commflagged=2 where chanid=$CHANID and starttime='${STARTTIME}';" $MYTHDB
 	mysql -h${MYTHHOST} -u${MYTHUSER} -p${MYTHPASS} -e "update jobqueue set status=4, comment='`basename $0` is currently flagging commercials on this recording.' where id=$JOB;" ${MYTHDB}
 	CUTLIST=""
-	echo "silence_detect $FILENAME" | logger ${LOGGERPREFS}
+	if [[ $VERBOSE == 1 ]]; then echo "silence_detect $FILENAME" | logger ${LOGGERPREFS}; fi
 	silence_detect $FILENAME
 	if [[ $VERBOSE == 1 ]]; then echo "silect_detect() set CUTLIST to $CUTLIST" | logger ${LOGGERPREFS}; fi
 	export BREAKS=$((`echo "$CUTLIST"|wc -l` / 2))
@@ -288,4 +288,5 @@ else
 	exec mythcommflag $*
 	exit $?
 fi
+echo "$0 finished successfully at `date`" | logger ${LOGGERPREFS}
 exit 0
