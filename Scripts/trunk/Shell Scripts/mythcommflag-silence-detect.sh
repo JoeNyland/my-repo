@@ -151,7 +151,7 @@ if [ $# -eq 0 ]; then
 			JOB=${OPTARG} # Assign the job ID to the $JOB variable
 			esac;
 		done
-		
+fi
 # End option checks
 
 # Begin dependency checks.
