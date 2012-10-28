@@ -25,7 +25,8 @@ parser.add_argument("--starttime", help="The %%STARTTIMEISOUTC%% for the recordi
 parser.add_argument("--to", help="The email address to send the notification to", metavar="email address", required=True)
 args = parser.parse_args()
 
-server = getfqdn()
+server = "127.0.0.1"
+servername = getfqdn()
 recording_url = "http://" + server + ":6544/Dvr/GetRecorded?StartTime=" + args.starttime + "&ChanId=" + str(args.chanid)
 myth_url = "http://" + server + ":6544/Myth/GetConnectionInfo"
 preview_url = "http://" + server + ":6544/Content/GetPreviewImage?StartTime=" + args.starttime + "&ChanId=" + str(args.chanid)
@@ -70,7 +71,7 @@ version = version_tag[0].text
 smtphost = getfqdn(smtpserver)
 subject = 'MythTV has finished recording %s: "%s"' %(title, subtitle)
 to = args.to
-sender = "MythTV@%s" %(server)
+sender = "MythTV@%s" %(servername)
 msg = MIMEMultipart('alternative')
 msg["To"] = to
 msg["From"] = sender
@@ -446,7 +447,7 @@ html = """
 	</div>
 </body>
 </html>
-""" %(channelicon_url, title, subtitle, preview_url, desc, title, subtitle, starttime_local, startdate_local, mythweb_url, version, server)
+""" %(channelicon_url, title, subtitle, preview_url, desc, title, subtitle, starttime_local, startdate_local, mythweb_url, version, servername)
 part1 = MIMEText(text, 'text')
 part2 = MIMEText(html, 'html')
 msg.attach(part1)
