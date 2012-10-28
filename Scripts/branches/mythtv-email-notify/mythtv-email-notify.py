@@ -480,10 +480,3 @@ MythTV Version: %s
 
 Email HTML:
 %s""" %(str(args.chanid), args.starttime, starttime_local, startdate_local, title, subtitle, desc, mythweb_url, recording_url, recordinghtml_data, preview_url, channelicon_url, version, msg)
-
-"""
-TO DO:
-- Handle urllib2.urlopen exceptions OR Get lxml to read directly
-- Check for required packages:
-	sudo apt-get install python-lxml python-dateutil
-"""
