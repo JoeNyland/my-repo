@@ -13,12 +13,19 @@ from dateutil import tz
 from socket import getfqdn
 from lxml import etree
 
+"""
+User configurable variables:
+"""
 # Define MythWeb URL:
 mythweb = ""
 
 # Define SMTP server:
 smtpserver = ""
 
+"""
+Main script:
+"""
+# Parse the supplied arguments:
 parser = argparse.ArgumentParser()
 parser.add_argument("-v", "--verbose", action="store_true", help="Enable verbose output")
 parser.add_argument("--chanid", type=int, help="The %%CHANID%% for the recording to query for", required=True)
@@ -26,61 +33,71 @@ parser.add_argument("--starttime", help="The %%STARTTIMEISOUTC%% for the recordi
 parser.add_argument("--to", help="The email address to send the notification to", metavar="email address", required=True)
 args = parser.parse_args()
 
-server = "127.0.0.1"
+# Define the server name/address:
+# Localhost IP address for MythTV Services API access:
+server = "127.0.0.1"	# 127.0.0.1 hardcoded, as FQDN resolves to 127.0.1.1, but MythTV Services API runs under 127.0.0.1 and LAN IP.
+# Get the FQDN for the local machine:
 servername = getfqdn()
-recording_url = "http://" + server + ":6544/Dvr/GetRecorded?StartTime=" + args.starttime + "&ChanId=" + str(args.chanid)
-myth_url = "http://" + server + ":6544/Myth/GetConnectionInfo"
-preview_url = "http://" + server + ":6544/Content/GetPreviewImage?StartTime=" + args.starttime + "&ChanId=" + str(args.chanid)
-channelicon_url = "http://" + server + ":6544/Guide/GetChannelIcon?" + "ChanId=" + str(args.chanid)
 
+# Convert supplied "starttime" to Unix time:
 starttime_tuple = time.strptime(args.starttime, "%Y-%m-%dT%H:%M:%SZ")
 starttime_unix = calendar.timegm(starttime_tuple)
 
-mythweb_url = mythweb + "/tv/detail/" + str(args.chanid) + "/" + str(starttime_unix)
-
+# Convert supplied "starttime" (UTC) to local time:
 starttime_utc = datetime.strptime(args.starttime, "%Y-%m-%dT%H:%M:%SZ")
 starttime_utc = starttime_utc.replace(tzinfo=tz.tzutc())
 starttime_local = starttime_utc.astimezone(tz.tzlocal())
 starttime_local = starttime_local.replace(tzinfo=None)
 startdatetime_local = str(starttime_local).split()
+
+# Split localised "starttime" to date and time:
 startdate_local = datetime.strptime(str(starttime_local), "%Y-%m-%d %H:%M:%S").strftime("%d/%m/%Y")
 starttime_local = startdatetime_local[1]
 
+# Construct required URLs:
+recording_url = "http://" + server + ":6544/Dvr/GetRecorded?StartTime=" + args.starttime + "&ChanId=" + str(args.chanid)
+myth_url = "http://" + server + ":6544/Myth/GetConnectionInfo"
+preview_url = "http://" + server + ":6544/Content/GetPreviewImage?StartTime=" + args.starttime + "&ChanId=" + str(args.chanid)
+channelicon_url = "http://" + server + ":6544/Guide/GetChannelIcon?" + "ChanId=" + str(args.chanid)
+mythweb_url = mythweb + "/tv/detail/" + str(args.chanid) + "/" + str(starttime_unix)
+
+# Scrape the recording details page to "recordingresponse" and create XML tree:
 recordingresponse = urllib2.urlopen(recording_url)
 recordinghtml_data = recordingresponse.read()
 recordingresponse.close()
-
 recordingtree = etree.XML(recordinghtml_data)
 
+# Extract required info from "recordingresponse" XML tree
 title_tag = recordingtree.xpath('//Program/Title')
 subtitle_tag = recordingtree.xpath('//Program/SubTitle')
 desc_tag = recordingtree.xpath('//Program/Description')
-
 title = title_tag[0].text
 subtitle = subtitle_tag[0].text
 desc = desc_tag[0].text
 
+# Scrape the MythTV data page to "mythresponse" and create XML tree:
 mythresponse = urllib2.urlopen(myth_url)
 mythhtml_data = mythresponse.read()
 mythresponse.close()
-
 mythtree = etree.XML(mythhtml_data)
 
+# Extract required info from "mythresponse" XML tree
 version_tag = mythtree.xpath("//ConnectionInfo/Version/Version")
 version = version_tag[0].text
 
+# Read the preview icon to "preview_data" and base64 encode:
 previewresponse = urllib2.urlopen(preview_url)
 preview_data = previewresponse.read()
 previewresponse.close()
+preview_encoded = base64.b64encode(preview_data)
 
+# Read the channel icon to "channelicon_data" and base64 encode:
 channeliconresponse = urllib2.urlopen(channelicon_url)
 channelicon_data = channeliconresponse.read()
 channeliconresponse.close()
-
-preview_encoded = base64.b64encode(preview_data)
-
 channelicon_encoded = base64.b64encode(channelicon_data)
 
+# Setup the email, stored in "msg":
 smtphost = getfqdn(smtpserver)
 subject = 'MythTV has finished recording %s: "%s"' %(title, subtitle)
 to = args.to
@@ -90,7 +107,9 @@ msg["To"] = to
 msg["From"] = sender
 msg["Subject"] = subject
 
+# Define the text version of the message:
 text = "MythTV has completed recording %s: %s\r\n\r\n%s\r\n\r\n%s: %s was recorded at %s on %s" %(title, subtitle, desc, title, subtitle, starttime_local, startdate_local)
+# Define the HTML version of the message:
 html = """
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">
 
