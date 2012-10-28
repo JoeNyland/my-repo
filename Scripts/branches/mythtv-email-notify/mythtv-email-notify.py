@@ -25,7 +25,7 @@ parser.add_argument("--starttime", help="The %%STARTTIMEISOUTC%% for the recordi
 parser.add_argument("--to", help="The email address to send the notification to", metavar="email address", required=True)
 args = parser.parse_args()
 
-server = getfqdn("")
+server = getfqdn()
 recording_url = "http://" + server + ":6544/Dvr/GetRecorded?StartTime=" + args.starttime + "&ChanId=" + str(args.chanid)
 myth_url = "http://" + server + ":6544/Myth/GetConnectionInfo"
 preview_url = "http://" + server + ":6544/Content/GetPreviewImage?StartTime=" + args.starttime + "&ChanId=" + str(args.chanid)
