@@ -1,0 +1,25 @@
+purge volume=SharedData_Diff_1530
+purge volume=SharedData_Diff_1556
+purge volume=SharedData_Diff_1557
+purge volume=SharedData_Diff_1558
+purge volume=SharedData_Diff_1559
+purge volume=SharedData_Diff_1560
+purge volume=SharedData_Diff_1561
+purge volume=SharedData_Diff_1562
+purge volume=SharedData_Diff_1563
+purge volume=SharedData_Diff_1564
+purge volume=SharedData_Diff_1565
+purge volume=SharedData_Diff_1566
+purge volume=SharedData_Diff_1567
+purge volume=SharedData_Diff_1568
+purge volume=SharedData_Diff_1569
+purge volume=SharedData_Diff_1570
+purge volume=SharedData_Diff_1571
+purge volume=SharedData_Diff_1572
+purge volume=SharedData_Diff_1573
+purge volume=SharedData_Diff_1574
+purge volume=SharedData_Diff_1575
+purge volume=SharedData_Diff_1576
+purge volume=SharedData_Diff_1577
+purge volume=SharedData_Diff_1578
+quit
