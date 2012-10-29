@@ -71,8 +71,8 @@ recordingtree = etree.XML(recordinghtml_data)
 title_tag = recordingtree.xpath('//Program/Title')
 subtitle_tag = recordingtree.xpath('//Program/SubTitle')
 desc_tag = recordingtree.xpath('//Program/Description')
-title = title_tag[0].text.encode('utf-8')
-subtitle = subtitle_tag[0].text.encode('utf-8')
+title = title_tag[0].text
+subtitle = subtitle_tag[0].text
 desc = desc_tag[0].text.encode('utf-8')
 
 # Scrape the MythTV data page to "mythresponse" and create XML tree:
@@ -83,7 +83,7 @@ mythtree = etree.XML(mythhtml_data)
 
 # Extract required info from "mythresponse" XML tree
 version_tag = mythtree.xpath("//ConnectionInfo/Version/Version")
-version = version_tag[0].text.encode('utf-8')
+version = version_tag[0].text
 
 # Read the preview icon to "preview_data" and base64 encode:
 previewresponse = urllib2.urlopen(preview_url)
