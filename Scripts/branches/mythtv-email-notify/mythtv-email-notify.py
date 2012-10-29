@@ -542,4 +542,4 @@ Channel Icon URL: {channelicon_url}
 MythTV Version: {version}
 
 Email HTML:
-{msg}""".format(chanid=str(args.chanid), starttime=args.starttime, starttime_local=starttime_local, startdate_local=startdate_local, title=title, subtitle=subtitle, desc=desc, mythweb_url=mythweb_url, recording_url=recording_url, recordinghtml_data=recordinghtml_data, preview_url=preview_url, channelicon_url=channelicon_url, version=version, msg=msg)
+{msg}""".format(chanid=str(args.chanid), starttime=args.starttime, starttime_local=starttime_local, startdate_local=startdate_local, title=title, subtitle=subtitle.lstrip(": "), desc=desc, mythweb_url=mythweb_url, recording_url=recording_url, recordinghtml_data=recordinghtml_data, preview_url=preview_url, channelicon_url=channelicon_url, version=version, msg=msg)
