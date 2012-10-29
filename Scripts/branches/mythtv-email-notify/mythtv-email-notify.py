@@ -72,8 +72,20 @@ title_tag = recordingtree.xpath('//Program/Title')
 subtitle_tag = recordingtree.xpath('//Program/SubTitle')
 desc_tag = recordingtree.xpath('//Program/Description')
 title = title_tag[0].text
-subtitle = subtitle_tag[0].text
-desc = desc_tag[0].text.encode('utf-8')
+
+# Check that "subtitle_tag[0].text" is populated with text:
+if subtitle_tag[0].text is None:
+	subtitle = ""
+	subtitle_exists = "False"
+else:
+	subtitle = subtitle_tag[0].text
+	
+# Check that "desc_tag[0].text" is populated with text, if so, encode as utf-8:
+if desc_tag[0].text is None:
+	desc = "No description for this recording was found in the guide."
+	desc_exists = "False"
+else:
+	desc = desc_tag[0].text.encode("utf-8")
 
 # Scrape the MythTV data page to "mythresponse" and create XML tree:
 mythresponse = urllib2.urlopen(myth_url)
@@ -108,7 +120,7 @@ msg["From"] = sender
 msg["Subject"] = subject
 
 # Define the text version of the message:
-text = "MythTV has completed recording %s: %s\r\n\r\n%s\r\n\r\n%s: %s was recorded at %s on %s" %(title, subtitle, desc, title, subtitle, starttime_local, startdate_local)
+text = 'MythTV has completed recording %s: "%s"\r\n\r\n%s\r\n\r\n%s: %s was recorded at %s on %s' %(title, subtitle, desc, title, subtitle, starttime_local, startdate_local)
 # Define the HTML version of the message:
 html = """
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">
