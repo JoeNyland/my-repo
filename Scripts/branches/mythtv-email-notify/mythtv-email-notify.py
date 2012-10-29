@@ -71,23 +71,36 @@ recordingtree = etree.XML(recordinghtml_data)
 title_tag = recordingtree.xpath('//Program/Title')
 subtitle_tag = recordingtree.xpath('//Program/SubTitle')
 desc_tag = recordingtree.xpath('//Program/Description')
-title = title_tag[0].text
 
-# Check that "subtitle_tag[0].text" is populated with text:
+# Check that required info fileds are populated with text and try to encode as "UTF-8":
+if title_tag[0].text is None:
+	title = ""
+	title_exists = "False"
+else:
+	try:
+		title = title_tag[0].text.encode("utf-8")
+	except AttributeError:
+		title = title_tag[0].text
+
 if subtitle_tag[0].text is None:
 	subtitle = ""
 	subtitle_exists = "False"
 else:
-	subtitle = subtitle_tag[0].text
+	try:
+		subtitle = subtitle_tag[0].text.encode("utf-8")
+	except AttributeError:
+		subtitle = subtitle_tag[0].text
 	
-# Check that "desc_tag[0].text" is populated with text, if so, encode as utf-8:
 if desc_tag[0].text is None:
 	desc = "No description for this recording was found in the guide."
 	desc_exists = "False"
 else:
-	desc = desc_tag[0].text.encode("utf-8")
+	try:
+		desc = desc_tag[0].text.encode("utf-8")
+	except AttributeError:
+		desc = desc_tag[0].text
 
-# Scrape the MythTV data page to "mythresponse" and create XML tree:
+# Scrape the MythTV system data page to "mythresponse" and create XML tree:
 mythresponse = urllib2.urlopen(myth_url)
 mythhtml_data = mythresponse.read()
 mythresponse.close()
