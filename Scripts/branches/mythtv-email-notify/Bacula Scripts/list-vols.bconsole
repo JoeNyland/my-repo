@@ -1,0 +1,27 @@
+list volumes pool=_Full
+list volumes pool=_Inc
+list volumes pool=_Full_Copy
+list volumes pool=Mail_Full
+list volumes pool=Mail_Inc
+list volumes pool=Mail_Full_Copy
+list volumes pool=MythTV_Full
+list volumes pool=MythTV_Inc
+list volumes pool=MythTV_Full_Copy
+list volumes pool=Network_Full
+list volumes pool=Network_Inc
+list volumes pool=Web_Full
+list volumes pool=Web_Inc
+list volumes pool=Web_Full_Copy
+list volumes pool=TestServer_Full
+list volumes pool=TestServer_Inc
+list volumes pool=TestServer_Full_Copy
+list volumes pool=SVN_Full
+list volumes pool=SVN_Inc
+list volumes pool=SVN_Full_Copy
+list volumes pool=WebSites_Full
+list volumes pool=WebSites_Inc
+list volumes pool=WebSites_Full_Copy
+list volumes pool=Xbox_Full
+list volumes pool=Xbox_Inc
+list volumes pool=Xbox_Full_Copy
+quit
