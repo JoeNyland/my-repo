@@ -13,18 +13,12 @@ from dateutil import tz
 from socket import getfqdn
 from lxml import etree
 
-"""
-User configurable variables:
-"""
+# User configurable variables:
 # Define MythWeb URL:
 mythweb = ""
-
 # Define SMTP server:
 smtpserver = ""
 
-"""
-Main script:
-"""
 # Parse the supplied arguments:
 parser = argparse.ArgumentParser()
 parser.add_argument("-v", "--verbose", action="store_true", help="Enable verbose output")
@@ -559,7 +553,7 @@ Description: {desc}
 
 MythWeb URL: {mythweb_url}
 Services URL: {recording_url}
-Services HTML: 
+Services Response: 
 {recordinghtml_data}
 
 Preview URL: {preview_url}
