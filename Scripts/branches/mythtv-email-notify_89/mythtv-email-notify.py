@@ -29,9 +29,9 @@ args = parser.parse_args()
 
 # Define the server name/address:
 # Localhost IP address for MythTV Services API access:
-server = ""	# 127.0.0.1 hardcoded, as FQDN resolves to 127.0.1.1, but MythTV Services API runs under 127.0.0.1 and LAN IP.
+server = "127.0.0.1"	# 127.0.0.1 hardcoded, as FQDN resolves to 127.0.1.1, but MythTV Services API runs under 127.0.0.1 and LAN IP.
 # Get the FQDN for the local machine:
-servername = getfqdn("")
+servername = getfqdn()
 
 # Convert supplied "starttime" to Unix time:
 starttime_tuple = time.strptime(args.starttime, "%Y-%m-%dT%H:%M:%SZ")
