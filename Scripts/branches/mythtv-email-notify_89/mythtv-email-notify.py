@@ -29,9 +29,9 @@ args = parser.parse_args()
 
 # Define the server name/address:
 # Localhost IP address for MythTV Services API access:
-server = "127.0.0.1"	# 127.0.0.1 hardcoded, as FQDN resolves to 127.0.1.1, but MythTV Services API runs under 127.0.0.1 and LAN IP.
+server = ""	# 127.0.0.1 hardcoded, as FQDN resolves to 127.0.1.1, but MythTV Services API runs under 127.0.0.1 and LAN IP.
 # Get the FQDN for the local machine:
-servername = getfqdn()
+servername = getfqdn("")
 
 # Convert supplied "starttime" to Unix time:
 starttime_tuple = time.strptime(args.starttime, "%Y-%m-%dT%H:%M:%SZ")
@@ -133,7 +133,7 @@ html = """
 <html>
 <head>
 	<!-- My CSS -->
-	<style>
+	<style type="text/css">
 		html, body {{height: 100%;}}
 		
 		div#wrap {{min-height: 100%;}}
@@ -470,22 +470,21 @@ html = """
 <body>
 	<div id="wrap">
 		<div id="header">	
-			<img src="cid:image1" class="channel_icon" />
-			<a href="http://www.mythtv.org/"><img src="cid:image2" alt="MythTV" width="180px" height="64px" /></a>
+			<img src="cid:channelicon" style="float: right;margin-right: 25px;margin-top: 0px;" width="86x" height="64px" >
+			<a href="http://www.mythtv.org/"><img src="cid:mythtvicon" alt="MythTV" width="180px" height="64px" ></a>
 		</div>
 		
 		<div id="main">
 			</br>
 			<h3>MythTV has completed recording {title}{subtitle}</h3>
-			<img src="cid:image3" />
+			<img src="cid:previewicon" style="float: right;margin-right: 25px;margin-top: -20px;">
 			<p>
 			{desc}
 			</p>
 			<p>
 			{title}{subtitle} was recorded at {starttime} on {startdate}.
 			</p>
-			</br>
-			<p>
+			<p style="padding-top:70px;">
 			<a href="{url}" target="_blank">View the recording in MythWeb</a>.
 			</p>
 		</div>
@@ -496,7 +495,7 @@ html = """
 	</div>
 </body>
 </html>
-""".format(title=title, subtitle=subtitle, desc=desc, starttime=starttime_local, startdate=startdate_local, url=mythweb_url, version=version, server=servername)
+""".format(title=title, subtitle=subtitle, desc=desc, starttime=starttime_local, startdate=startdate_local, url=mythweb_url, version=version, server=servername, channel=args.chanid)
 
 # Setup the email, stored in "msgRoot":
 smtphost = getfqdn(smtpserver)
@@ -505,7 +504,7 @@ to = args.to
 sender = "MythTV@{servername}".format(servername=servername)
 
 # Create the root message and fill in the from, to, and subject headers
-msgRoot = MIMEMultipart('related')
+msgRoot = MIMEMultipart()
 msgRoot["Subject"] = subject
 msgRoot["From"] = '"MythTV" <{sender}>'.format(sender=sender)
 msgRoot["To"] = to
@@ -516,21 +515,25 @@ msgAlternative = MIMEMultipart('alternative')
 msgRoot.attach(msgAlternative)
 msgText = MIMEText(text)
 msgAlternative.attach(msgText)
+
+msgRelated = MIMEMultipart('related')
+msgAlternative.attach(msgRelated)
+
 msgText = MIMEText(html, 'html')
-msgAlternative.attach(msgText)
+msgRelated.attach(msgText)
 
 # Define the image's ID as referenced above
 msgImage = MIMEImage(channelicon_data)
-msgImage.add_header('Content-ID', '<image1>')
-msgRoot.attach(msgImage)
+msgImage.add_header('Content-ID', '<channelicon>')
+msgRelated.attach(msgImage)
 
 msgImage = MIMEImage(mythtvlogo_data)
-msgImage.add_header('Content-ID', '<image2>')
-msgRoot.attach(msgImage)
+msgImage.add_header('Content-ID', '<mythtvicon>')
+msgRelated.attach(msgImage)
 
 msgImage = MIMEImage(preview_data)
-msgImage.add_header('Content-ID', '<image3>')
-msgRoot.attach(msgImage)
+msgImage.add_header('Content-ID', '<previewicon>')
+msgRelated.attach(msgImage)
 
 # Send the message
 smtp = smtplib.SMTP(smtphost)
