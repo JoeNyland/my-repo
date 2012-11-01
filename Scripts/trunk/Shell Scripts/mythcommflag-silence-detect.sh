@@ -34,7 +34,7 @@ LOGGERPREFS="-st mythcommflag -p daemon.info"
 
 # Copy commercial skiplist to cutlist
 # 0=Disabled 1=Enabled
-COPYTOCUTLIST=1
+COPYTOCUTLIST=0
 
 # End User preferences
 
