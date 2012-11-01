@@ -113,6 +113,7 @@ else:
 
 # Check to see if we are running against an actual recording, or a live TV recording buffer:
 if recgroup == "LiveTV":
+	print "[WARN] mythtv-email-notify.py has not been run against a valid recording."
 	exit(0)
 
 # Scrape the MythTV system data page to "mythresponse" and create XML tree:
