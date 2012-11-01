@@ -65,6 +65,7 @@ recordingtree = etree.XML(recordinghtml_data)
 title_tag = recordingtree.xpath('//Program/Title')
 subtitle_tag = recordingtree.xpath('//Program/SubTitle')
 desc_tag = recordingtree.xpath('//Program/Description')
+recgroup_tag = recordingtree.xpath('//Program/Recording/RecGroup')
 
 # Check that required info fileds are populated with text and try to encode as "UTF-8":
 if title_tag[0].text is None:
@@ -88,7 +89,17 @@ else:
 	except AttributeError:
 		subtitle = subtitle_tag[0].text
 		subtitle = ': "{subtitle}"'.format(subtitle=subtitle)
-	
+
+if recgroup_tag[0].text is None:
+	recgroup = ""
+	recgroup_exists = "False"
+else:
+	recgroup_exists = "True"
+	try:
+		recgroup = recgroup_tag[0].text.encode("utf-8")
+	except AttributeError:
+		recgroup = recgroup_tag[0].text
+
 if desc_tag[0].text is None:
 	desc = "No description for this recording was found in the guide."
 	desc_exists = "False"
@@ -98,6 +109,11 @@ else:
 		desc = desc_tag[0].text.encode("utf-8")
 	except AttributeError:
 		desc = desc_tag[0].text
+
+# Check to see if we are running against an actual recording, or a live TV recording buffer:
+if recgroup == "LiveTV":
+	import sys
+	sys.exit(0)
 
 # Scrape the MythTV system data page to "mythresponse" and create XML tree:
 mythresponse = urllib2.urlopen(myth_url)
@@ -554,6 +570,7 @@ Local Start Time: {starttime_local}
 Local Start Date: {startdate_local}
 Title: {title}
 Subtitle: {subtitle}
+Recording Group: {recgroup}
 Description: {desc}
 
 MythWeb URL: {mythweb_url}
@@ -566,4 +583,4 @@ Channel Icon URL: {channelicon_url}
 MythTV Version: {version}
 
 Email source:
-{msg}""".format(chanid=str(args.chanid), starttime=args.starttime, starttime_local=starttime_local, startdate_local=startdate_local, title=title, subtitle=subtitle.lstrip(": "), desc=desc, mythweb_url=mythweb_url, recording_url=recording_url, recordinghtml_data=recordinghtml_data, preview_url=preview_url, channelicon_url=channelicon_url, version=version, msg=msgRoot)
+{msg}""".format(chanid=str(args.chanid), starttime=args.starttime, starttime_local=starttime_local, startdate_local=startdate_local, title=title, subtitle=subtitle.lstrip(": "), desc=desc, mythweb_url=mythweb_url, recording_url=recording_url, recordinghtml_data=recordinghtml_data, preview_url=preview_url, channelicon_url=channelicon_url, version=version, msg=msgRoot, recgroup=recgroup)
