@@ -28,9 +28,8 @@ parser.add_argument("--starttime", help="The %%STARTTIMEISOUTC%% for the recordi
 parser.add_argument("--to", help="The email address to send the notification to", metavar="email address", required=True)
 args = parser.parse_args()
 
-# Define the server name/address:
-# Localhost IP address for MythTV Services API access:
-server = gethostbyname("localhost")
+# Define the server name/IP address for MythTV Services API access:
+mythtvserver = gethostbyname("localhost")
 # Get the FQDN for the local machine:
 servername = getfqdn("")
 
@@ -50,10 +49,10 @@ startdate_local = datetime.strptime(str(starttime_local), "%Y-%m-%d %H:%M:%S").s
 starttime_local = startdatetime_local[1]
 
 # Construct required URLs:
-recording_url = "http://" + server + ":6544/Dvr/GetRecorded?StartTime=" + args.starttime + "&ChanId=" + str(args.chanid)
-myth_url = "http://" + server + ":6544/Myth/GetConnectionInfo"
-preview_url = "http://" + server + ":6544/Content/GetPreviewImage?StartTime=" + args.starttime + "&ChanId=" + str(args.chanid)
-channelicon_url = "http://" + server + ":6544/Guide/GetChannelIcon?" + "ChanId=" + str(args.chanid)
+recording_url = "http://" + mythtvserver + ":6544/Dvr/GetRecorded?StartTime=" + args.starttime + "&ChanId=" + str(args.chanid)
+myth_url = "http://" + mythtvserver + ":6544/Myth/GetConnectionInfo"
+preview_url = "http://" + mythtvserver + ":6544/Content/GetPreviewImage?StartTime=" + args.starttime + "&ChanId=" + str(args.chanid)
+channelicon_url = "http://" + mythtvserver + ":6544/Guide/GetChannelIcon?" + "ChanId=" + str(args.chanid)
 mythweb_url = mythweb + "/tv/detail/" + str(args.chanid) + "/" + str(starttime_unix)
 
 # Scrape the recording details page to "recordingresponse" and create XML tree:
