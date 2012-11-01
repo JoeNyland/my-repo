@@ -28,8 +28,8 @@ parser.add_argument("--starttime", help="The %%STARTTIMEISOUTC%% for the recordi
 parser.add_argument("--to", help="The email address to send the notification to", metavar="email address", required=True)
 args = parser.parse_args()
 
-# Define the server name/IP address for MythTV Services API access:
-mythtvserver = gethostbyname("localhost")
+# Get the server's localhost IP address and FQDN for MythTV Services API access:
+mythtvserver = gethostbyname(getfqdn("localhost"))
 # Get the FQDN for the local machine:
 servername = getfqdn("")
 
