@@ -24,9 +24,9 @@ smtpserver = ""
 # Parse the supplied arguments:
 parser = argparse.ArgumentParser()
 parser.add_argument("-v", "--verbose", action="store_true", help="Enable verbose output")
-parser.add_argument("--chanid", type=int, help="The %%CHANID%% for the recording to query for", required=True)
-parser.add_argument("--starttime", help="The %%STARTTIMEISOUTC%% for the recording to query for", required=True)
-parser.add_argument("--to", help="The email address to send the notification to", metavar="email address", required=True)
+parser.add_argument("--chanid", type=int, help="The %%CHANID%% for the recording to query for", metavar="%CHANID%", required=True)
+parser.add_argument("--starttime", help="The %%STARTTIMEISOUTC%% for the recording to query for", metavar="%STARTTIMEISOUTC%", required=True)
+parser.add_argument("--to", help="The email address to send the notification to", metavar="[email address]", required=True)
 args = parser.parse_args()
 
 # Get the server's localhost IP address and FQDN for MythTV Services API access:
