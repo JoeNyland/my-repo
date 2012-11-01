@@ -113,7 +113,7 @@ else:
 
 # Check to see if we are running against an actual recording, or a live TV recording buffer:
 if recgroup == "LiveTV":
-	print "[WARN] mythtv-email-notify.py has not been run against a valid recording."
+	print "[ERROR] An invalid recording has been supplied."
 	exit(0)
 
 # Scrape the MythTV system data page to "mythresponse" and create XML tree:
@@ -173,7 +173,7 @@ html = """
 				
 		div#header img.channel_icon {{
 			float: right;
-			margin-right: 25px;
+			margin-right: 20px;
 			margin-top: -5px;
 			max-height: 70px;
 		}}
@@ -181,17 +181,17 @@ html = """
 		div#main {{
 			overflow:auto;
 			padding-top: 80px;
-			padding-left: 10px;
+			padding-left: 15px;
 			padding-bottom: 2em;  /* must be same height as the footer */
 		}}
 		
-		div#main p {{
-			width: 75%;
+		div#main p, h1, h2, h3 {{
+			max-width: 60%;
 		}}
 		
 		div#main img {{
 			float: right;
-			margin-right: 25px;
+			margin-right: 15px;
 			margin-top: -20px;
 			width: 20%;
 		}}
@@ -487,13 +487,13 @@ html = """
 <body>
 	<div id="wrap">
 		<div id="header">	
-			<img src="cid:channelicon" style="float: right;margin-right: 25px;margin-top: 0px;" width="86x" height="64px" alt="{channel}">
+			<img src="cid:channelicon" style="float: right;margin-right: 30px;margin-top: 0px;" width="86x" height="64px" alt="{channel}">
 			<a href="http://www.mythtv.org/"><img src="cid:mythtvicon" alt="MythTV" width="180px" height="64px" ></a>
 		</div>
 		<div id="main">
 			</br>
 			<h3>MythTV has completed recording {title}{subtitle}</h3>
-			<img src="cid:previewicon" alt="{title}" style="float: right;margin-right: 25px;margin-top: -20px;">
+			<img src="cid:previewicon" alt="{title}" style="float: right;margin-right: 15px;margin-top: -20px;">
 			<p>
 			{desc}
 			</p>
