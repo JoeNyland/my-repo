@@ -11,6 +11,7 @@ from email.MIMEImage import MIMEImage
 from datetime import datetime
 from dateutil import tz
 from socket import getfqdn
+from socket import gethostbyname
 from lxml import etree
 
 # User configurable variables:
@@ -29,11 +30,11 @@ args = parser.parse_args()
 
 # Define the server name/address:
 # Localhost IP address for MythTV Services API access:
-server = "127.0.0.1"	# 127.0.0.1 hardcoded, as FQDN resolves to 127.0.1.1, but MythTV Services API runs under 127.0.0.1 and LAN IP.
+server = gethostbyname("localhost")
 # Get the FQDN for the local machine:
-servername = getfqdn()
+servername = getfqdn("")
 
-# Convert supplied "starttime" to Unix time:
+# Convert supplied "starttime" (UTC) to Unix time:
 starttime_tuple = time.strptime(args.starttime, "%Y-%m-%dT%H:%M:%SZ")
 starttime_unix = calendar.timegm(starttime_tuple)
 
@@ -470,14 +471,13 @@ html = """
 <body>
 	<div id="wrap">
 		<div id="header">	
-			<img src="cid:channelicon" style="float: right;margin-right: 25px;margin-top: 0px;" width="86x" height="64px" >
+			<img src="cid:channelicon" style="float: right;margin-right: 25px;margin-top: 0px;" width="86x" height="64px" alt="{channel}">
 			<a href="http://www.mythtv.org/"><img src="cid:mythtvicon" alt="MythTV" width="180px" height="64px" ></a>
 		</div>
-		
 		<div id="main">
 			</br>
 			<h3>MythTV has completed recording {title}{subtitle}</h3>
-			<img src="cid:previewicon" style="float: right;margin-right: 25px;margin-top: -20px;">
+			<img src="cid:previewicon" alt="{title}" style="float: right;margin-right: 25px;margin-top: -20px;">
 			<p>
 			{desc}
 			</p>
@@ -488,7 +488,6 @@ html = """
 			<a href="{url}" target="_blank">View the recording in MythWeb</a>.
 			</p>
 		</div>
-		
 	</div>
 	<div id="footer">
 		<a href="http://www.mythtv.org/">MythTV</a> {version} on {server}
@@ -510,27 +509,31 @@ msgRoot["From"] = '"MythTV" <{sender}>'.format(sender=sender)
 msgRoot["To"] = to
 msgRoot.preamble = 'This is a multi-part message in MIME format.'
 
-# Encapsulate the plain and HTML versions of the message body in an 'alternative' part
+# Encapsulate the plain and HTML versions of the message body in an 'alternative' part.
+# Initialise the main 'alternative' boundary:
 msgAlternative = MIMEMultipart('alternative')
 msgRoot.attach(msgAlternative)
+
+# Attach the text version of the message in the 'alternative' boundary:
 msgText = MIMEText(text)
 msgAlternative.attach(msgText)
 
+# Create the 'related' boundary under the 'alternative' boundary:
 msgRelated = MIMEMultipart('related')
 msgAlternative.attach(msgRelated)
 
+# Attach the html version of the message in the 'related' boundary:
 msgText = MIMEText(html, 'html')
 msgRelated.attach(msgText)
 
-# Define the image's ID as referenced above
+# Define the image's ID as referenced above.
+# Attach MIMEImages in the 'related' boundary:
 msgImage = MIMEImage(channelicon_data)
 msgImage.add_header('Content-ID', '<channelicon>')
 msgRelated.attach(msgImage)
-
 msgImage = MIMEImage(mythtvlogo_data)
 msgImage.add_header('Content-ID', '<mythtvicon>')
 msgRelated.attach(msgImage)
-
 msgImage = MIMEImage(preview_data)
 msgImage.add_header('Content-ID', '<previewicon>')
 msgRelated.attach(msgImage)
