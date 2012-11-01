@@ -1,146 +1,0 @@
-delete volume=_Full_0002
-yesdelete volume=_Full_0009
-yesdelete volume=_Full_0983
-yesdelete volume=_Full_1258
-yesdelete volume=_Full_1262
-yesdelete volume=_Full_1281
-yesdelete volume=_Full_1331
-yesdelete volume=_Full_1598
-yesdelete volume=_Full_1600
-yesdelete volume=_Full_1639
-yesdelete volume=_Inc_0107
-yesdelete volume=_Inc_1254
-yesdelete volume=_Inc_1255
-yesdelete volume=_Inc_1275
-yesdelete volume=_Inc_1315
-yesdelete volume=_Inc_1327
-yesdelete volume=_Inc_1528
-yesdelete volume=_Inc_1580
-yesdelete volume=_Inc_1617
-yesdelete volume=_Inc_1621
-yesdelete volume=_Inc_1624
-yesdelete volume=_Inc_1633
-yesdelete volume=_Inc_1636
-yesdelete volume=_Inc_1658
-yesdelete volume=_Inc_1663
-yesdelete volume=_Inc_1666
-yesdelete volume=_Inc_1762
-yesdelete volume=_Inc_3040
-yesdelete volume=_Inc_3068
-yesdelete volume=_Inc_3077
-yesdelete volume=_Inc_3144
-yesdelete volume=_Inc_3201
-yesdelete volume=_Inc_3205
-yesdelete volume=_Inc_3719
-yesdelete volume=_Inc_4325
-yesdelete volume=_Inc_4444
-yesdelete volume=_Inc_4461
-yesdelete volume=_Inc_4466
-yesdelete volume=_Inc_4485
-yesdelete volume=_Full_Copy_4653
-yesdelete volume=_Full_Copy_4655
-yesdelete volume=_Full_Copy_4672
-yesdelete volume=_Full_Copy_4673
-yesdelete volume=_Full_Copy_4674
-yesdelete volume=_Full_Copy_4675
-yesdelete volume=_Full_Copy_4676
-yesdelete volume=_Full_Copy_4677
-yesdelete volume=_Full_Copy_4678
-yesdelete volume=Mail_Full_3100
-yesdelete volume=Mail_Full_3124
-yesdelete volume=Mail_Full_3166
-yesdelete volume=Mail_Full_3167
-yesdelete volume=Mail_Full_4450
-yesdelete volume=Mail_Full_4470
-yesdelete volume=Mail_Inc_3105
-yesdelete volume=Mail_Inc_3217
-yesdelete volume=Mail_Inc_4467
-yesdelete volume=Mail_Inc_4481
-yesdelete volume=Mail_Inc_4487
-yesdelete volume=Mail_Inc_4490
-yesdelete volume=Mail_Inc_4652
-yesdelete volume=Mail_Full_Copy_4658
-yesdelete volume=Mail_Full_Copy_4660
-yesdelete volume=MythTV_Full_0069
-yesdelete volume=MythTV_Full_0994
-yesdelete volume=MythTV_Full_1284
-yesdelete volume=MythTV_Full_1332
-yesdelete volume=MythTV_Full_1335
-yesdelete volume=MythTV_Full_1602
-yesdelete volume=MythTV_Full_1640
-yesdelete volume=MythTV_Full_3123
-yesdelete volume=MythTV_Full_3164
-yesdelete volume=MythTV_Full_4448
-yesdelete volume=MythTV_Inc_0110
-yesdelete volume=MythTV_Inc_1329
-yesdelete volume=MythTV_Inc_1662
-yesdelete volume=MythTV_Inc_3085
-yesdelete volume=MythTV_Inc_3110
-yesdelete volume=MythTV_Inc_3139
-yesdelete volume=MythTV_Inc_3142
-yesdelete volume=MythTV_Inc_3143
-yesdelete volume=MythTV_Inc_3158
-yesdelete volume=MythTV_Inc_3211
-yesdelete volume=MythTV_Full_Copy_4659
-yesdelete volume=MythTV_Full_Copy_4662
-yesdelete volume=Network_Full_0079
-yesdelete volume=Network_Full_0989
-yesdelete volume=Network_Full_1282
-yesdelete volume=Network_Full_1599
-yesdelete volume=Network_Full_1638
-yesdelete volume=Network_Full_4449
-yesdelete volume=Network_Inc_0109
-yesdelete volume=Network_Inc_1632
-yesdelete volume=Network_Inc_3086
-yesdelete volume=Web_Full_0086
-yesdelete volume=Web_Full_1287
-yesdelete volume=Web_Full_1336
-yesdelete volume=Web_Full_1644
-yesdelete volume=Web_Full_3165
-yesdelete volume=Web_Inc_1246
-yesdelete volume=Web_Inc_3076
-yesdelete volume=Web_Inc_3213
-yesdelete volume=Web_Full_Copy_4661
-yesdelete volume=TestServer_Full_0094
-yesdelete volume=TestServer_Full_1014
-yesdelete volume=TestServer_Full_1292
-yesdelete volume=TestServer_Full_1340
-yesdelete volume=TestServer_Full_1605
-yesdelete volume=TestServer_Full_1645
-yesdelete volume=TestServer_Inc_1248
-yesdelete volume=TestServer_Inc_1618
-yesdelete volume=TestServer_Inc_1625
-yesdelete volume=TestServer_Inc_3079
-yesdelete volume=TestServer_Full_Copy_4664 
-yesdelete volume=SVN_Full_0100
-yesdelete volume=SVN_Full_0102
-yesdelete volume=SVN_Full_0104
-yesdelete volume=SVN_Full_1001
-yesdelete volume=SVN_Full_1003
-yesdelete volume=SVN_Full_1005
-yesdelete volume=SVN_Full_1283
-yesdelete volume=SVN_Full_1285
-yesdelete volume=SVN_Full_1286
-yesdelete volume=SVN_Full_1333
-yesdelete volume=SVN_Full_1334
-yesdelete volume=SVN_Full_1601
-yesdelete volume=SVN_Full_1603
-yesdelete volume=SVN_Full_1604
-yesdelete volume=SVN_Full_1641
-yesdelete volume=SVN_Full_1642
-yesdelete volume=SVN_Full_1643
-yesdelete volume=SVN_Inc_1245
-yesdelete volume=SVN_Inc_3209
-yesdelete volume=SVN_Full_Copy_4654
-yesdelete volume=SVN_Full_Copy_4656
-yesdelete volume=SVN_Full_Copy_4657
-yesdelete volume=WebSites_Full_0106
-yesdelete volume=WebSites_Inc_1247
-yesdelete volume=WebSites_Inc_3216
-yesdelete volume=WebSites_Full_Copy_4663
-yesdelete volume=Xbox_Full_0012
-yesdelete volume=Xbox_Full_0065
-yesdelete volume=Xbox_Inc_0111
-yesdelete volume=Xbox_Full_Copy_4665
-yesdelete volume=Xbox_Full_Copy_4666
-quit
