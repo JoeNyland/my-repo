@@ -5,6 +5,7 @@ import urllib2
 import time
 import calendar
 import smtplib
+from sys import exit
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.MIMEImage import MIMEImage
@@ -112,8 +113,7 @@ else:
 
 # Check to see if we are running against an actual recording, or a live TV recording buffer:
 if recgroup == "LiveTV":
-	import sys
-	sys.exit(0)
+	exit(0)
 
 # Scrape the MythTV system data page to "mythresponse" and create XML tree:
 mythresponse = urllib2.urlopen(myth_url)
