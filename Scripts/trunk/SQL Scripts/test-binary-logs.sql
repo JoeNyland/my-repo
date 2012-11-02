@@ -2,7 +2,7 @@ DROP DATABASE IF EXISTS `test`; -- Drops the existing database.
 
 RESET MASTER; -- Resets the log file chain.
 
-CREATE DATABASE IF NOT EXISTS `test`; -- Creates a new blank database to restore to.
+CREATE DATABASE IF NOT EXISTS `test`; -- Creates a new blank database.
 
 USE `test`; -- Connect to the database.
 
@@ -18,7 +18,7 @@ VALUES
         (NOW()),
         (NOW()),
         (NOW()),
-        (NOW()); -- Insert a new row, with the mytext field set to test.
+        (NOW()); -- Insert a 5 new rows with the current date/time in the date field.
 
 FLUSH LOGS; -- Flush the binary logs and force MySQL to start a new transaction logs
 
