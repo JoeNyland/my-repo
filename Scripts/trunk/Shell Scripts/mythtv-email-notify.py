@@ -26,7 +26,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument("-v", "--verbose", action="store_true", help="Enable verbose output")
 parser.add_argument("--chanid", type=int, help="The %%CHANID%% for the recording to query for", metavar="%CHANID%", required=True)
 parser.add_argument("--starttime", help="The %%STARTTIMEISOUTC%% for the recording to query for", metavar="%STARTTIMEISOUTC%", required=True)
-parser.add_argument("--to", help="The email address to send the notification to", metavar="[email address]", required=True)
+parser.add_argument("--to", help="The email address to send the notification to", metavar="[email address]", required=True, nargs="*")
 args = parser.parse_args()
 
 # Get the server's localhost IP address and FQDN for MythTV Services API access:
@@ -522,7 +522,7 @@ sender = "MythTV@{servername}".format(servername=servername)
 msgRoot = MIMEMultipart()
 msgRoot["Subject"] = subject
 msgRoot["From"] = '"MythTV" <{sender}>'.format(sender=sender)
-msgRoot["To"] = to
+msgRoot["To"] = ", ".join(args.to)
 msgRoot.preamble = 'This is a multi-part message in MIME format.'
 
 # Encapsulate the plain and HTML versions of the message body in an 'alternative' part.
