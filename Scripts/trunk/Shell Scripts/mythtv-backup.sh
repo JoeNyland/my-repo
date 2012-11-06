@@ -1,5 +1,5 @@
 #!/bin/bash
-# Script to sync files from RAID array on /mnt/array to USB backup HDD on /mnt/backup.
+# Script to sync MythTV recordings from RAID array on /mnt/data to USB backup HDD on /mnt/backup1.
 
 # General settings
 MOUNT=/mnt/data/mythtv														# Where the MythTV recordings directory is located.
@@ -9,10 +9,8 @@ BACKUPDRIVE=/mnt/backup1													# Where the USB backup HDD is mounted.
 SMTPSERVER=												# SMTP server address.
 SMTPUSER=																	# SMTP username.
 SMTPPASS=																	# SMTP password.
-FROM=`hostname -s`@`hostname -d`											# From address for emails.
 TO=												# To address for emails.
-
-############################################################################################################
+FROM=`hostname -s`@`hostname -d`											# From address for emails.
 
 # MythTV overrides
 OVER="--exclude='livetv/*'"													# MythTV specific overrides to Rsync (e.g. excluded directories).
@@ -31,15 +29,7 @@ if [ "$(id -u)" != "0" ]; then
    exit 1000
 fi
 
-if [ ! -z "$1" ]; then 
-	SRCDIR=$1
-else
-	echo "You have not provided the name of the directory that you would like to sync.";
-	echo ;
-	echo "Correct syntax is:";
-	echo "`hostname -s`:-$ ./mythtv-backup.sh <directory name to sync>";
-	exit 1000;
-fi
+SRCDIR=MythTV
 SRC=$MOUNT
 DSTDIR=$SRCDIR
 DST=$BACKUPDRIVE/$DSTDIR
