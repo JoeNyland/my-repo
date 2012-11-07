@@ -4,7 +4,7 @@
 
 # Directory to store backups in
 SRC=/mnt/data/svn
-DST=/mnt/backup1/SVN
+DST=/var/backups/svn
 
 ##############################################################################################
 
@@ -14,56 +14,83 @@ DST_INC=$DST/Incremental
 STATUS=$DST/.status
 SCRIPTNAME=`basename $0`
 HOST=`hostname -s`
+DATE=`date +%Y%m%d`
+TIME=`date +%H%M`
+DATETIME=${DATE}${TIME}
+
+if [ ! -d $DST ]
+then
+	mkdir $DST
+fi
 
 full_backup() {
+# Create $DST folder structure:
+mkdir $DST_FULL
 for repo in $SRC/*
 do
-	
-	echo "Full SVN dump completed successfully"
+	# Get the last revision in the repo:
+	LASTREV=`svnlook youngest $repo`
+	echo $LASTREV > ${STATUS}_`basename $repo`
+	# Perform a full dump of the repository:
+	svnadmin dump -q $repo > $DST_FULL/`basename $repo`_${DATETIME}_full.svn.dmp
+	echo "Full SVN dump of `basename $repo` completed successfully"
 done
 }
 
 inc_backup() {
+mkdir $DST_INC
 for repo in $SRC/*
 do
-
-	echo "Incremental SVN dump completed successfully"
+	LASTREV=`cat ${STATUS}_\`basename $repo\``
+	CURREV=`svnlook youngest $repo`
+	if [ $LASTREV -lt $CURREV ]
+	then
+		svnadmin dump -q --incremental -r $LASTREV:$CURREV > $DST_INC/`basename $repo`_${DATETIME}_inc.svn.dmp
+		echo "Incremental SVN dump of `basename $repo` completed successfully"
+	else
+		echo "No changes have been comitted to `basename $repo` since the last full backup"
+	fi
 done
 }
 
-case $2 in
+cleanup() {
+echo "Cleaning up files";
+if rm -rf $DST/*
+then
+	echo "Removed temporary files from ${DST}";
+	exit 0
+else
+	echo "Failed to cleanup temporary files from ${DST}";
+	return 1
+fi
+}
+
+case $1 in
 cleanup)
-	echo "Cleaning up files.";
-	if rm -rf $DST
-	then
-		echo "Removed temporary files from ${DST}";
-		exit 0
-	else
-		echo "Failed to remove temporary files from ${DST}";
-	fi;;
+cleanup;;
 esac
 
 case $LEVEL in
 full|Full|Differential|differential)
-	echo "Full backup selected"
+	echo "Full SVN backup selected"
 	if full_backup
 	then
 		echo "Proceeding to backup dump file with Bacula"
 		exit 0
 	else
-		echo "An error occurred whilst dumping the repository"
+		echo "An error occurred whilst dumping the repositories"
 		echo "Script will now exit"
 		exit 100
 	fi;;
 inc|incremental|Incremental)
-	echo "Incremental backup selected"
+	echo "Incremental SVN backup selected"
 	if inc_backup
 	then
 		echo "Proceeding to backup dump file(s) with Bacula"
 		exit 0
 	else
-		echo "An error occurred whilst dumping the repository"
-		echo "Script will now exit."
+		echo "An error occurred whilst dumping the repositories"
+		echo "Script will now exit"
 		exit 100
 	fi;;
 *)
