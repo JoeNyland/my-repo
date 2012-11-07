@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
-
 # This script is called by Bacula to perform full and incremental backups of SVN repositories.
 
-# Directory to store backups in
+# Directory containing SVN repositories:
 SRC=/mnt/data/svn
+
+# Directory to store backups in:
 DST=/var/backups/svn
 
 ##############################################################################################
@@ -32,8 +33,10 @@ do
 	LASTREV=`svnlook youngest $repo`
 	echo $LASTREV > ${STATUS}_`basename $repo`
 	# Perform a full dump of the repository:
-	svnadmin dump -q $repo > $DST_FULL/`basename $repo`_${DATETIME}_full.svn.dmp
-	echo "Full SVN dump of `basename $repo` completed successfully"
+	if svnadmin dump -q $repo > $DST_FULL/`basename $repo`_${DATETIME}_full.svn.dmp
+	then
+		echo "Full SVN dump of `basename $repo` completed successfully"
+	fi
 done
 }
 
@@ -45,8 +48,11 @@ do
 	CURREV=`svnlook youngest $repo`
 	if [ $LASTREV -lt $CURREV ]
 	then
-		svnadmin dump -q --incremental -r $LASTREV:$CURREV > $DST_INC/`basename $repo`_${DATETIME}_inc.svn.dmp
-		echo "Incremental SVN dump of `basename $repo` completed successfully"
+		if svnadmin dump -q --incremental -r $LASTREV:$CURREV $repo > $DST_INC/`basename $repo`_${DATETIME}_inc.svn.dmp
+		then
+			echo $CURREV > ${STATUS}_`basename $repo`
+			echo "Incremental SVN dump of `basename $repo` completed successfully"
+		fi
 	else
 		echo "No changes have been comitted to `basename $repo` since the last full backup"
 	fi
