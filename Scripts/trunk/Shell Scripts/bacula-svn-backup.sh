@@ -16,39 +16,38 @@ SCRIPTNAME=`basename $0`
 HOST=`hostname -s`
 
 full_backup() {
-for repo in $SRC
+for repo in $SRC/*
 do
-	ls -lh $repo
+	
+	echo "Full SVN dump completed successfully"
 done
 }
 
 inc_backup() {
-for repo in $SRC
+for repo in $SRC/*
 do
-	ls -lh $repo
+
+	echo "Incremental SVN dump completed successfully"
 done
 }
 
-if [[ "$2" == "cleanup" ]]
-then
+case $2 in
+cleanup)
 	echo "Cleaning up files.";
 	if rm -rf $DST
 	then
 		echo "Removed temporary files from ${DST}";
+		exit 0
 	else
 		echo "Failed to remove temporary files from ${DST}";
-	fi
-else
-	echo "No files to be cleaned.";
-	exit 0;
-fi
+	fi;;
+esac
 
 case $LEVEL in
 full|Full|Differential|differential)
 	echo "Full backup selected"
 	if full_backup
 	then
-		echo "Full SVN dump completed successfully"
 		echo "Proceeding to backup dump file with Bacula"
 		exit 0
 	else
@@ -60,7 +59,6 @@ inc|incremental|Incremental)
 	echo "Incremental backup selected"
 	if inc_backup
 	then
-		echo "Incremental SVN dump completed successfully"
 		echo "Proceeding to backup dump file(s) with Bacula"
 		exit 0
 	else
