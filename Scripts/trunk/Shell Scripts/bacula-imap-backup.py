@@ -43,16 +43,8 @@ import getpass, os, gc, sys, time, platform, getopt
 import mailbox, imaplib, socket
 import re, hashlib, gzip, bz2
 
-DST = "/var/backups/email"
-if os.path.exists(DST):
-	os.chdir(DST)
-else:
-	try:
-		os.mkdir(DST)
-	except OSError:
-		print "Unable to create destination folder"
-		sys.exit(100)
-	os.chdir(DST)
+# Define the destination folder to store backups:
+DESTINATION = "/var/backups/email"
 
 class SkipFolderException(Exception):
   """Indicates aborting processing of current folder, continue with next folder."""
@@ -560,7 +552,18 @@ def main():
     config = get_config()
     server = connect_and_login(config)
     names = get_names(server, config['compress'])
- 
+    
+    DST = DESTINATION + "/" + config['user']
+    if os.path.exists(DST):
+        os.chdir(DST)
+    else:
+        try:
+            os.makedirs(DST)
+        except OSError:
+            print "Unable to create destination folder"
+            sys.exit(100)
+        os.chdir(DST)
+    
     if config.get('folders'):
       dirs = map (lambda x: x.strip(), config.get('folders').split(','))
       names = filter (lambda x: x[0] in dirs, names)
