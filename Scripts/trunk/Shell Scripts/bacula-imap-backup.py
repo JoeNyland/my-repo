@@ -43,6 +43,17 @@ import getpass, os, gc, sys, time, platform, getopt
 import mailbox, imaplib, socket
 import re, hashlib, gzip, bz2
 
+DST = "/var/backups/email"
+if os.path.exists(DST):
+	os.chdir(DST)
+else:
+	try:
+		os.mkdir(DST)
+	except OSError:
+		print "Unable to create destination folder"
+		sys.exit(100)
+	os.chdir(DST)
+
 class SkipFolderException(Exception):
   """Indicates aborting processing of current folder, continue with next folder."""
   pass
