@@ -35,7 +35,7 @@ do
 	# Perform a full dump of the repository:
 	if svnadmin dump -q $repo > $DST_FULL/`basename $repo`_${DATETIME}_full.svn.dmp
 	then
-		echo "Full SVN dump of `basename $repo` completed successfully"
+		echo "Full SVN dump of \"`basename $repo`\" completed successfully"
 	fi
 done
 }
@@ -51,10 +51,10 @@ do
 		if svnadmin dump -q --incremental -r $LASTREV:$CURREV $repo > $DST_INC/`basename $repo`_${DATETIME}_inc.svn.dmp
 		then
 			echo $CURREV > ${STATUS}_`basename $repo`
-			echo "Incremental SVN dump of `basename $repo` completed successfully"
+			echo "Incremental SVN dump of \"`basename $repo`\" completed successfully"
 		fi
 	else
-		echo "No changes have been comitted to `basename $repo` since the last full backup"
+		echo "No changes have been comitted to \"`basename $repo`\" since the last full backup"
 	fi
 done
 }
