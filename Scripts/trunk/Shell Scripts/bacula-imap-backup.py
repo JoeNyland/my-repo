@@ -25,7 +25,7 @@ if args.cleanup:
 	except OSError:
 		print "An error occurred whilst removing temporary mbox files"
 		sys.exit(100)
-	print "Successfully cleaned up temporary mbox files for {server}".format(server=args.server)
+	print "Successfully cleaned up temporary mbox files."
 	sys.exit(0)
 
 if args.ssl:
