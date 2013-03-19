@@ -10,7 +10,7 @@ BACKUPDRIVE=/mnt/backup1													# Where the USB backup HDD is mounted.
 OVER="--exclude='livetv/*'"													# MythTV specific overrides to Rsync (e.g. excluded directories).
 
 # Rsync settings
-STDSWITCHES="-vruEthm --delete"												# Standard Rsync switches.
+STDSWITCHES="-OvruEthm --delete"											# Standard Rsync switches.
 STDEXCLUDE="--exclude='._*' --exclude='.AppleDB*' --exclude='lost+found' "	# Standard excluded files.
 
 SRCDIR=MythTV
