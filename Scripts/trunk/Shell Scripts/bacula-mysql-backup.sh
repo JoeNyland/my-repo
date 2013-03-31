@@ -57,6 +57,7 @@ full|differential)
 				if mysqldump --defaults-extra-file=$HOME/.my.cnf --all-databases --master-data --delete-master-logs --flush-logs > ${DST}/${HOST}_${DATE}_${TIME}.sql.dmp
 				then
 					echo "Completed full backup of MySQL databases from $HOST.";
+					exit 0
 				else
 					echo "[ERROR]";
 					echo "Full backup of MySQL databases from $HOST FAILED.";
@@ -79,6 +80,7 @@ incremental)
 				echo "Flushing transaction logs for MySQL databases on ${HOST} to prepare for backup."
 				mysqladmin --defaults-extra-file=$HOME/.my.cnf flush-logs; # Flushes the current logs, so that MySQL closes it's current file cleanly, then starts writing any new transactions to a new log file.
 				echo "MySQL binary transaction logs for databases on $HOST have been flushed and are ready to be backed up.";
+				exit 0
 			else
 		echo "[ERROR]";
 		echo "There seems to have been an error backing up the database(s).";
@@ -100,4 +102,6 @@ incremental)
 	exit 1005;;
 esac
 
-exit 0
+echo "[ERROR]"
+ehco "Undefined error occurred."
+exit 1008
