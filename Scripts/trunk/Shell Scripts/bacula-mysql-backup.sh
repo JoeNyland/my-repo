@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# Destination backup file
-DST=/tmp/$SCRIPTNAME_${HOST}_${DATE}_${TIME}.dmp.sql
-
 # MySQL Binary logging configuration
 MYSQLCONF=/etc/mysql/my.cnf
 BINLOGDIR=/mnt/db/mysql/binlog
@@ -19,6 +16,9 @@ if [ -z "$HOST" ]; then
 	echo "Cannot determine system hostname.";
 	exit 1001;
 fi
+
+# Destination backup file
+DST=/tmp/$SCRIPTNAME_${HOST}_${DATE}_${TIME}.dmp.sql
 
 case $LEVEL in
 full|differential)
