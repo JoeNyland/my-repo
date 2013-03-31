@@ -12,13 +12,11 @@ SCRIPTNAME=`basename $0`
 HOST=`hostname -s`
 
 LEVEL=$1
-DBUSER=$2
-DBPASS=$3
 
 DATE=`date +%d-%m-%Y`
 TIME=`date +%H-%M`
 
-if [[ "$4" == "cleanup" ]]; then
+if [[ "$2" == "cleanup" ]]; then
 	if [[ -d ${DST} ]]; then
 		echo "Cleaning up files.";
 		if rm -rf $DST; then
@@ -32,12 +30,12 @@ if [[ "$4" == "cleanup" ]]; then
 	exit 0;
 fi
 
-if [ -z "$DBUSER" -o -z "$DBPASS" ]; then
+if [ -z "$LEVEL" ]; then
 	echo "[ERROR]";
 	echo "You have not provided the required information to the script.";
-	echo "Please use the following syntax: $SCRIPTNAME [Level] [MySQL_User] [MySQL_Password]";
+	echo "Please use the following syntax: $SCRIPTNAME [Level]";
 	echo "Or:";
-	echo "$SCRIPTNAME [Level] [MySQL_User] [MySQL_Password] cleanup";
+	echo "$SCRIPTNAME [Level] cleanup";
 	exit 1000;
 fi
 
@@ -52,10 +50,10 @@ case $LEVEL in
 Full|Differential)
 	# FULL BACKUP (will also run the same backup for a differential level job.)
 	# If the supplied credentials are vaild, then perform a FULL database dump to ${DST}/${HOST}_${db}.sql.bz2
-	if echo 'show databases;' | mysql -s -u ${DBUSER} -p${DBPASS} >/dev/null
+	if echo 'show databases;' | mysql -s >/dev/null
 	then
 		echo "Performing full backup of MySQL databases from $HOST... "
-				if mysqldump --all-databases -u ${DBUSER} -p${DBPASS} --master-data --delete-master-logs --flush-logs > ${DST}/${HOST}_${DATE}_${TIME}.sql.dmp
+				if mysqldump --all-databases --master-data --delete-master-logs --flush-logs > ${DST}/${HOST}_${DATE}_${TIME}.sql.dmp
 				then
 					echo "Completed full backup of MySQL databases from $HOST.";
 				else
@@ -75,10 +73,10 @@ Incremental)
 	echo "Incremental MySQL backup selected for ${HOST}";
 	if grep "log_bin" ${MYSQLCONF} | egrep -v '^(#|$)' | grep "${BINLOGDIR}/${BINLOGPREFIX}" > /dev/null # If this returns 0, then binary logging appears to be enabled for MySQL.
 	then
-		if echo 'show databases;' | mysql -s -u ${DBUSER} -p${DBPASS} >/dev/null
+		if echo 'show databases;' | mysql -s >/dev/null
 			then
 				echo "Flushing transaction logs for MySQL databases on ${HOST} to prepare for backup."
-				mysqladmin flush-logs -u ${DBUSER} -p${DBPASS}; # Flushes the current logs, so that MySQL closes it's current file cleanly, then starts writing any new transactions to a new log file.
+				mysqladmin flush-logs; # Flushes the current logs, so that MySQL closes it's current file cleanly, then starts writing any new transactions to a new log file.
 				echo "MySQL binary transaction logs for databases on $HOST have been flushed and are ready to be backed up.";
 			else
 		echo "[ERROR]";
@@ -95,9 +93,9 @@ Incremental)
 *)
 	echo "[ERROR]"
 	echo "You have not specified the backup level variable in the client-run-before-job resource definition."
-	echo "Please use the following syntax: $SCRIPTNAME [Level] [MySQL_User] [MySQL_Password]";
+	echo "Please use the following syntax: $SCRIPTNAME [Level]";
 	echo "Or:";
-	echo "$SCRIPTNAME [Level] [MySQL_User] [MySQL_Password] cleanup";
+	echo "$SCRIPTNAME [Level] cleanup";
 	exit 1005;;
 esac
 
