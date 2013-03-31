@@ -1,10 +1,5 @@
 #!/bin/bash
 
-if [ -z "$HOST" ]; then
-	echo "Cannot determine system hostname.";
-	exit 1001;
-fi
-
 # Destination backup file
 DST=/tmp/$SCRIPTNAME_${HOST}_${DATE}_${TIME}.dmp.sql
 
@@ -19,6 +14,11 @@ JOBID=$1
 LEVEL=`echo $2 | awk '{print tolower($0)}'`
 DATE=`date +%d-%m-%Y`
 TIME=`date +%H-%M`
+
+if [ -z "$HOST" ]; then
+	echo "Cannot determine system hostname.";
+	exit 1001;
+fi
 
 case $LEVEL in
 full|differential)
