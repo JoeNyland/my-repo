@@ -12,7 +12,7 @@ SCRIPTNAME=`basename $0`
 HOST=`hostname -s`
 HOME=`grep \`whoami\` /etc/passwd | awk -F":" '{print $6}'`
 
-LEVEL=$1
+LEVEL=`echo $1 | awk '{print tolower($0)}'`
 
 DATE=`date +%d-%m-%Y`
 TIME=`date +%H-%M`
@@ -48,7 +48,7 @@ if [ -z "$HOST" ]; then
 fi
 
 case $LEVEL in
-Full|Differential)
+full|differential)
 	# FULL BACKUP (will also run the same backup for a differential level job.)
 	# If the supplied credentials are vaild, then perform a FULL database dump to ${DST}/${HOST}_${db}.sql.bz2
 	if echo 'show databases;' | mysql --defaults-extra-file=$HOME/.my.cnf -s >/dev/null
@@ -68,7 +68,7 @@ Full|Differential)
 		echo "Please review the logged messages above.";
 		exit 1004;
 	fi;;
-Incremental)
+incremental)
 	# INCREMENTAL BACKUP
 	# If binary transaction logging is enabled in ${MYSQLCONF}, then the script will copy the transaction logs from ${BINLOGDIR} to ${DST}, ready to be backed up.
 	echo "Incremental MySQL backup selected for ${HOST}";
