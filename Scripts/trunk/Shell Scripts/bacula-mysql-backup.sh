@@ -10,6 +10,7 @@ BINLOGPREFIX=mysql-bin
 
 SCRIPTNAME=`basename $0`
 HOST=`hostname -s`
+HOME=`grep \`whoami\` /etc/passwd | awk -F":" '{print $6}'`
 
 LEVEL=$1
 
@@ -50,10 +51,11 @@ case $LEVEL in
 Full|Differential)
 	# FULL BACKUP (will also run the same backup for a differential level job.)
 	# If the supplied credentials are vaild, then perform a FULL database dump to ${DST}/${HOST}_${db}.sql.bz2
-	if echo 'show databases;' | mysql -s >/dev/null
+	if echo 'show databases;' | mysql --defaults-extra-file=$HOME/.my.cnf -s >/dev/null
 	then
+exit
 		echo "Performing full backup of MySQL databases from $HOST... "
-				if mysqldump --all-databases --master-data --delete-master-logs --flush-logs > ${DST}/${HOST}_${DATE}_${TIME}.sql.dmp
+				if mysqldump --defaults-extra-file=$HOME/.my.cnf --all-databases --master-data --delete-master-logs --flush-logs > ${DST}/${HOST}_${DATE}_${TIME}.sql.dmp
 				then
 					echo "Completed full backup of MySQL databases from $HOST.";
 				else
@@ -73,10 +75,10 @@ Incremental)
 	echo "Incremental MySQL backup selected for ${HOST}";
 	if grep "log_bin" ${MYSQLCONF} | egrep -v '^(#|$)' | grep "${BINLOGDIR}/${BINLOGPREFIX}" > /dev/null # If this returns 0, then binary logging appears to be enabled for MySQL.
 	then
-		if echo 'show databases;' | mysql -s >/dev/null
+		if echo 'show databases;' | mysql --defaults-extra-file=$HOME/.my.cnf -s >/dev/null
 			then
 				echo "Flushing transaction logs for MySQL databases on ${HOST} to prepare for backup."
-				mysqladmin flush-logs; # Flushes the current logs, so that MySQL closes it's current file cleanly, then starts writing any new transactions to a new log file.
+				mysqladmin --defaults-extra-file=$HOME/.my.cnf flush-logs; # Flushes the current logs, so that MySQL closes it's current file cleanly, then starts writing any new transactions to a new log file.
 				echo "MySQL binary transaction logs for databases on $HOST have been flushed and are ready to be backed up.";
 			else
 		echo "[ERROR]";
