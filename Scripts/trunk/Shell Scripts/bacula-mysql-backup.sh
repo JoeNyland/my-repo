@@ -1,25 +1,24 @@
 #!/bin/bash
 
-# Directory to store backups in
-DST=/mnt/db/mysql/.backups
+if [ -z "$HOST" ]; then
+	echo "Cannot determine system hostname.";
+	exit 1001;
+fi
+
+# Destination backup file
+DST=/tmp/$SCRIPTNAME_${HOST}_${DATE}_${TIME}.dmp.sql
 
 # MySQL Binary logging configuration
 MYSQLCONF=/etc/mysql/my.cnf
 BINLOGDIR=/mnt/db/mysql/binlog
 BINLOGPREFIX=mysql-bin
-
-# Main script body
 SCRIPTNAME=`basename $0`
 HOST=`hostname -s`
 HOME=`grep \`whoami\` /etc/passwd | awk -F":" '{print $6}'`
-LEVEL=`echo $1 | awk '{print tolower($0)}'`
+JOBID=$1
+LEVEL=`echo $2 | awk '{print tolower($0)}'`
 DATE=`date +%d-%m-%Y`
 TIME=`date +%H-%M`
-
-if [ -z "$HOST" ]; then
-	echo "Cannot determine system hostname.";
-	exit 1001;
-fi
 
 case $LEVEL in
 full|differential)
@@ -29,8 +28,7 @@ full|differential)
 	then
 		echo "Performing full backup of MySQL databases from $HOST... "
 			# Dump all databases.
-			mkdir -p ${DST}
-			if mysqldump --defaults-extra-file=$HOME/.my.cnf --all-databases --master-data --delete-master-logs --flush-logs > ${DST}/${HOST}_${DATE}_${TIME}.dmp.sql
+			if mysqldump --defaults-extra-file=$HOME/.my.cnf --all-databases --master-data --delete-master-logs --flush-logs > ${DST}
 				then
 					echo "Completed full backup of MySQL databases from $HOST.";
 					exit 0
@@ -73,13 +71,13 @@ incremental)
 	fi;;
 cleanup)
 	# Cleanup full backup file after backup.
-	if [[ -d ${DST} ]]; then
+	if [[ -f ${DST} ]]; then
 		echo "Cleaning up files.";
-		if rm -rf $DST; then
-			echo "Removed temporary files from ${DST}";
+		if rm -f $DST; then
+			echo "Removed temporary file: ${DST}";
 			exit 0;
 		  else
-		  echo "Failed to remove temporary files from ${DST}";
+		  echo "Failed to remove temporary file: ${DST}";
 		  exit 1008;
 		fi
 	else
@@ -89,9 +87,9 @@ cleanup)
 	echo "[ERROR]";
 	echo "You have not provided the required information to the script.";
 	echo "Please use the following syntax:";
-	echo "$SCRIPTNAME [Level]";
+	echo "$SCRIPTNAME [JobID] [Level]";
 	echo "Or:";
-	echo "$SCRIPTNAME cleanup";
+	echo "$SCRIPTNAME [JobID] cleanup";
 	exit 1000;;
 esac
 
