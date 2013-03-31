@@ -18,7 +18,7 @@ if [ -z "$HOST" ]; then
 fi
 
 # Destination backup file
-DST=/tmp/$SCRIPTNAME_${HOST}_${DATE}_${TIME}.dmp.sql
+DST=/tmp/`echo ${SCRIPTNAME} | awk -F. '{ print $1 }'`_${HOST}_${DATE}_${TIME}.dmp.sql
 
 case $LEVEL in
 full|differential)
