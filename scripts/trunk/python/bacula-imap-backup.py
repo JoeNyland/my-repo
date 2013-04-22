@@ -6,7 +6,11 @@ import sys
 import subprocess
 import shutil
 from string import replace
+import sys
+sys.dont_write_bytecode = True
 from imapbackup import *
+import sys
+sys.dont_write_bytecode = False
 
 # Parse the supplied arguments:
 parser = argparse.ArgumentParser()
