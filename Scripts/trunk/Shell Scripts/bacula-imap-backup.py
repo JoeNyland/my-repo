@@ -10,7 +10,7 @@ from imapbackup import *
 
 # Parse the supplied arguments:
 parser = argparse.ArgumentParser()
-parser.add_argument("-s", "--server", help="Address of server, port optional, eg. mail.com:143")
+parser.add_argument("-s", "--server", help="Address of server; port optional. E.g. mail.com:143")
 parser.add_argument("--ssl", help="Use SSL.  Port defaults to 993.", action="store_true")
 parser.add_argument("-u", "--username", help="Username to log into server")
 parser.add_argument("-p", "--password", help="Password to log into server")
