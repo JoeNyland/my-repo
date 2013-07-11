@@ -1,9 +1,18 @@
 #!/bin/bash
 
 # This script archives shared data from 's RAID array to a 2 disk HDD archive.
+#
+# There are two functions to the script:
+#
+# Archive:
+# This function is called by supplying either -a or --archive when calling this script. This archives all data from the chosen $DATA directory below to the first disk in the archive volume which is specified by the $VOLUME variable below.
+#
+# Sync:
+# This function is called by supplying either -s or --sync when calling this script. This syncs all data from $DRIVE1 to $DRIVE2 in the archive volume which is specified by the $VOLUME variable below.
+#
 
 # General settings
-SHAREDDATA=/mnt/data/shared
+DATA=/mnt/data/shared
 VOLUME=archive1
 DRIVE1=drive1
 DRIVE2=drive2
@@ -16,7 +25,7 @@ EXCLUDE="--exclude=._* --exclude=.AppleDB*"     # Excluded files
 error_func() {
 		case $1 in
 		101)
-		echo [ERROR] $0: Erorr code 101: Failed to archive data from $SHAREDDATA to /mnt/$VOLUME/$DRIVE1
+		echo [ERROR] $0: Erorr code 101: Failed to archive data from $DATA to /mnt/$VOLUME/$DRIVE1
 		exit 101
 		;;
 		102)
@@ -34,7 +43,7 @@ error_func() {
 # Main script
 case $1 in
 	-a|--archive)
-		SRC=$SHAREDDATA/
+		SRC=$DATA/
 		DST=/mnt/$VOLUME/$DRIVE1/
 	    echo [INFO] SharedData archive selected
 	    echo [INFO] Archiving data from $SRC to $DST
