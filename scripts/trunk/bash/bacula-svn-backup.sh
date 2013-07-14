@@ -54,7 +54,7 @@ do
 			echo "Incremental SVN dump of \"`basename $repo`\" completed successfully"
 		fi
 	else
-		echo "No changes have been comitted to \"`basename $repo`\" since the last full backup"
+		echo "No changes have been comitted to \"`basename $repo`\" since the last backup"
 	fi
 done
 }
