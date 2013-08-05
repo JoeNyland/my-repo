@@ -1,8 +1,8 @@
 #!/bin/bash
-# Script to sync MythTV recordings from RAID array on /mnt/data to USB backup HDD on /mnt/backup1.
+# Script to sync MythTV recordings from  to USB backup HDD on /mnt/backup1.
 
 # General settings
-SRC=/mnt/data/mythtv                                            # The directory containing the MythTV recordings directory.
+SRC=/var/lib/mythtv/recordings                                  # The directory containing the MythTV recordings directory.
 DST=/mnt/backup1/MythTV                                         # Destination directory
 
 # Rsync settings

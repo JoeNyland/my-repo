@@ -12,7 +12,7 @@
 #
 
 # General settings
-DATA=/mnt/data/shared
+DATA=/srv/shared
 VOLUME=vol1
 DRIVE1=drive1
 DRIVE2=drive2

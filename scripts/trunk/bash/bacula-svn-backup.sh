@@ -2,7 +2,7 @@
 # This script is called by Bacula to perform full and incremental backups of SVN repositories.
 
 # Directory containing SVN repositories:
-SRC=/mnt/data/svn
+SRC=/srv/svn
 
 # Directory to store backups in:
 DST=/var/backups/svn

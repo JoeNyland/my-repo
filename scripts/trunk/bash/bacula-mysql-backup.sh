@@ -2,7 +2,7 @@
 
 # MySQL Binary logging configuration
 MYSQLCONF=/etc/mysql/my.cnf
-BINLOGDIR=/mnt/db/mysql/binlog
+BINLOGDIR=/var/log/mysql
 BINLOGPREFIX=mysql-bin
 SCRIPTNAME=`basename $0`
 HOST=`hostname -s`
@@ -82,7 +82,7 @@ cleanup)
 		fi
 	else
 		exit 0;
-	fi;;	
+	fi;;
 *)
 	echo "[ERROR]";
 	echo "You have not provided the required information to the script.";
