@@ -18,8 +18,8 @@ DRIVE1=drive1
 DRIVE2=drive2
 
 # Rsync settings
-SWITCHES="-OvruEthm"                                                # Rsync switches
-EXCLUDE="--exclude=._* --exclude=.AppleDB* --exclude=Downloads"     # Excluded files
+SWITCHES="-OvruEthm"                                                                     # Rsync switches
+EXCLUDE="--exclude=._* --exclude=.AppleDB* --exclude=lost+found --exclude=Downloads"     # Excluded files
 
 # Error function definition
 error_func() {
