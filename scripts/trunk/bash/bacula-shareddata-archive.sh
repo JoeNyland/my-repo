@@ -12,7 +12,7 @@
 #
 
 # General settings
-DATA=/srv/shared
+DATA=/srv
 VOLUME=vol1
 DRIVE1=drive1
 DRIVE2=drive2
