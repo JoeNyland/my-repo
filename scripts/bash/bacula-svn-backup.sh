@@ -48,7 +48,7 @@ do
 	CURREV=`svnlook youngest $repo`
 	if [ $LASTREV -lt $CURREV ]
 	then
-		if svnadmin dump -q --incremental -r $LASTREV:$CURREV $repo > $DST_INC/`basename $repo`_${DATETIME}_inc.svn.dmp
+		if svnadmin dump -q --incremental -r $(( $LASTREV + 1 )):$CURREV $repo > $DST_INC/`basename $repo`_${DATETIME}_inc.svn.dmp
 		then
 			echo $CURREV > ${STATUS}_`basename $repo`
 			echo "Incremental SVN dump of \"`basename $repo`\" completed successfully"
