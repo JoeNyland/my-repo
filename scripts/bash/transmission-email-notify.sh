@@ -72,6 +72,13 @@
     <div id=main-content>
 		</br>
 		<h3>Transmission has completed downloading "$TR_TORRENT_NAME"</h3>
+
+		<p>
+		Your download can be found on , in the following location:
+		<p/>
+		<p>
+		$TR_TORRENT_DIR/$TR_TORRENT_NAME
+		</p>
 	</div>
 
 	<div id=banner-bottom>
