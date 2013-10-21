@@ -17,7 +17,7 @@ from lxml import etree
 
 # User configurable variables:
 # Define MythWeb URL:
-mythweb = ""
+mythweb = "https://"
 # Define SMTP server:
 smtpserver = ""
 
@@ -152,68 +152,68 @@ html = """
 	<!-- My CSS -->
 	<style type="text/css">
 		html, body {{height: 100%;}}
-		
+
 		div#wrap {{min-height: 100%;}}
-		
+
 		div#header {{
-			position: fixed; 
-			top: 0; 
-			left: 0; 
+			position: fixed;
+			top: 0;
+			left: 0;
 			background-color: #B9B9B9; /* fallback color if gradients are not supported */
-			background-image: -webkit-gradient(linear, left top, left bottom, from(#C9C9C9), to(#A7A7A7)); 
-			background-image: -webkit-linear-gradient(top, #C9C9C9, #A7A7A7); 
-			background-image:    -moz-linear-gradient(top, #C9C9C9, #A7A7A7); 
-			background-image:     -ms-linear-gradient(top, #C9C9C9, #A7A7A7); 
-			background-image:      -o-linear-gradient(top, #C9C9C9, #A7A7A7); 
+			background-image: -webkit-gradient(linear, left top, left bottom, from(#C9C9C9), to(#A7A7A7));
+			background-image: -webkit-linear-gradient(top, #C9C9C9, #A7A7A7);
+			background-image:    -moz-linear-gradient(top, #C9C9C9, #A7A7A7);
+			background-image:     -ms-linear-gradient(top, #C9C9C9, #A7A7A7);
+			background-image:      -o-linear-gradient(top, #C9C9C9, #A7A7A7);
 			background-image:         linear-gradient(top, #C9C9C9, #A7A7A7); /* standard, but currently unimplemented */
-			width: 100%; 
-			margin: 0 auto; 
+			width: 100%;
+			margin: 0 auto;
 			padding: 15px;
 		}}
-				
+
 		div#header img.channel_icon {{
 			float: right;
 			margin-right: 20px;
 			margin-top: -5px;
 			max-height: 70px;
 		}}
-		
+
 		div#main {{
 			overflow:auto;
 			padding-top: 80px;
 			padding-left: 15px;
 			padding-bottom: 2em;  /* must be same height as the footer */
 		}}
-		
+
 		div#main p, h1, h2, h3 {{
 			max-width: 60%;
 		}}
-		
+
 		div#main img {{
 			float: right;
 			margin-right: 15px;
 			margin-top: -20px;
 			width: 20%;
 		}}
-		
+
 		div#footer {{
 			position: relative;
 			margin-top: -2em; /* negative value of footer height */
 			height: 1em;
 			clear:both;
-	
+
 			background-color: #B9B9B9; /* fallback color if gradients are not supported */
-			background-image: -webkit-gradient(linear, left top, left bottom, from(#C9C9C9), to(#A7A7A7)); 
-			background-image: -webkit-linear-gradient(top, #C9C9C9, #A7A7A7); 
-			background-image:    -moz-linear-gradient(top, #C9C9C9, #A7A7A7); 
-			background-image:     -ms-linear-gradient(top, #C9C9C9, #A7A7A7); 
-			background-image:      -o-linear-gradient(top, #C9C9C9, #A7A7A7); 
+			background-image: -webkit-gradient(linear, left top, left bottom, from(#C9C9C9), to(#A7A7A7));
+			background-image: -webkit-linear-gradient(top, #C9C9C9, #A7A7A7);
+			background-image:    -moz-linear-gradient(top, #C9C9C9, #A7A7A7);
+			background-image:     -ms-linear-gradient(top, #C9C9C9, #A7A7A7);
+			background-image:      -o-linear-gradient(top, #C9C9C9, #A7A7A7);
 			background-image:         linear-gradient(top, #C9C9C9, #A7A7A7); /* standard, but currently unimplemented */
 			padding: 5px;
 			color: #E1E1E1;
 			font-size: x-small;
 		}}
-		
+
 		/*Opera Fix*/
 		body:before {{
 			content:"";
@@ -486,7 +486,7 @@ html = """
 
 <body>
 	<div id="wrap">
-		<div id="header">	
+		<div id="header">
 			<img src="cid:channelicon" style="float: right;margin-right: 30px;margin-top: 0px;" width="86x" height="64px" alt="{channel}">
 			<a href="http://www.mythtv.org/"><img src="cid:mythtvicon" alt="MythTV" width="180px" height="64px" ></a>
 		</div>
@@ -576,7 +576,7 @@ Description: {desc}
 
 MythWeb URL: {mythweb_url}
 Services URL: {recording_url}
-Services Response: 
+Services Response:
 {recordinghtml_data}
 
 Preview URL: {preview_url}
