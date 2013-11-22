@@ -171,11 +171,16 @@ html = """
 			padding: 15px;
 		}}
 
+		div#header img.mythtv_icon {{
+			width: 180px;
+			height: 64px;
+		}}
+
 		div#header img.channel_icon {{
 			float: right;
-			margin-right: 20px;
-			margin-top: -5px;
-			max-height: 70px;
+			margin-right: 30px;
+			margin-top: -0px;
+			max-height: 64px;
 		}}
 
 		div#main {{
@@ -190,10 +195,9 @@ html = """
 		}}
 
 		div#main img {{
-			float: right;
-			margin-right: 15px;
-			margin-top: -20px;
-			width: 20%;
+		float: right;
+		margin-right: 15px;
+		margin-top: -20px;
 		}}
 
 		div#footer {{
@@ -487,13 +491,13 @@ html = """
 <body>
 	<div id="wrap">
 		<div id="header">
-			<img src="cid:channelicon" style="float: right;margin-right: 30px;margin-top: 0px;" width="86x" height="64px" alt="{channel}">
-			<a href="http://www.mythtv.org/"><img src="cid:mythtvicon" alt="MythTV" width="180px" height="64px" ></a>
+			<img src="cid:channelicon" class="channel_icon" alt="{channel}">
+			<a href="http://www.mythtv.org/"><img src="cid:mythtvicon" alt="MythTV" class="mythtv_icon" ></a>
 		</div>
 		<div id="main">
 			</br>
 			<h3>MythTV has completed recording {title}{subtitle}</h3>
-			<img src="cid:previewicon" alt="{title}" style="float: right;margin-right: 15px;margin-top: -20px;">
+			<img src="cid:previewicon" alt="{title}">
 			<p>
 			{desc}
 			</p>
