@@ -158,12 +158,16 @@ html = """
 <head>
 	<!-- My CSS -->
 	<style type="text/css">
-		html, body {{height: 100%;}}
+		html, body {{
+		height: 100%;
+		}}
 
-		div#wrap {{min-height: 100%;}}
+		div#wrap {{
+		min-height: 100%;
+		}}
 
 		div#header {{
-			position: fixed;
+			position: absolute;
 			top: 0;
 			left: 0;
 			background-color: #B9B9B9; /* fallback color if gradients are not supported */
@@ -175,19 +179,20 @@ html = """
 			background-image:         linear-gradient(top, #C9C9C9, #A7A7A7); /* standard, but currently unimplemented */
 			width: 100%;
 			margin: 0 auto;
-			padding: 15px;
+			padding-top: 15px;
+			padding-bottom: 15px;
 		}}
 
 		div#header img.mythtv_icon {{
 			width: 180px;
 			height: 64px;
+			padding-left: 15px;
 		}}
 
 		div#header img.channel_icon {{
 			float: right;
-			margin-right: 30px;
-			margin-top: -0px;
 			max-height: 64px;
+			padding-right: 15px;
 		}}
 
 		div#main {{
@@ -223,15 +228,6 @@ html = """
 			padding: 5px;
 			color: #E1E1E1;
 			font-size: x-small;
-		}}
-
-		/*Opera Fix*/
-		body:before {{
-			content:"";
-			height:100%;
-			float:left;
-			width:0;
-			margin-top:-32767px;/
 		}}
 	</style>
 	<!-- MythWeb CSS -->
