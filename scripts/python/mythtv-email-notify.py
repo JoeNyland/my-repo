@@ -14,6 +14,8 @@ from dateutil import tz
 from socket import getfqdn
 from socket import gethostbyname
 from lxml import etree
+import random
+import string
 
 # User configurable variables:
 # Define MythWeb URL:
@@ -140,6 +142,11 @@ previewresponse.close()
 channeliconresponse = urllib2.urlopen(channelicon_url)
 channelicon_data = channeliconresponse.read()
 channeliconresponse.close()
+
+# Generate unique IDs for channel icons and previews
+char_set = string.ascii_uppercase + string.digits
+channelicon = 'channelicon' + ''.join(random.sample(char_set*6,6))
+previewicon = 'previewicon' + ''.join(random.sample(char_set*6,6))
 
 # Define the text version of the email:
 text = 'MythTV has completed recording {title}{subtitle}\r\n\r\n{desc}\r\n\r\n{title}{subtitle} was recorded at {starttime} on {startdate}\r\n\r\nMythTV {version} on {server}'.format(title=title, subtitle=subtitle, desc=desc, starttime=starttime_local, startdate=startdate_local, version=version, server=servername)
@@ -491,13 +498,13 @@ html = """
 <body>
 	<div id="wrap">
 		<div id="header">
-			<img src="cid:channelicon" class="channel_icon" alt="{channel}">
+			<img src="cid:{channelicon}" class="channel_icon" alt="{channel}">
 			<a href="http://www.mythtv.org/"><img src="cid:mythtvicon" alt="MythTV" class="mythtv_icon" ></a>
 		</div>
 		<div id="main">
 			</br>
 			<h3>MythTV has completed recording {title}{subtitle}</h3>
-			<img src="cid:previewicon" alt="{title}">
+			<img src="cid:{previewicon}" alt="{title}">
 			<p>
 			{desc}
 			</p>
@@ -514,7 +521,7 @@ html = """
 	</div>
 </body>
 </html>
-""".format(title=title, subtitle=subtitle, desc=desc, starttime=starttime_local, startdate=startdate_local, url=mythweb_url, version=version, server=servername, channel=args.chanid)
+""".format(title=title, subtitle=subtitle, desc=desc, starttime=starttime_local, startdate=startdate_local, url=mythweb_url, version=version, server=servername, channelicon=channelicon, previewicon=previewicon, channel=args.chanid)
 
 # Setup the email, stored in "msgRoot":
 smtphost = getfqdn(smtpserver)
@@ -549,13 +556,13 @@ msgRelated.attach(msgText)
 # Define the image's ID as referenced above.
 # Attach MIMEImages in the 'related' boundary:
 msgImage = MIMEImage(channelicon_data)
-msgImage.add_header('Content-ID', '<channelicon>')
+msgImage.add_header('Content-ID', '<' + channelicon + '>')
 msgRelated.attach(msgImage)
 msgImage = MIMEImage(mythtvlogo_data)
 msgImage.add_header('Content-ID', '<mythtvicon>')
 msgRelated.attach(msgImage)
 msgImage = MIMEImage(preview_data)
-msgImage.add_header('Content-ID', '<previewicon>')
+msgImage.add_header('Content-ID', '<' + previewicon + '>')
 msgRelated.attach(msgImage)
 
 # Send the message
