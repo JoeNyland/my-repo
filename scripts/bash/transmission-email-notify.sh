@@ -27,7 +27,7 @@
 			outline: 0;
 		}
 		div#banner {
-			position: fixed;
+			position: absolute;
 			top: 0;
 			left: 0;
 			background-color: #B9B9B9; /* fallback color if gradients are not supported */
@@ -39,7 +39,8 @@
 			background-image:         linear-gradient(top, #C9C9C9, #A7A7A7); /* standard, but currently unimplemented */
 			width: 100%;
 			margin: 0 auto;
-			padding: 15px;
+			padding-top: 15px;
+			padding-bottom: 15px;
      	}
      	div#main-content {
 			padding-top: 65px;
@@ -66,7 +67,7 @@
 
 <body>
 	<div id=banner>
-		<a href="http://www.transmissionbt.com"><img src="http://www.transmissionbt.com/images/transmission.png" alt="Transmission" height="32px" width="310px"/><img src="http://www.transmissionbt.com/images/transmission-74x74.png" alt="Transmission" height="48px" width="48px"/></a>
+		<a href="http://www.transmissionbt.com"><img style="padding-left: 15px;" src="http://www.transmissionbt.com/images/transmission.png" alt="Transmission" height="32px" width="310px"/><img src="http://www.transmissionbt.com/images/transmission-74x74.png" alt="Transmission" height="48px" width="48px"/></a>
 	</div>
 
     <div id=main-content>
