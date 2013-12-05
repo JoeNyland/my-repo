@@ -66,9 +66,9 @@ archive() {
 if [[ -d $DST_FULL ]]
 then
 	echo "Archiving the full backup files to archive HDD.";
-	if for dump_file in ${DST_FULL}
+	if for dump_file in ${DST_FULL}/*
 		do
-			gzip -c $dump_file > $ARCHIVEDST/$dump_file.gz
+			gzip -c $dump_file > $ARCHIVEDST/`basename $dump_file`.gz
 		done;
 	then
 		return 0
