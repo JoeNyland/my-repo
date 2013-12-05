@@ -12,7 +12,7 @@
 #
 
 # General settings
-DATA=/srv
+DATA=/srv/shared
 VOLUME=vol1
 DRIVE1=drive1
 DRIVE2=drive2
@@ -25,7 +25,7 @@ EXCLUDE="--exclude=._* --exclude=.AppleDB* --exclude=lost+found --exclude=Downlo
 error_func() {
 		case $1 in
 		101)
-		echo [ERROR] $0: Erorr code 101: Failed to archive data from $DATA to /mnt/archive/$VOLUME/$DRIVE1
+		echo [ERROR] $0: Erorr code 101: Failed to archive data from $DATA to /mnt/archive/$VOLUME/$DRIVE1/`basename $DATA`
 		exit 101
 		;;
 		102)
@@ -44,7 +44,7 @@ error_func() {
 case $1 in
 	-a|--archive)
 		SRC=$DATA/
-		DST=/mnt/archive/$VOLUME/$DRIVE1/
+		DST=/mnt/archive/$VOLUME/$DRIVE1/`basename $DATA`
 	    echo [INFO] SharedData archive selected
 	    echo [INFO] Archiving data from $SRC to $DST
 		if rsync $SWITCHES $SRC $DST $EXCLUDE
