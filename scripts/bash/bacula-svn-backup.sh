@@ -129,7 +129,6 @@ archive)
 		echo "Script will now exit"
 		exit 100
 	fi;;
-;;
 *)
 	echo "Invalid backup level specified"
 	echo "Script will now exit"
