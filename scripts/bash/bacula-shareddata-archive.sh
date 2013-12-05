@@ -60,7 +60,7 @@ case $1 in
 		DST=/mnt/archive/$VOLUME/$DRIVE2/
 		echo [INFO] SharedData archive sync selected
 	    echo [INFO] Syncing data from $SRC to $DST
-		if rsync $SWITCHES $SRC $DST $EXCLUDE
+		if rsync $SWITCHES --delete $SRC $DST $EXCLUDE
 		then
 		    echo [INFO] Successfully synced data from $SRC to $DST
 			exit 0
