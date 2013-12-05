@@ -4,6 +4,7 @@
 MYSQLCONF=/etc/mysql/my.cnf
 BINLOGDIR=/var/log/mysql
 BINLOGPREFIX=mysql-bin
+
 SCRIPTNAME=`basename $0`
 HOST=`hostname -s`
 HOME=`grep \`whoami\` /etc/passwd | awk -F":" '{print $6}'`
@@ -19,6 +20,7 @@ fi
 
 # Destination backup file
 DST=/tmp/`echo ${SCRIPTNAME} | awk -F. '{ print $1 }'`_${JOBID}_${HOST}.dmp.sql
+ARCHIVEDST=/mnt/archive/vol1/drive1/mysql/`echo ${SCRIPTNAME} | awk -F. '{ print $1 }'`_${HOST}.dmp.sql
 
 case $LEVEL in
 full|differential)
@@ -69,6 +71,15 @@ incremental)
 		echo "You must enable binary transaction logging in MySQL for incremental backups to work.";
 		exit 1006;
 	fi;;
+archive)
+	# Copy MySQL dump to archive to archive drive.
+	if [[ -f ${DST} ]]; then
+		echo "Archiving the full backup file to archive HDD.";
+		if cp ${DST} ${ARCHIVEDST}; then
+			echo "Completed copying the backup file to archive HDD.";
+		fi
+	fi
+	exit 0;;
 cleanup)
 	# Cleanup full backup file after backup.
 	if [[ -f ${DST} ]]; then
