@@ -20,7 +20,7 @@ fi
 
 # Destination backup file
 DST=/tmp/`echo ${SCRIPTNAME} | awk -F. '{ print $1 }'`_${JOBID}_${HOST}.dmp.sql
-ARCHIVEDST=/mnt/archive/vol1/drive1/mysql/`echo ${SCRIPTNAME} | awk -F. '{ print $1 }'`_${HOST}.dmp.sql
+ARCHIVEDST=/mnt/archive/vol1/drive1/mysql/`echo ${SCRIPTNAME} | awk -F. '{ print $1 }'`_${HOST}.dmp.sql.gz
 
 case $LEVEL in
 full|differential)
@@ -75,7 +75,7 @@ archive)
 	# Copy MySQL dump to archive to archive drive.
 	if [[ -f ${DST} ]]; then
 		echo "Archiving the full backup file to archive HDD.";
-		if cp ${DST} ${ARCHIVEDST}; then
+		if gzip -c ${DST} > ${ARCHIVEDST}; then
 			echo "Completed copying the backup file to archive HDD.";
 		fi
 	fi
