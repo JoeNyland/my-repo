@@ -12,6 +12,7 @@ JOBID=$1
 LEVEL=`echo $2 | awk '{print tolower($0)}'`
 DATE=`date +%d-%m-%Y`
 TIME=`date +%H-%M`
+DATETIME=${DATE}${TIME}
 
 if [ -z "$HOST" ]; then
 	echo "Cannot determine system hostname.";
@@ -20,7 +21,7 @@ fi
 
 # Destination backup file
 DST=/tmp/`echo ${SCRIPTNAME} | awk -F. '{ print $1 }'`_${JOBID}_${HOST}.dmp.sql
-ARCHIVEDST=/mnt/archive/vol1/drive1/mysql/`echo ${SCRIPTNAME} | awk -F. '{ print $1 }'`_${HOST}.dmp.sql.gz
+ARCHIVEDST=/mnt/archive/vol1/drive1/mysql/`echo ${SCRIPTNAME} | awk -F. '{ print $1 }'`_${DATETIME}_${HOST}.dmp.sql.gz
 
 case $LEVEL in
 full|differential)
