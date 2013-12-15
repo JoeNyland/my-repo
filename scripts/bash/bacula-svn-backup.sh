@@ -7,9 +7,6 @@ SRC=/srv/svn
 # Directory to store backups in:
 DST=/var/backups/svn
 
-# Directory to store archives in:
-ARCHIVEDST=/mnt/archive/vol1/drive1/svn
-
 ##############################################################################################
 
 LEVEL=$1
@@ -62,22 +59,6 @@ do
 done
 }
 
-archive() {
-if [[ -d $DST_FULL ]]
-then
-	echo "Archiving the full backup files to archive HDD.";
-	if for dump_file in ${DST_FULL}/*
-		do
-			gzip -c $dump_file > $ARCHIVEDST/`basename $dump_file`.gz
-		done;
-	then
-		return 0
-	else
-		return 1
-	fi
-fi
-}
-
 cleanup() {
 echo "Cleaning up files";
 if rm -rf $DST/*
@@ -115,17 +96,6 @@ inc|incremental|Incremental)
 		exit 0
 	else
 		echo "An error occurred whilst dumping the repositories"
-		echo "Script will now exit"
-		exit 100
-	fi;;
-archive)
-	echo "SVN archive selected"
-	if archive
-	then
-		echo "Completed copying the backup files to archive HDD.";
-		exit 0
-	else
-		echo "An error occurred whilst archiving the backup files."
 		echo "Script will now exit"
 		exit 100
 	fi;;
