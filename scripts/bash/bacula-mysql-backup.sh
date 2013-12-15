@@ -10,9 +10,6 @@ HOST=`hostname -s`
 HOME=`grep \`whoami\` /etc/passwd | awk -F":" '{print $6}'`
 JOBID=$1
 LEVEL=`echo $2 | awk '{print tolower($0)}'`
-DATE=`date +%d-%m-%Y`
-TIME=`date +%H-%M`
-DATETIME=${DATE}${TIME}
 
 if [ -z "$HOST" ]; then
 	echo "Cannot determine system hostname.";
@@ -21,7 +18,6 @@ fi
 
 # Destination backup file
 DST=/tmp/`echo ${SCRIPTNAME} | awk -F. '{ print $1 }'`_${JOBID}_${HOST}.dmp.sql
-ARCHIVEDST=/mnt/archive/vol1/drive1/mysql/`echo ${SCRIPTNAME} | awk -F. '{ print $1 }'`_${DATETIME}_${HOST}.dmp.sql.gz
 
 case $LEVEL in
 full|differential)
@@ -72,15 +68,6 @@ incremental)
 		echo "You must enable binary transaction logging in MySQL for incremental backups to work.";
 		exit 1006;
 	fi;;
-archive)
-	# Copy MySQL dump to archive to archive drive.
-	if [[ -f ${DST} ]]; then
-		echo "Archiving the full backup file to archive HDD.";
-		if gzip -c ${DST} > ${ARCHIVEDST}; then
-			echo "Completed copying the backup file to archive HDD.";
-		fi
-	fi
-	exit 0;;
 cleanup)
 	# Cleanup full backup file after backup.
 	if [[ -f ${DST} ]]; then
