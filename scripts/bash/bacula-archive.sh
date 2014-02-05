@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# This script archives shared data from 's RAID array to a 2 disk HDD archive.
+# This script archives data from 's RAID array to a 2 disk HDD archive.
 #
 # There are two functions to the script:
 #
@@ -45,7 +45,7 @@ case $1 in
 	-a|--archive)
 		SRC=$DATA/
 		DST=/mnt/archive/$VOLUME/$DRIVE1/`basename $DATA`
-	    echo [INFO] SharedData archive selected
+	    echo [INFO] Archive selected
 	    echo [INFO] Archiving data from $SRC to $DST
 		if rsync $SWITCHES $SRC $DST $EXCLUDE
 		then
@@ -58,7 +58,7 @@ case $1 in
 	-s|--sync)
 		SRC=/mnt/archive/$VOLUME/$DRIVE1/
 		DST=/mnt/archive/$VOLUME/$DRIVE2/
-		echo [INFO] SharedData archive sync selected
+		echo [INFO] Archive sync selected
 	    echo [INFO] Syncing data from $SRC to $DST
 		if rsync $SWITCHES --delete $SRC $DST $EXCLUDE
 		then
