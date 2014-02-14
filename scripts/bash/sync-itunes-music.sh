@@ -7,10 +7,13 @@ switches="-Ovruthmaog --delete --exclude=._* --exclude=.AppleDB*"
 src=$1
 dst=$2
 
-if rsync $switches "$src" "$dst"
+if pmset -g | grep AC | grep "*"        # Check that we are running on AC power
 then
-    echo "iTunes sync to  completed"
-else
-    echo "iTunes sync to  failed"
-    exit 1
+    if rsync $switches "$src" "$dst"
+    then
+        echo "iTunes sync to  completed"
+    else
+        echo "iTunes sync to  failed"
+        exit 1
+    fi
 fi
