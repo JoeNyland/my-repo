@@ -2,7 +2,7 @@
 
 # This script is based heavily on the work of 'Cowbutt' and was taken from the MythTV Wiki.
 # The original script can be found here: http://www.mythtv.org/wiki/Mythcommflag-wrapper
-# I (Joe Nyland) do not claim any credit for this script. I've merely updated/amended the original script,
+# I do not claim any credit for this script. I've merely updated/amended the original script,
 # in order for it to work with MythTV 0.25. I've also made changes amendments where I see fit too.
 
 # *** DISCLAIMER ***
