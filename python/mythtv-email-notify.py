@@ -126,7 +126,7 @@ else:
 # Check to see if we are running against an actual recording, or a live TV recording buffer:
 if recgroup == "LiveTV":
 	print "[ERROR] An invalid recording has been supplied."
-	exit(0)
+	exit(1)
 
 # Scrape the MythTV system data page to "mythresponse" and create XML tree:
 mythresponse = urllib2.urlopen(myth_url)
