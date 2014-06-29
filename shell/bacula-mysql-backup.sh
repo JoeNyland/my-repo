@@ -26,12 +26,12 @@ full|differential)
 					echo "Completed full backup of MySQL databases from $HOST.";
 					exit 0
 				else
-					exit 1003;
 					echo "[ERROR] Full backup of MySQL databases from $HOST FAILED.";
+					exit 1;
 				fi
 	else
-		exit 1004;
 		echo "[ERROR] There seems to have been an error backing up the database(s).";
+		exit 1;
 	fi;;
 incremental)
 	# INCREMENTAL backup
@@ -48,12 +48,12 @@ incremental)
 				echo "MySQL binary transaction logs for databases on $HOST have been flushed and are ready to be backed up.";
 				exit 0
 			else
-		exit 1007;
 		echo "[ERROR] There seems to have been an error backing up the database(s).";
+		exit 1;
 		fi;
 	else
-		exit 1006;
 		echo "[ERROR] MySQL binary transaction logging does not appear to have been enabled in ${MYSQLCONF}. You must enable binary transaction logging in MySQL for incremental backups to work.";
+		exit 1;
 	fi;;
 cleanup)
 	# Cleanup full backup file after backup.
@@ -64,13 +64,13 @@ cleanup)
 			exit 0;
 		  else
 		  echo "Failed to remove temporary file: ${DST}";
-		  exit 1008;
+		  exit 1;
 		fi
 	else
 		exit 0;
 	fi;;
 *)
-	exit 1000;;
 	echo "[ERROR] You have not provided the required information to the script.";
+	exit 1;;
 esac
 
