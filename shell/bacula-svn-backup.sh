@@ -73,7 +73,6 @@ full|Full|Differential|differential)
 		exit 0
 	else
 		echo "An error occurred whilst dumping the repositories"
-		echo "Script will now exit"
 		exit 100
 	fi;;
 inc|incremental|Incremental)
@@ -84,11 +83,9 @@ inc|incremental|Incremental)
 		exit 0
 	else
 		echo "An error occurred whilst dumping the repositories"
-		echo "Script will now exit"
 		exit 100
 	fi;;
 *)
 	echo "Invalid backup level specified"
-	echo "Script will now exit"
 	exit 100;;
 esac
