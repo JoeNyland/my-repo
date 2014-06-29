@@ -1,6 +1,5 @@
 #!/bin/sh
 
-# MySQL Binary logging configuration
 MYSQLCONF=/etc/mysql/my.cnf
 BINLOGDIR=/var/log/mysql
 BINLOGPREFIX=mysql-bin
