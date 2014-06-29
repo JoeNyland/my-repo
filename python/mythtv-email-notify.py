@@ -1,5 +1,16 @@
 #!/usr/bin/env python
 
+'''
+ABOUT
+Sends a HTML email to the address specified in the '--to' argument, notifying the user that a recording has finished.
+The email contains the name, date, time, title and a description of the recording.
+Links are also provided to view more information on the recording through MythWeb.
+
+USAGE
+Configure a MythTV System Event to call this script for the 'Recording finished' event, supplying the required arguments.
+For more info on MythTV System Events and for a list of variables available, see http://www.mythtv.org/wiki/MythTV_System_Events
+'''
+
 import argparse
 import urllib2
 import time
