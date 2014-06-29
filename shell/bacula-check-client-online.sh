@@ -5,11 +5,9 @@ PORT=9102   # Specify the TCP port to check (Here we check port 9102, which is t
 
 if nc -zv -w30 $HOSTNAME $PORT
 then
-        echo "Port is open";
-        exit 0;
+    exit 0;
 else
-        echo "Port is closed";
-        exit 1;
+    exit 1;
 fi
 
 
