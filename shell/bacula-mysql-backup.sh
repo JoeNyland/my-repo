@@ -10,11 +10,6 @@ HOME=`grep $(whoami) /etc/passwd | awk -F':' '{print $6}'`
 JOBID=$1
 LEVEL=`echo $2 | awk '{print tolower($0)}'`
 
-if [ -z "$HOST" ]; then
-	echo "Cannot determine system hostname.";
-	exit 1001;
-fi
-
 # Destination backup file
 DST=/tmp/`echo ${SCRIPTNAME} | awk -F. '{ print $1 }'`_${JOBID}_${HOST}.dmp.sql
 
