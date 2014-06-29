@@ -6,7 +6,7 @@ BINLOGPREFIX=mysql-bin
 
 SCRIPTNAME=`basename $0`
 HOST=`hostname -s`
-HOME=`grep \`whoami\` /etc/passwd | awk -F":" '{print $6}'`
+HOME=`grep $(whoami) /etc/passwd | awk -F':' '{print $6}'`
 JOBID=$1
 LEVEL=`echo $2 | awk '{print tolower($0)}'`
 
