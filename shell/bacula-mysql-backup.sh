@@ -17,7 +17,7 @@ case $LEVEL in
 full|differential)
 	# FULL backup
 	# Check that we can connect to MySQL.
-	if echo 'show databases;' | mysql --defaults-extra-file=$HOME/.my.cnf -s >/dev/null
+	if echo "show databases;" | mysql --defaults-extra-file=$HOME/.my.cnf -s >/dev/null
 	then
 		echo "Performing full backup of MySQL databases from $HOST... "
 			# Dump all databases.
@@ -40,10 +40,10 @@ incremental)
 	# INCREMENTAL backup
 	echo "Incremental MySQL backup selected for ${HOST}";
 	# If this returns 0, then binary logging appears to be enabled for MySQL, so incremental backup is possible.
-	if grep "log_bin" ${MYSQLCONF} | egrep -v '^(#|$)' | grep "${BINLOGDIR}/${BINLOGPREFIX}" > /dev/null
+	if grep 'log_bin' ${MYSQLCONF} | egrep -v '^(#|$)' | grep "${BINLOGDIR}/${BINLOGPREFIX}" > /dev/null
 	then
 		# Check that we can connect to MySQL.
-		if echo 'show databases;' | mysql --defaults-extra-file=$HOME/.my.cnf -s >/dev/null
+		if echo "show databases;" | mysql --defaults-extra-file=$HOME/.my.cnf -s >/dev/null
 			then
 				# Flushes the current logs, so that MySQL closes it's current file cleanly, then starts writing any new transactions to a new log file.
 				echo "Flushing transaction logs for MySQL databases on ${HOST} to prepare for backup."
