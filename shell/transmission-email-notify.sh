@@ -1,5 +1,5 @@
 #!/bin/bash
-/usr/bin/sendemail -f "Transmission@`hostname -f`" -t "" -s "" -u "Transmission completed download of: $TR_TORRENT_NAME" <<EOF
+/usr/bin/sendemail -f "Transmission@`hostname -f`" -t "YOUR_EMAIL_ADDRESS" -s "SMTP_SERVER" -u "Transmission completed download of: $TR_TORRENT_NAME" <<EOF
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">
 
 <html>
@@ -75,7 +75,7 @@
 		<h3>Transmission has completed downloading "$TR_TORRENT_NAME"</h3>
 
 		<p>
-		Your download can be found on , in the following location:
+		Your download can be found on the system running Transmission, in the following location:
 		<p/>
 		<p>
 		$TR_TORRENT_DIR/$TR_TORRENT_NAME
