@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # MySQL Binary logging configuration
 MYSQLCONF=/etc/mysql/my.cnf
