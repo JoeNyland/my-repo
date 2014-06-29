@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # Script to check whether or not a host is online, in order to decide whether a Bacula backup should be attempted.
 
