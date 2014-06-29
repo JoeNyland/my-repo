@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # This script is based heavily on the work of 'Cowbutt' and was taken from the MythTV Wiki.
 # The original script can be found here: http://www.mythtv.org/wiki/Mythcommflag-wrapper
