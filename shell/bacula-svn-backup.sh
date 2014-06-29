@@ -1,5 +1,5 @@
-#!/bin/bash
 # This script is called by Bacula to perform full and incremental backups of SVN repositories.
+#!/bin/sh
 
 # Directory containing SVN repositories:
 SRC=/srv/svn
