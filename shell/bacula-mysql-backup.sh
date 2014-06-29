@@ -26,15 +26,12 @@ full|differential)
 					echo "Completed full backup of MySQL databases from $HOST.";
 					exit 0
 				else
-					echo "[ERROR]";
-					echo "Full backup of MySQL databases from $HOST FAILED.";
 					exit 1003;
+					echo "[ERROR] Full backup of MySQL databases from $HOST FAILED.";
 				fi
 	else
-		echo "[ERROR]";
-		echo "There seems to have been an error backing up the database(s).";
-		echo "Please review the logged messages above.";
 		exit 1004;
+		echo "[ERROR] There seems to have been an error backing up the database(s).";
 	fi;;
 incremental)
 	# INCREMENTAL backup
@@ -51,16 +48,12 @@ incremental)
 				echo "MySQL binary transaction logs for databases on $HOST have been flushed and are ready to be backed up.";
 				exit 0
 			else
-		echo "[ERROR]";
-		echo "There seems to have been an error backing up the database(s).";
-		echo "Please review the logged messages above.";
 		exit 1007;
+		echo "[ERROR] There seems to have been an error backing up the database(s).";
 		fi;
 	else
-		echo "[ERROR]";
-		echo "MySQL binary transaction logging does not appear to have been enabled in ${MYSQLCONF}.";
-		echo "You must enable binary transaction logging in MySQL for incremental backups to work.";
 		exit 1006;
+		echo "[ERROR] MySQL binary transaction logging does not appear to have been enabled in ${MYSQLCONF}. You must enable binary transaction logging in MySQL for incremental backups to work.";
 	fi;;
 cleanup)
 	# Cleanup full backup file after backup.
@@ -77,15 +70,7 @@ cleanup)
 		exit 0;
 	fi;;
 *)
-	echo "[ERROR]";
-	echo "You have not provided the required information to the script.";
-	echo "Please use the following syntax:";
-	echo "$SCRIPTNAME [JobID] [Level]";
-	echo "Or:";
-	echo "$SCRIPTNAME [JobID] cleanup";
 	exit 1000;;
+	echo "[ERROR] You have not provided the required information to the script.";
 esac
 
-echo "[ERROR]"
-ehco "An undefined error occurred."
-exit 1005
