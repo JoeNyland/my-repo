@@ -43,7 +43,7 @@ parser.add_argument("--to", help="The email address to send the notification to"
 args = parser.parse_args()
 
 # Get the server's localhost IP address and FQDN for MythTV Services API access:
-mythtvserver = gethostbyname(getfqdn("localhost"))
+mythtvserver = gethostbyname(getfqdn(""))
 # Get the FQDN for the local machine:
 servername = getfqdn("")
 
