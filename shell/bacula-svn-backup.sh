@@ -73,7 +73,7 @@ full|Full|Differential|differential)
 		exit 0
 	else
 		echo "An error occurred whilst dumping the repositories"
-		exit 100
+		exit 1
 	fi;;
 inc|incremental|Incremental)
 	echo "Incremental SVN backup selected"
@@ -83,9 +83,9 @@ inc|incremental|Incremental)
 		exit 0
 	else
 		echo "An error occurred whilst dumping the repositories"
-		exit 100
+		exit 1
 	fi;;
 *)
 	echo "Invalid backup level specified"
-	exit 100;;
+	exit 1;;
 esac
