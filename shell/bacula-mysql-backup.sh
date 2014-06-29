@@ -11,7 +11,7 @@ JOBID=$1
 LEVEL=`echo $2 | awk '{print tolower($0)}'`
 
 # Destination backup file
-DST=/tmp/`echo ${SCRIPTNAME} | awk -F. '{ print $1 }'`_${JOBID}_${HOST}.dmp.sql
+DST=/tmp/`echo ${SCRIPTNAME} | awk -F'.' '{ print $1 }'`_${JOBID}_${HOST}.dmp.sql
 
 case $LEVEL in
 full|differential)
