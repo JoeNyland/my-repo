@@ -30,7 +30,7 @@ import string
 
 # User configurable variables:
 # Define MythWeb URL:
-mythweb = "https://"
+mythweb = ""
 # Define SMTP server:
 smtpserver = ""
 
