@@ -36,7 +36,6 @@ smtpserver = ""
 
 # Parse the supplied arguments:
 parser = argparse.ArgumentParser()
-parser.add_argument("-v", "--verbose", action="store_true", help="Enable verbose output")
 parser.add_argument("--chanid", type=int, help="The %%CHANID%% for the recording to query for", metavar="%CHANID%", required=True)
 parser.add_argument("--starttime", help="The %%STARTTIMEISOUTC%% for the recording to query for", metavar="%STARTTIMEISOUTC%", required=True)
 parser.add_argument("--to", help="The email address to send the notification to", metavar="[email address]", required=True, nargs="*")
@@ -576,30 +575,3 @@ msgRelated.attach(msgImage)
 smtp = smtplib.SMTP(smtphost)
 smtp.sendmail(sender, to, msgRoot.as_string())
 smtp.quit
-
-# Verbose output:
-if args.verbose:
-	print """
-__________________________________________________________________________________________
-Verbose output:
-
-Channel ID: {chanid}
-Raw Start Date/Time: {starttime}
-Local Start Time: {starttime_local}
-Local Start Date: {startdate_local}
-Title: {title}
-Subtitle: {subtitle}
-Recording Group: {recgroup}
-Description: {desc}
-
-MythWeb URL: {mythweb_url}
-Services URL: {recording_url}
-Services Response:
-{recordinghtml_data}
-
-Preview URL: {preview_url}
-Channel Icon URL: {channelicon_url}
-MythTV Version: {version}
-
-Email source:
-{msg}""".format(chanid=str(args.chanid), starttime=args.starttime, starttime_local=starttime_local, startdate_local=startdate_local, title=title, subtitle=subtitle.lstrip(": "), desc=desc, mythweb_url=mythweb_url, recording_url=recording_url, recordinghtml_data=recordinghtml_data, preview_url=preview_url, channelicon_url=channelicon_url, version=version, msg=msgRoot, recgroup=recgroup)
