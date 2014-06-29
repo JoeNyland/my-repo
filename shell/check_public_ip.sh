@@ -28,14 +28,14 @@ do
 	then
 		echo -ne "`date` [INFO] Current public IP is $current_ip"\\r    # Update the console
 	else
-		date=`date`         # Else, warn the user on the console and via email
+		date=`date`           # Else, warn the user on the console and via email
 		echo
 		echo
 		echo "$date [WARN] Public IP address has changed! Public IP is now $current_ip"
 		if [ -n "$1" ]
-		    then
-                echo "$date [WARN] Public IP address has changed! Public IP is now $current_ip" | mail -s "[WARN] Public IP address has changed!" $recipient
-        fi
+		then
+      echo "$date [WARN] Public IP address has changed! Public IP is now $current_ip" | mail -s "[WARN] Public IP address has changed!" $recipient
+    fi
 		echo
 	fi
 	last_ip=$current_ip     # Set the current IP as the last IP, ready for the next iteration
