@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # Define the recipient of email notifications from the input arg to the script:
 recipient=$1
