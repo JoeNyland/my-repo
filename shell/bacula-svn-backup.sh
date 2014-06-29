@@ -56,21 +56,12 @@ do
 done
 }
 
-cleanup() {
-echo "Cleaning up files";
-if rm -rf $DST/*
-then
-	echo "Removed temporary files from ${DST}";
-	exit 0
-else
-	echo "Failed to cleanup temporary files from ${DST}";
-	return 1
-fi
-}
-
 case $1 in
 cleanup)
-cleanup;;
+	echo "Cleaning up files"
+	rm -rf $DST/* || { echo "Failed to cleanup temporary files from ${DST}"; exit 1; }
+	echo "Removed temporary files from ${DST}"
+	exit 0;;
 esac
 
 case $LEVEL in
