@@ -1,6 +1,4 @@
 #!/bin/bash
-# Sends an HTML email to you when Transmission finishes downloading a torrent.
-# Requires sendemail
 
 /usr/bin/sendemail -f "Transmission@`hostname -f`" -t "YOUR_EMAIL_ADDRESS" -s "SMTP_SERVER" -u "Transmission completed download of: $TR_TORRENT_NAME" <<EOF
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">
