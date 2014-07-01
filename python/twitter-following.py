@@ -61,3 +61,5 @@ elif args.action == 'export':
         id = user.id
         writer.writerow(['@' + screenname, name, id])
     csv_file.close()
+else:
+    raise Exception("Undefined action: Should be 'import' or 'export'")
