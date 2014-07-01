@@ -18,20 +18,8 @@ parser.add_argument('--api-key', required=True, dest='api_key', help='Twitter AP
 parser.add_argument('--api-secret', required=True, dest='api_secret', help='Twitter API secret')
 parser.add_argument('--token', required=True, help='Twitter Access token')
 parser.add_argument('--token-secret', required=True, dest='token_secret', help='Twitter Access token secret')
-parser.add_argument('--csv-file', help='Input/Output CSV formatted file')
+parser.add_argument('--csv-file', dest='csv_file', help='Input/Output CSV formatted file')
 args = parser.parse_args()
-
-try:
-    csv_file = args.csv_file                # Check to see if the user defined an output file
-except NameError:
-    csv_file = None
-    
-if csv_file is None:
-    csv_file = 'followed.csv'               # If not, default to followed.csv in $PWD
-    
-# Prepare the CSV file
-csv_file = open(csv_file, 'w')              # Open the file for writing
-writer = csv.writer(csv_file)
 
 # Authenticate with Twitter
 api = twitter.Api(args.api_key,
@@ -40,11 +28,36 @@ api = twitter.Api(args.api_key,
                   args.token_secret)
 
 following = api.GetFriends()                # Get the list of users that this user is following
-writer.writerow(['ScreenName','Name','ID']) # Write header to CSV file
-for user in following:    
-    screenname = user.screen_name
-    name = user.name
-    id = user.id
-    writer.writerow(['@' + screenname, name, id]) # For each user followed, write their screen name, real name and ID to the file
 
-csv_file.close()                             # Close the file
+# Decide what we are going to do: import or export
+if args.action == 'import':
+    # User wants to import
+    raise Exception('Import unimplemented...')
+elif args.action == 'export': 
+    # User wants to export
+    
+    # Check to see if the user defined an output file
+    try:
+        args.csv_file
+    except NameError:
+        args.csv_file = None
+    
+    if args.csv_file is None:
+        csv_file = 'followed.csv'               # If not defined, default to followed.csv in $PWD
+    else:
+        csv_file = args.csv_file                # Else, set the output filename to the one provided by the user
+    
+    # Prepare the CSV file
+    csv_file = open(csv_file, 'w')
+    writer = csv.writer(csv_file)
+
+    # Write header to CSV file
+    writer.writerow(['ScreenName','Name','ID'])
+    
+    # For each user followed, write their screen name, real name and ID to the file
+    for user in following:    
+        screenname = user.screen_name
+        name = user.name
+        id = user.id
+        writer.writerow(['@' + screenname, name, id])
+    csv_file.close()
