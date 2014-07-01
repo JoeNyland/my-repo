@@ -4,7 +4,6 @@
 Takes a list of Twitter User IDs and exports or imports (follows) them.
 
 TODO:
-* Allow import of users, and follow them
 * Improve error handling
 '''
 
@@ -29,23 +28,32 @@ api = twitter.Api(args.api_key,
 
 following = api.GetFriends()                # Get the list of users that this user is following
 
+# Check to see if the user defined an input/output file
+try:
+    args.csv_file
+except NameError:
+    args.csv_file = None
+
+if args.csv_file is None:
+    csv_file = 'followed.csv'               # If not defined, default to followed.csv in $PWD
+else:
+    csv_file = args.csv_file                # Else, set the output filename to the one provided by the user
+
 # Decide what we are going to do: import or export
 if args.action == 'import':
     # User wants to import
-    raise Exception('Import unimplemented...')
+    
+    # Prepare the CSV file
+    csv_file = open(csv_file, 'r')
+    reader = csv.reader(csv_file)
+    
+    # Follow each user in file
+    next(reader, None)  # Skip the header of the CSV
+    for line in reader:
+        api.CreateFriendship(user_id=line[2])
+    
 elif args.action == 'export': 
     # User wants to export
-    
-    # Check to see if the user defined an output file
-    try:
-        args.csv_file
-    except NameError:
-        args.csv_file = None
-    
-    if args.csv_file is None:
-        csv_file = 'followed.csv'               # If not defined, default to followed.csv in $PWD
-    else:
-        csv_file = args.csv_file                # Else, set the output filename to the one provided by the user
     
     # Prepare the CSV file
     csv_file = open(csv_file, 'w')
@@ -60,6 +68,8 @@ elif args.action == 'export':
         name = user.name
         id = user.id
         writer.writerow(['@' + screenname, name, id])
-    csv_file.close()
 else:
+    # This should never happen, but...
     raise Exception("Undefined action: Should be 'import' or 'export'")
+
+csv_file.close()
