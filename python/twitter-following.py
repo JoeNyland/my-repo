@@ -114,10 +114,10 @@ def main():
     # Import or export?
     if args.action == 'import':
         # User wants to import
-        import_users(api, user, csv_file)    
+        import_users(api, user, csv_file)
     elif args.action == 'export': 
         # User wants to export
-        export_users(api, user, csv_file)        
+        export_users(api, user, csv_file)
     else:
         # This should never happen, but...
         raise Exception("Undefined action: Should be 'import' or 'export'")
