@@ -59,8 +59,10 @@ def import_users(api, user, csv_file):
     # Follow each user in file
     next(reader, None)  # Skip the header of the CSV
     for line in reader:
-        api.CreateFriendship(user_id=line[2])
-        print 'Following user: ' + line[0]
+        id = user_id=line[2]
+        screen_name = line[0]
+        api.CreateFriendship(id)
+        print 'Following user: @' + screen_name
     
     print 'Finished importing users that @' + user.GetScreenName() + ' follows.'
     
@@ -84,11 +86,12 @@ def export_users(api, user, csv_file):
 
     # For each user followed, write their screen name, real name and ID to the file
     for friend in following:    
-        screenname = friend.screen_name
+        screen_name = friend.screen_name
         name = friend.name
         id = friend.id
-        writer.writerow(['@' + screenname, name, id])
-        print 'Exported friendship with user: @' + screenname   
+        writer.writerow([screen_name, name, id])
+        print type(screen_name)
+        print 'Exported friendship with user: @' + screen_name
     
     print 'Finished exporting users that @' + user.GetScreenName() + ' is following.'
     
