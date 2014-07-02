@@ -93,6 +93,7 @@ def export_users(api, user, csv_file):
     print 'Finished exporting users that @' + user.GetScreenName() + ' is following.'
     
     csv_file.close()
+    api.ClearCredentials()
     
     return True
 
