@@ -54,7 +54,7 @@ def import_users(api, user, user_file):
     user_file = open(user_file, 'r')
     user_file_sorted = reversed(user_file.readlines())
 
-    print 'Importing friends of @' + user.GetScreenName() + '...'
+    print 'Importing users that @' + user.GetScreenName() + ' follows...'
 
     # Follow each user in file
     for line in user_file_sorted:
@@ -76,7 +76,7 @@ def export_users(api, user, user_file):
     # Get the list of users that this user is following
     following = api.GetFriends()
 
-    print 'Exporting friends of @' + user.GetScreenName() + '...'
+    print 'Exporting users that @' + user.GetScreenName() + ' follows...'
     
     # For each user followed, write their ID to the file
     for friend in following:
