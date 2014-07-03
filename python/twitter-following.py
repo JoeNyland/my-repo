@@ -9,7 +9,6 @@ Takes a list of Twitter User IDs and exports or imports (follows) them.
 import sys
 import argparse
 import twitter
-import csv
 
 # Parse command line arguments
 parser = argparse.ArgumentParser(description='Import or Export followed Twitter users.')
@@ -18,7 +17,7 @@ parser.add_argument('--api-key', required=True, dest='api_key', help='Twitter AP
 parser.add_argument('--api-secret', required=True, dest='api_secret', help='Twitter API secret')
 parser.add_argument('--token', required=True, help='Twitter Access token')
 parser.add_argument('--token-secret', required=True, dest='token_secret', help='Twitter Access token secret')
-parser.add_argument('--csv-file', dest='csv_file', help='Input/Output CSV formatted file')
+parser.add_argument('--userfile', help='Input/Output file contain followed users')
 args = parser.parse_args()
 
 # Authenticate with Twitter API
@@ -35,68 +34,60 @@ def get_user(api):
     return user
 
 def input_file():
-    # Check to see if the user defined an input/output CSV file
+    # Check to see if the user defined an input/output file
     try:
-        args.csv_file
+        args.userfile
     except NameError:
-        args.csv_file = None
+        args.userfile = None
 
-    if args.csv_file is None:
-        # If not defined, default to followed.csv in $PWD
-        csv_file = 'followed.csv'
+    if args.userfile is None:
+        # If not defined, default to followed-users.txt in $PWD
+        user_file = 'followed-users.txt'
     else:
-        # If not defined, default to followed.csv in $PWD
-        csv_file = args.csv_file
+        # If not defined, default to followed-users.txt in $PWD
+        user_file = args.userfile
     
-    return csv_file
+    return user_file
 
-def import_users(api, user, csv_file):
-    # Prepare the CSV file for reading
-    csv_file = open(csv_file, 'r')
-    reader = csv.reader(csv_file)
+def import_users(api, user, user_file):
+    # Prepare the file for reading
+    user_file = open(user_file, 'r')
+    user_file_sorted = reversed(user_file.readlines())
 
     print 'Importing friends of @' + user.GetScreenName() + '...'
 
     # Follow each user in file
-    next(reader, None)  # Skip the header of the CSV
-    for line in reader:
-        id = user_id=line[2]
-        screen_name = line[0]
-        api.CreateFriendship(id)
-        print 'Following user: @' + screen_name
+    for line in user_file_sorted:
+        friend_id = line.rstrip()
+        friend = api.CreateFriendship(friend_id)
+        print 'Now following user: @' + friend.screen_name + '...'
     
     print 'Finished importing users that @' + user.GetScreenName() + ' follows.'
     
-    csv_file.close()
+    user_file.close()
     api.ClearCredentials()
     
     return True
 
-def export_users(api, user, csv_file):
-    # Prepare the CSV file for writing
-    csv_file = open(csv_file, 'w')
-    writer = csv.writer(csv_file)
+def export_users(api, user, user_file):
+    # Prepare the file for writing
+    user_file = open(user_file, 'w')
 
     # Get the list of users that this user is following
     following = api.GetFriends()
 
     print 'Exporting friends of @' + user.GetScreenName() + '...'
     
-    # Write header to CSV file
-    writer.writerow(['ScreenName','Name','ID'])
-
-    # For each user followed, write their screen name, real name and ID to the file
-    for friend in following:    
+    # For each user followed, write their ID to the file
+    for friend in following:
         screen_name = friend.screen_name
-        name = friend.name
-        id = friend.id
-        writer.writerow([screen_name, name, id])
-        print type(screen_name)
-        print 'Exported friendship with user: @' + screen_name
+        id = str(friend.id) + '\n'
+        user_file.write(id)
+        print 'Exported friendship with user: @' + screen_name + '.'
     
     print 'Finished exporting users that @' + user.GetScreenName() + ' is following.'
     
-    csv_file.close()
+    user_file.close()
     api.ClearCredentials()
     
     return True
@@ -108,16 +99,16 @@ def main():
     # Initialise User object
     user = get_user(api)
     
-    # Set the CSV file name
-    csv_file = input_file()
+    # Set the file name
+    user_file = input_file()
     
     # Import or export?
     if args.action == 'import':
         # User wants to import
-        import_users(api, user, csv_file)
+        import_users(api, user, user_file)
     elif args.action == 'export': 
         # User wants to export
-        export_users(api, user, csv_file)
+        export_users(api, user, user_file)
     else:
         # This should never happen, but...
         raise Exception("Undefined action: Should be 'import' or 'export'")
