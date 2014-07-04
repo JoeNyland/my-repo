@@ -55,7 +55,7 @@ def export_friends(api, user, friends_file):
     friends_file = open(friends_file, 'w')
     
     # Get the list of friends that this user is following
-    friends = api.GetFriends()
+    friends = reversed(api.GetFriends())
     
     print 'Exporting @' + user.GetScreenName() + "'s friends..."
     
@@ -76,12 +76,11 @@ def export_friends(api, user, friends_file):
 def import_friends(api, user, friends_file, notifications=False):
     # Prepare the file for reading
     friends_file = open(friends_file, 'r')
-    friends_file_sorted = reversed(friends_file.readlines())
     
     print 'Importing @' + user.GetScreenName() + "'s friends..."
     
     # Follow each friend in file
-    for line in friends_file_sorted:
+    for line in friends_file:
         friend_id = line.rstrip()
         friend = api.CreateFriendship(friend_id, follow=notifications)
         print 'Now following: @' + friend.screen_name + '...'
