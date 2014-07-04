@@ -74,12 +74,12 @@ def export_users(api, user, user_file):
     user_file = open(user_file, 'w')
 
     # Get the list of users that this user is following
-    following = api.GetFriends()
+    friends = api.GetFriends()
 
     print 'Exporting users that @' + user.GetScreenName() + ' follows...'
     
     # For each user followed, write their ID to the file
-    for friend in following:
+    for friend in friends:
         screen_name = friend.screen_name
         id = str(friend.id) + '\n'
         user_file.write(id)
