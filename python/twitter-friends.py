@@ -45,7 +45,6 @@ def input_file():
         # If not defined, default to twitter-friends.txt in $PWD
         friends_file = 'twitter-friends.txt'
     else:
-        # If not defined, default to twitter-friends.txt in $PWD
         friends_file = args.friends_file
     
     return friends_file
