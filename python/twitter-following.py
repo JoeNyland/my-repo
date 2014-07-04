@@ -18,6 +18,7 @@ parser.add_argument('--api-secret', required=True, dest='api_secret', help='Twit
 parser.add_argument('--token', required=True, help='Twitter Access token')
 parser.add_argument('--token-secret', required=True, dest='token_secret', help='Twitter Access token secret')
 parser.add_argument('--user-file', dest='user_file', help='Input/Output file contain followed users')
+parser.add_argument('--enable-notifications', dest='notifications', help='When importing, use this argument to enable notifications for the new friend(s) being created', action='store_true')
 args = parser.parse_args()
 
 def auth_api():
@@ -72,7 +73,7 @@ def export_users(api, user, user_file):
     
     return True
 
-def import_users(api, user, user_file):
+def import_users(api, user, user_file, notifications=False):
     # Prepare the file for reading
     user_file = open(user_file, 'r')
     user_file_sorted = reversed(user_file.readlines())
@@ -82,7 +83,7 @@ def import_users(api, user, user_file):
     # Follow each user in file
     for line in user_file_sorted:
         friend_id = line.rstrip()
-        friend = api.CreateFriendship(friend_id)
+        friend = api.CreateFriendship(friend_id, follow=notifications)
         print 'Now following user: @' + friend.screen_name + '...'
     
     print 'Finished importing users that @' + user.GetScreenName() + ' follows.'
@@ -105,7 +106,7 @@ def main():
     # Import or export?
     if args.action == 'import':
         # User wants to import
-        import_users(api, user, user_file)
+        import_users(api, user, user_file, args.notifications)
     elif args.action == 'export': 
         # User wants to export
         export_users(api, user, user_file)
