@@ -17,7 +17,7 @@ parser.add_argument('--api-key', required=True, dest='api_key', help='Twitter AP
 parser.add_argument('--api-secret', required=True, dest='api_secret', help='Twitter API secret')
 parser.add_argument('--token', required=True, help='Twitter Access token')
 parser.add_argument('--token-secret', required=True, dest='token_secret', help='Twitter Access token secret')
-parser.add_argument('--userfile', help='Input/Output file contain followed users')
+parser.add_argument('--user-file', dest='user_file', help='Input/Output file contain followed users')
 args = parser.parse_args()
 
 # Authenticate with Twitter API
@@ -36,16 +36,16 @@ def get_user(api):
 def input_file():
     # Check to see if the user defined an input/output file
     try:
-        args.userfile
+        args.user_file
     except NameError:
-        args.userfile = None
+        args.user_file = None
 
-    if args.userfile is None:
+    if args.user_file is None:
         # If not defined, default to followed-users.txt in $PWD
         user_file = 'followed-users.txt'
     else:
         # If not defined, default to followed-users.txt in $PWD
-        user_file = args.userfile
+        user_file = args.user_file
     
     return user_file
 
