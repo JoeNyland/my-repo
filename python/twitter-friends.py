@@ -13,11 +13,11 @@ import twitter
 # Parse command line arguments
 parser = argparse.ArgumentParser(description='Import or Export followed Twitter friends.')
 parser.add_argument('action', choices=['import', 'export'], help='Choose whether to import or export the list of friends followed')
+parser.add_argument('file', help='Input/Output file containing friends, defaults to friends.txt', default='friends.txt', nargs='?')
 parser.add_argument('--api-key', required=True, dest='api_key', help='Twitter API key')
 parser.add_argument('--api-secret', required=True, dest='api_secret', help='Twitter API secret')
 parser.add_argument('--token', required=True, help='Twitter Access token')
 parser.add_argument('--token-secret', required=True, dest='token_secret', help='Twitter Access token secret')
-parser.add_argument('--file', dest='friends_file', help='Input/Output file containing friends')
 parser.add_argument('--enable-notifications', dest='notifications', help='When importing, use this argument to enable notifications for the new friend(s) being created', action='store_true')
 args = parser.parse_args()
 
@@ -37,15 +37,15 @@ def get_user(api):
 def input_file():
     # Check to see if the user defined an input/output file
     try:
-        args.friends_file
+        args.file
     except NameError:
-        args.friends_file = None
+        args.file = None
     
-    if args.friends_file is None:
+    if args.file is None:
         # If not defined, default to twitter-friends.txt in $PWD
         friends_file = 'twitter-friends.txt'
     else:
-        friends_file = args.friends_file
+        friends_file = args.file
     
     return friends_file
 
