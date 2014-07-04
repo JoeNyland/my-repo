@@ -39,7 +39,7 @@ def input_file():
         args.user_file
     except NameError:
         args.user_file = None
-
+    
     if args.user_file is None:
         # If not defined, default to followed-users.txt in $PWD
         user_file = 'followed-users.txt'
@@ -49,33 +49,13 @@ def input_file():
     
     return user_file
 
-def import_users(api, user, user_file):
-    # Prepare the file for reading
-    user_file = open(user_file, 'r')
-    user_file_sorted = reversed(user_file.readlines())
-
-    print 'Importing users that @' + user.GetScreenName() + ' follows...'
-
-    # Follow each user in file
-    for line in user_file_sorted:
-        friend_id = line.rstrip()
-        friend = api.CreateFriendship(friend_id)
-        print 'Now following user: @' + friend.screen_name + '...'
-    
-    print 'Finished importing users that @' + user.GetScreenName() + ' follows.'
-    
-    user_file.close()
-    api.ClearCredentials()
-    
-    return True
-
 def export_users(api, user, user_file):
     # Prepare the file for writing
     user_file = open(user_file, 'w')
-
+    
     # Get the list of users that this user is following
     friends = api.GetFriends()
-
+    
     print 'Exporting users that @' + user.GetScreenName() + ' follows...'
     
     # For each user followed, write their ID to the file
@@ -86,6 +66,26 @@ def export_users(api, user, user_file):
         print 'Exported friendship with user: @' + screen_name + '.'
     
     print 'Finished exporting users that @' + user.GetScreenName() + ' is following.'
+    
+    user_file.close()
+    api.ClearCredentials()
+    
+    return True
+
+def import_users(api, user, user_file):
+    # Prepare the file for reading
+    user_file = open(user_file, 'r')
+    user_file_sorted = reversed(user_file.readlines())
+    
+    print 'Importing users that @' + user.GetScreenName() + ' follows...'
+    
+    # Follow each user in file
+    for line in user_file_sorted:
+        friend_id = line.rstrip()
+        friend = api.CreateFriendship(friend_id)
+        print 'Now following user: @' + friend.screen_name + '...'
+    
+    print 'Finished importing users that @' + user.GetScreenName() + ' follows.'
     
     user_file.close()
     api.ClearCredentials()
