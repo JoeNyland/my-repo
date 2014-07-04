@@ -118,5 +118,6 @@ def main():
 try:
     main()
 except Exception:
-   print 'An error occurred!'
-   sys.exit(1)
+    print 'An error occurred!'
+    sys.exit(1)
+
