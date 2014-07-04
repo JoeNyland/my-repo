@@ -20,8 +20,8 @@ parser.add_argument('--token-secret', required=True, dest='token_secret', help='
 parser.add_argument('--user-file', dest='user_file', help='Input/Output file contain followed users')
 args = parser.parse_args()
 
-# Authenticate with Twitter API
 def auth_api():
+    # Authenticate with Twitter API
     api = twitter.Api(args.api_key,
                       args.api_secret,
                       args.token,
