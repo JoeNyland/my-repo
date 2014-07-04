@@ -3,7 +3,7 @@
 
 '''
 ABOUT
-Takes a list of Twitter User IDs and exports or imports (follows) them.
+Takes a list of Twitter user IDs and exports or imports (follows) them.
 '''
 
 import sys
