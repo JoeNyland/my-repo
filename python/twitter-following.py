@@ -17,7 +17,7 @@ parser.add_argument('--api-key', required=True, dest='api_key', help='Twitter AP
 parser.add_argument('--api-secret', required=True, dest='api_secret', help='Twitter API secret')
 parser.add_argument('--token', required=True, help='Twitter Access token')
 parser.add_argument('--token-secret', required=True, dest='token_secret', help='Twitter Access token secret')
-parser.add_argument('--friends-file', dest='friends_file', help='Input/Output file containing friends')
+parser.add_argument('--file', dest='friends_file', help='Input/Output file containing friends')
 parser.add_argument('--enable-notifications', dest='notifications', help='When importing, use this argument to enable notifications for the new friend(s) being created', action='store_true')
 args = parser.parse_args()
 
