@@ -12,7 +12,7 @@ import twitter
 
 # Parse command line arguments
 parser = argparse.ArgumentParser(description='Import or Export followed Twitter friends.')
-parser.add_argument('action', choices=['import', 'export'], help=('Choose whether to import or export the list of friends followed'))
+parser.add_argument('action', choices=['import', 'export'], help='Choose whether to import or export the list of friends followed')
 parser.add_argument('--api-key', required=True, dest='api_key', help='Twitter API key')
 parser.add_argument('--api-secret', required=True, dest='api_secret', help='Twitter API secret')
 parser.add_argument('--token', required=True, help='Twitter Access token')
