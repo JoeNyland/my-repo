@@ -19,6 +19,7 @@ parser.add_argument('--api-secret', required=True, dest='api_secret', help='Twit
 parser.add_argument('--token', required=True, help='Twitter Access token')
 parser.add_argument('--token-secret', required=True, dest='token_secret', help='Twitter Access token secret')
 parser.add_argument('--enable-notifications', dest='notifications', help='When importing, use this argument to enable notifications for the new friend(s) being created', action='store_true')
+parser.add_argument('--verbose', '-v', action='store_true')
 args = parser.parse_args()
 
 def auth_api():
@@ -63,7 +64,8 @@ def export_friends(api, user, friends_file):
         screen_name = friend.screen_name
         id = str(friend.id) + '\n'
         friends_file.write(id)
-        print 'Exported friendship with: @' + screen_name + '.'
+        if args.verbose:
+            print 'Exported friendship with: @' + screen_name + '.'
     
     print 'Finished exporting @' + user.GetScreenName() + "'s friends."
     
@@ -82,7 +84,8 @@ def import_friends(api, user, friends_file, notifications=False):
     for line in friends_file:
         friend_id = line.rstrip()
         friend = api.CreateFriendship(friend_id, follow=notifications)
-        print 'Following: @' + friend.screen_name + '...'
+        if args.verbose:
+            print 'Following: @' + friend.screen_name + '...'
     
     print 'Finished importing @' + user.GetScreenName() + "'s friends."
     
