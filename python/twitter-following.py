@@ -103,12 +103,12 @@ def main():
     friends_file = input_file()
     
     # Import or export?
-    if args.action == 'import':
-        # User wants to import friends
-        import_friends(api, user, friends_file, args.notifications)
-    elif args.action == 'export': 
+    if args.action == 'export':
         # User wants to export friends
         export_friends(api, user, friends_file)
+    elif args.action == 'import':
+        # User wants to import friends
+        import_friends(api, user, friends_file, args.notifications)
     else:
         # This should never happen, but...
         raise Exception("Undefined action: Should be 'import' or 'export'")
