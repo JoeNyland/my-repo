@@ -11,13 +11,13 @@ import argparse
 import twitter
 
 # Parse command line arguments
-parser = argparse.ArgumentParser(description='Import or Export followed Twitter users.')
-parser.add_argument('action', choices=['import', 'export'], help=('Choose whether to import or export the list of users followed'))
+parser = argparse.ArgumentParser(description='Import or Export followed Twitter friends.')
+parser.add_argument('action', choices=['import', 'export'], help=('Choose whether to import or export the list of friends followed'))
 parser.add_argument('--api-key', required=True, dest='api_key', help='Twitter API key')
 parser.add_argument('--api-secret', required=True, dest='api_secret', help='Twitter API secret')
 parser.add_argument('--token', required=True, help='Twitter Access token')
 parser.add_argument('--token-secret', required=True, dest='token_secret', help='Twitter Access token secret')
-parser.add_argument('--user-file', dest='user_file', help='Input/Output file containing followed users')
+parser.add_argument('--friends-file', dest='friends_file', help='Input/Output file containing friends')
 parser.add_argument('--enable-notifications', dest='notifications', help='When importing, use this argument to enable notifications for the new friend(s) being created', action='store_true')
 args = parser.parse_args()
 
@@ -37,58 +37,58 @@ def get_user(api):
 def input_file():
     # Check to see if the user defined an input/output file
     try:
-        args.user_file
+        args.friends_file
     except NameError:
-        args.user_file = None
+        args.friends_file = None
     
-    if args.user_file is None:
-        # If not defined, default to followed-users.txt in $PWD
-        user_file = 'followed-users.txt'
+    if args.friends_file is None:
+        # If not defined, default to twitter-friends.txt in $PWD
+        friends_file = 'twitter-friends.txt'
     else:
-        # If not defined, default to followed-users.txt in $PWD
-        user_file = args.user_file
+        # If not defined, default to twitter-friends.txt in $PWD
+        friends_file = args.friends_file
     
-    return user_file
+    return friends_file
 
-def export_users(api, user, user_file):
+def export_friends(api, user, friends_file):
     # Prepare the file for writing
-    user_file = open(user_file, 'w')
+    friends_file = open(friends_file, 'w')
     
-    # Get the list of users that this user is following
+    # Get the list of friends that this user is following
     friends = api.GetFriends()
     
-    print 'Exporting users that @' + user.GetScreenName() + ' follows...'
+    print 'Exporting @' + user.GetScreenName() + "'s friends..."
     
-    # For each user followed, write their ID to the file
+    # For each friend followed, write their ID to the file
     for friend in friends:
         screen_name = friend.screen_name
         id = str(friend.id) + '\n'
-        user_file.write(id)
-        print 'Exported friendship with user: @' + screen_name + '.'
+        friends_file.write(id)
+        print 'Exported friendship with: @' + screen_name + '.'
     
-    print 'Finished exporting users that @' + user.GetScreenName() + ' is following.'
+    print 'Finished exporting @' + user.GetScreenName() + "'s friends."
     
-    user_file.close()
+    friends_file.close()
     api.ClearCredentials()
     
     return True
 
-def import_users(api, user, user_file, notifications=False):
+def import_friends(api, user, friends_file, notifications=False):
     # Prepare the file for reading
-    user_file = open(user_file, 'r')
-    user_file_sorted = reversed(user_file.readlines())
+    friends_file = open(friends_file, 'r')
+    friends_file_sorted = reversed(friends_file.readlines())
     
-    print 'Importing users that @' + user.GetScreenName() + ' follows...'
+    print 'Importing @' + user.GetScreenName() + "'s friends..."
     
-    # Follow each user in file
-    for line in user_file_sorted:
+    # Follow each friend in file
+    for line in friends_file_sorted:
         friend_id = line.rstrip()
         friend = api.CreateFriendship(friend_id, follow=notifications)
-        print 'Now following user: @' + friend.screen_name + '...'
+        print 'Now following: @' + friend.screen_name + '...'
     
-    print 'Finished importing users that @' + user.GetScreenName() + ' follows.'
+    print 'Finished importing @' + user.GetScreenName() + "'s friends."
     
-    user_file.close()
+    friends_file.close()
     api.ClearCredentials()
     
     return True
@@ -101,15 +101,15 @@ def main():
     user = get_user(api)
     
     # Set the file name
-    user_file = input_file()
+    friends_file = input_file()
     
     # Import or export?
     if args.action == 'import':
-        # User wants to import
-        import_users(api, user, user_file, args.notifications)
+        # User wants to import friends
+        import_friends(api, user, friends_file, args.notifications)
     elif args.action == 'export': 
-        # User wants to export
-        export_users(api, user, user_file)
+        # User wants to export friends
+        export_friends(api, user, friends_file)
     else:
         # This should never happen, but...
         raise Exception("Undefined action: Should be 'import' or 'export'")
