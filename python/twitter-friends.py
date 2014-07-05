@@ -83,8 +83,7 @@ def import_friends(api, user, notifications=False):
     print 'Importing @' + user.GetScreenName() + "'s friends..."
     
     # Follow each friend in file
-    for line in in_file().readlines():
-        friend_id = line
+    for friend_id in in_file().readlines():
         friend = api.CreateFriendship(friend_id, follow=notifications)
         if args.verbose:
             print 'Following: @' + friend.screen_name + '...'
