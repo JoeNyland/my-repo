@@ -76,6 +76,10 @@ def export_friends(api, user):
     return True
 
 def import_friends(api, user, notifications=False):
+    # Check that the input file contains data
+    if in_file().name != '<stdin>' and len(open(args.file, 'r').readlines()) == 0:
+        raise Exception({"message":"Error: No friend ID's found in file!"})
+    
     print 'Importing @' + user.GetScreenName() + "'s friends..."
     
     # Follow each friend in file
