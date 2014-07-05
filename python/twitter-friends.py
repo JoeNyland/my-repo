@@ -116,7 +116,7 @@ def main():
 # Actually run the main() function and catch any exceptions
 try:
     main()
-except Exception:
-    print 'An error occurred!'
+except Exception, e:
+    print >> sys.stderr, e
     sys.exit(1)
 
