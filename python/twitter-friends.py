@@ -115,6 +115,9 @@ def main():
         # This should never happen, but...
         raise Exception("Undefined action: Should be 'import' or 'export'")
 
+    # Exit with 0 exit code
+    sys.exit()
+
 # Actually run the main() function and catch any exceptions
 try:
     main()
