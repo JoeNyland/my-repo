@@ -1,12 +1,16 @@
 #!/bin/sh
 # When placed in hooks/ directory of a bare Git repository, this post-update hook script checks out HEAD to the
-# directory specified in the variable $dst after the repository is pushed to.
+# /var/www/repo-name (without the .git suffix).
 
-$dst=
 
-if `git --work-tree=$dst --git-dir=. checkout -f`; then
-    echo "Completed deployment"
-    exec git update-server-info
+dst=../../www/$(basename $(pwd -P) | sed 's/\.git//g')
+realdst=`readlink -f $dst`
+
+if [ -d $dst ] ; then
+    if `git --work-tree=$dst --git-dir=. checkout -f`; then
+        echo "Completed deployment to $(realpath $dst)"
+        exec git update-server-info
+    fi
 else
     echo "Deployment failed!"
     exec git update-server-info
