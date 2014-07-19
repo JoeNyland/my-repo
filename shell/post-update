@@ -1,0 +1,14 @@
+#!/bin/sh
+# When placed in hooks/ directory of a bare Git repository, this post-update hook script checks out HEAD to the
+# directory specified in the variable $dst after the repository is pushed to.
+
+$dst=
+
+if `git --work-tree=$dst --git-dir=. checkout -f`; then
+    echo "Completed deployment"
+    exec git update-server-info
+else
+    echo "Deployment failed!"
+    exec git update-server-info
+    exit 1
+fi
