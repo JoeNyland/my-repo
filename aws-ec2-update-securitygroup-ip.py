@@ -14,9 +14,9 @@ from requests import get
 # Process commandline arguments
 parser = ArgumentParser()
 parser.add_argument('--region', '-r', default='us-west-1', required='yes')
-parser.add_argument('--aws-access-key-id', '-i', dest='id', required='yes')
-parser.add_argument('--aws-access-key', '-k', dest='key', required='yes')
-parser.add_argument('--aws-security-group', '-g', dest='group', required='yes')
+parser.add_argument('--access-key-id', '-i', dest='id', required='yes')
+parser.add_argument('--access-key', '-k', dest='key', required='yes')
+parser.add_argument('--security-group', '-g', dest='group', required='yes')
 args = parser.parse_args()
 
 
