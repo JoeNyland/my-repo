@@ -4,8 +4,6 @@ __doc__ = 'Updates an AWS EC2 Security Group to allow *all* traffic from the pub
 
 
 
-# TODO: Clean up error message as XML is currently being returned to the user
-
 from sys import stderr, exit
 from argparse import ArgumentParser
 
@@ -41,7 +39,7 @@ else:
 try:
     ec2.authorize_security_group(group_name=args.group, ip_protocol=-1, from_port=0, to_port=65335, cidr_ip=cidr)
 except Exception, e:
-    print >> stderr, e
+    print >> stderr, e.error_message.capitalize()
     exit(1)
 else:
     print 'Successfully added your current IP address (' + ip + ") to the AWS security group '" + args.group + "' in the region '" + args.region + "'."
