@@ -19,28 +19,52 @@ parser.add_argument('--aws-access-key', '-k', dest='key', required='yes')
 parser.add_argument('--aws-security-group', '-g', dest='group', required='yes')
 args = parser.parse_args()
 
-# Try to connect to EC2
-try:
-    ec2 = ec2.connect_to_region(region_name=args.region, aws_access_key_id=args.id, aws_secret_access_key=args.key)
-except Exception, e:
-    print >> stderr, e
-    exit(1)
 
-# Try to get the current IP
-try:
+def connect(region, key_id, key):
+    # Connect to EC2
+    connection = ec2.connect_to_region(region_name=region, aws_access_key_id=key_id, aws_secret_access_key=key)
+    if connection is not None:
+        return connection
+    else:
+        msg = "Failed to connect to the region '" + region + "' using the supplied credentials."
+        raise Exception(msg)
+
+
+def get_ip():
+    # Try to get the current IP
     ip = get('http://icanhazip.com').content.rstrip()
-except Exception, e:
-    print >> stderr, e
-    exit(1)
-else:
-    cidr = ip + '/32'
+    if ip is not None:
+        return ip
+    else:
+        msg = 'Failed to get the current IP address'
+        raise Exception(msg)
 
-# Try to add the current IP to the requested security group
+
+def get_cidr(mask=32):
+    # Convert ip to a CIDR formatted IP, defaults to /32
+    ip = get_ip()
+    cidr = ip + '/' + str(mask)
+    return cidr
+
+
+def main(group):
+    # Try to add the current IP to the requested security group by running the main() function
+    connection = connect(args.region, args.id, args.key)
+    if connection is not None:
+        connection.authorize_security_group(group_name=group, ip_protocol='-1', from_port=0, to_port=65335,
+                                            cidr_ip=get_cidr())
+    else:
+        raise Exception('Failed to connect to ')
+
+# Actually run main()
 try:
-    ec2.authorize_security_group(group_name=args.group, ip_protocol=-1, from_port=0, to_port=65335, cidr_ip=cidr)
+    main(args.group)
 except Exception, e:
-    print >> stderr, e.error_message.capitalize()
+    if hasattr(e, 'error_message'):
+        print >> stderr, e.error_message.capitalize()
+    else:
+        print >> stderr, e
     exit(1)
 else:
-    print 'Successfully added your current IP address (' + ip + ") to the AWS security group '" + args.group + "' in the region '" + args.region + "'."
+    print 'Successfully added your current IP address (' + get_ip() + ") to the AWS security group '" + args.group + "' in the region '" + args.region + "'."
     exit(0)
