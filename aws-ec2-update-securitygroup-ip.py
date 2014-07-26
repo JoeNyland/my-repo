@@ -3,6 +3,10 @@ __doc__ = 'Updates an AWS EC2 Security Group to allow *all* traffic from the pub
 
 
 
+
+# TODO: Clean up error message as XML is currently being returned to the user
+
+from sys import stderr, exit
 from argparse import ArgumentParser
 
 from boto import ec2
@@ -17,11 +21,28 @@ parser.add_argument('--aws-access-key', '-k', dest='key', required='yes')
 parser.add_argument('--aws-security-group', '-g', dest='group', required='yes')
 args = parser.parse_args()
 
-# Connect to EC2
-ec2 = ec2.connect_to_region(region_name=args.region, aws_access_key_id=args.id, aws_secret_access_key=args.key)
+# Try to connect to EC2
+try:
+    ec2 = ec2.connect_to_region(region_name=args.region, aws_access_key_id=args.id, aws_secret_access_key=args.key)
+except Exception, e:
+    print >> stderr, e
+    exit(1)
 
-# Get the current IP
-ip = get('http://icanhazip.com').content.rstrip() + '/32'
+# Try to get the current IP
+try:
+    ip = get('http://icanhazip.com').content.rstrip()
+except Exception, e:
+    print >> stderr, e
+    exit(1)
+else:
+    cidr = ip + '/32'
 
-# Add the current IP to the requested security group
-ec2.authorize_security_group(group_name=args.group, ip_protocol=-1, from_port=0, to_port=65335, cidr_ip=ip)
+# Try to add the current IP to the requested security group
+try:
+    ec2.authorize_security_group(group_name=args.group, ip_protocol=-1, from_port=0, to_port=65335, cidr_ip=cidr)
+except Exception, e:
+    print >> stderr, e
+    exit(1)
+else:
+    print 'Successfully added your current IP address (' + ip + ") to the AWS security group '" + args.group + "' in the region '" + args.region + "'."
+    exit(0)
