@@ -75,7 +75,7 @@ except Exception, e:
         print >> stderr, e
     exit(1)
 else:
-    # main() ran ok, so confirm this to the user
+    # main() ran ok, so tell the user
     print 'Successfully added your current IP address (' + get_ip() + ") to the AWS security group '" \
           + args.group + "' in the region '" + args.region + "'."
     exit(0)
