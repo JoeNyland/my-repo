@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 __doc__ = 'Updates an AWS EC2 Security Group to allow *all* traffic from the public IP of the machine'
 
 
