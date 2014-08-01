@@ -2,8 +2,8 @@
 
 __doc__ = "Clone all of a user's Gists."
 
-__credits__ = "'Fedir': https://raw.github.com/gist/5466075/gist-backup.py
-	       'saranicole': https://raw.github.com/gist/5466075/gist-backup.py"
+__credits__ = "'Fedir': https://raw.github.com/gist/5466075/gist-backup.py," \
+              "'saranicole': https://raw.github.com/gist/5466075/gist-backup.py"
 
 import json
 import urllib
