@@ -1,0 +1,26 @@
+# Generate a random alphanumeric string. Takes string length as an argument, defaults to 32 characters.
+random-string() {
+    cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w ${1:-32} | head -n 1
+}
+
+# Strips the protocol prefix and path suffix from a URL, leaving just the FQDN
+strip-url() {
+    # Strip off the protocol identifier, so everything from start of $url to '://'
+    url=$(echo $1 | sed -e 's/^[a-zA-Z0-9]*:\/\///g')
+    # Chop the path off the end, from the first '/'
+    echo $url | sed -e 's/\/.*//g'
+}
+
+# Set a clearer sudo prompt
+alias sudo='sudo '
+alias sudo='sudo -p "[sudo] password for %p: " '
+
+# The usual Rsync options
+alias rsync='rsync -avPh'
+alias rsync-dry='rsync -n'
+
+# Enable shopts
+shopt -s checkjobs
+shopt -s cdspell
+shopt -s dirspell
+
