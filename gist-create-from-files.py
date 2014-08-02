@@ -9,14 +9,14 @@ from argparse import ArgumentParser
 from github3 import login
 
 parser = ArgumentParser()
-parser.add_argument('-u', '--username', dest='u', required='yes')
-parser.add_argument('-p', '--password', dest='p', required='yes')
+parser.add_argument('-u', '--username', required='yes')
+parser.add_argument('-p', '--password', required='yes')
 parser.add_argument('-s', '--secret', dest='s', action='store_true', default=False)
 parser.add_argument('files', nargs='+', action='append')
 args = parser.parse_args()
 
 try:
-    gh = login(args.u, args.p)
+    gh = login(args.username, args.password)
     u = gh.user()
     pub = not args.s
     x = 0
