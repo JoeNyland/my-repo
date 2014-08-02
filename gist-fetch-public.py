@@ -13,7 +13,7 @@ from urllib import urlopen
 import os
 import math
 
-USERNAME = os.environ['USERNAMENAME']
+USERNAME = os.environ['USERNAME']
 
 perpage=30.0
 userurl = urlopen('https://api.github.com/users/' + USERNAME)
