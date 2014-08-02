@@ -13,6 +13,9 @@ from urllib import urlopen
 import os
 import math
 
+# TODO: Rewrite this script to use github3.py library.
+# TODO: Rename to gist-clone-all.py and add option to clone public/private/all Gists
+
 USERNAME = os.environ['USERNAME']
 
 perpage=30.0
