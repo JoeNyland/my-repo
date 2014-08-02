@@ -19,7 +19,7 @@ try:
     gh = login(args.u, args.p)
     u = gh.user()
     pub = not args.s
-    x = 1
+    x = 0
     print 'Uploading Gists for ' + u.login + '...'
     for f in args.files[0]:
         fh = open(f, 'r')
