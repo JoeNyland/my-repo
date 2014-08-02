@@ -1,0 +1,11 @@
+#!/bin/sh
+
+# Automatically pushes to tracked remote branch, immediately after a commit to the local repository.
+
+if $(git push)
+then
+    echo "Successfully pushed to the configured remote server and branch."
+else
+    echo "FAILED to push to the configured remote server and branch."
+fi
+
