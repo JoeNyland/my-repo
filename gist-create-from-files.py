@@ -4,9 +4,9 @@
 __doc__ = "Creates Gists from files"
 
 
-import github3
 from sys import stderr, exit
 from argparse import ArgumentParser
+from github3 import login
 
 parser = ArgumentParser()
 parser.add_argument('-u', '--username', dest='u', required='yes')
@@ -16,7 +16,7 @@ parser.add_argument('files', nargs='+', action='append')
 args = parser.parse_args()
 
 try:
-    gh = github3.login(args.u, args.p)
+    gh = login(args.u, args.p)
     u = gh.user()
     pub = not args.s
     x = 1
