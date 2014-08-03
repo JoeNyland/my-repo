@@ -3,9 +3,6 @@
 
 __doc__ = "Deletes all of the Gists for the provided user."
 
-
-
-
 from sys import stderr,exit
 from argparse import ArgumentParser
 import github3

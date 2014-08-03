@@ -1,10 +1,8 @@
 #!/usr/bin/env python
 
 __doc__ = "Clone all of a user's Gists. Use: `USERNAME={GitHub User Name} ./gist-fetch-public.py`"
-
 __credits__ = "'Fedir': https://raw.github.com/gist/5466075/gist-backup.py," \
               "'saranicole': https://raw.github.com/gist/5466075/gist-backup.py"
-
 
 import json
 import urllib

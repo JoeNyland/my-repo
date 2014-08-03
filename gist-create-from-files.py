@@ -3,7 +3,6 @@
 
 __doc__ = "Creates Gists from files"
 
-
 from sys import stderr, exit
 from argparse import ArgumentParser
 from github3 import login

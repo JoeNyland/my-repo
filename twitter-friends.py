@@ -3,8 +3,6 @@
 
 __doc__ = 'Takes a list of Twitter friend IDs and exports or imports (follows) them.'
 
-
-
 import sys
 import argparse
 import twitter

@@ -3,9 +3,6 @@
 
 __doc__ = 'Updates an AWS EC2 Security Group to allow *all* traffic from the public IP of the machine'
 
-
-
-
 from sys import stderr, exit
 from argparse import ArgumentParser
 
