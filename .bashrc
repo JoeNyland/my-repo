@@ -19,6 +19,9 @@ alias sudo='sudo -p "[sudo] password for %p: " '
 alias rsync='rsync -avPh'
 alias rsync-dry='rsync -n'
 
+# Simple bell
+alias bell='tput bel'
+
 # Enable shopts
 shopt -s checkjobs
 shopt -s cdspell
