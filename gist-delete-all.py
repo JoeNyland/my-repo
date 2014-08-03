@@ -8,12 +8,12 @@ from argparse import ArgumentParser
 import github3
 
 parser = ArgumentParser()
-parser.add_argument('-u', '--username', dest='u', required='yes')
-parser.add_argument('-p', '--password', dest='p', required='yes')
+parser.add_argument('-u', '--username', required='yes')
+parser.add_argument('-p', '--password', required='yes')
 args = parser.parse_args()
 
 try:
-    gh = github3.login(args.u, args.p)
+    gh = github3.login(args.username, args.password)
     u = gh.user()
     if u.public_gists > 0 or u.total_private_gists > 0:
         print 'Deleting all of the Gists for the user ' + u.login + '...'
