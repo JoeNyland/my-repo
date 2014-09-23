@@ -11,14 +11,14 @@ strip-url() {
     echo $url | sed -e 's/\/.*//g'
 }
 
-# Return the current public ip
+# Return the current public IP
 public-ip() {
     curl icanhazip.com
 }
 
 # Set a clearer sudo prompt
 alias sudo='sudo '
-alias sudo='sudo -p "[sudo] password for %p: " '
+alias sudo='sudo -p "[sudo] password for %p: "'
 
 # The usual Rsync options
 alias rsync='rsync -avPh'
