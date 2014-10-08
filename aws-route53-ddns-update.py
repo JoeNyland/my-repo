@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 
 __doc__ = 'Updates an AWS Route53 A record to the current public IP of the machine'
+ttl = 2
+type = 'A'
 
 from sys import stderr, exit
 from argparse import ArgumentParser
@@ -46,22 +48,28 @@ def get_ip():
 def main():
     # Add the current IP to the requested security group by running the main() function
     conn = connect(args.id, args.key)
-    ip = get_ip()
+    new_ip = get_ip()
 
     if conn is not None:
         # If a connection to Route53 has been returned from connect(), check to see if the record exists
-        current = conn.get_all_rrsets(args.zone_id, 'A', args.record, maxitems=1)[0]
-        if len(current.resource_records) == 1 and current.resource_records[0] != ip:
-            # The new record is different, so we need to delete the current version from Route53 and create a new one
-            old_ip = current.resource_records                                       # Capture the old IP from Route53
-            changes = route53.record.ResourceRecordSets(connection, args.zone_id)   # Initialise a changes object
-            delete_record = changes.add_change("DELETE", args.record, 'A', 60)      # Add a change to delete the current record
-            delete_record.add_value(old_ip[0])                                      # Add the old IP to the delete charge
-            create_record = changes.add_change("CREATE", args.record, 'A', 1)       # Add a change to create the new record
-            create_record.add_value(ip)                                             # Add the new IP to the create charge
-            changes.commit()
+        current = conn.get_all_rrsets(args.zone_id, type, args.record, maxitems=1)[0]
+        changes = ResourceRecordSets(conn, args.zone_id)                             # Initialise a changes object
+        if len(current.resource_records) == 1 and current.resource_records[0] != new_ip or current.ttl[0] != ttl:
+            # The new IP is different, so we need to delete the current record first
+            old_ip = current.resource_records[0]                                     # Capture the old IP from Route53
+            old_ttl = current.ttl[0]                                                 # Capture the old TTL from Route53
+            delete_record = changes.add_change('DELETE', args.record, type, old_ttl) # Add a change to delete the current record
+            delete_record.add_value(old_ip)                                          # Add the old IP to the delete charge
         else:
             print 'The current record in Route53 is already set to the current IP'
+            return True
+
+        create_record = changes.add_change('CREATE', args.record, type, ttl)         # Add a change to create the new record
+        create_record.add_value(new_ip)                                              # Add the new IP to the create charge
+
+        if changes.commit():
+            print 'Successfully set the hostname ' + args.record + ' to the IP ' + new_ip + ' with the TTL ' + str(ttl)
+            return True
 
     else:
         # Else, raise an exception with a meaningful message
@@ -72,12 +80,8 @@ try:
     # Try main()
     main()
 except Exception, e:
-    if hasattr(e, 'error_message'):
-        # If an exception has been raised, check if the error_message attr has been set and print.
-        print >> stderr, e.error_message.capitalize()
-    else:
-        # If not, print the exception error message
-        print >> stderr, e
+    # If not, print the exception error message
+    print >> stderr, e
     exit(1)
 else:
     exit(0)
