@@ -2,8 +2,6 @@
 # -*- coding: utf-8 -*-
 
 __doc__ = 'Updates an AWS Route53 A record to the current public IP of the machine'
-ttl = 2
-type = 'A'
 
 from sys import stderr, exit
 from argparse import ArgumentParser
@@ -16,6 +14,7 @@ from requests import get
 parser = ArgumentParser()
 parser.add_argument('--record', '-r', dest='record', required='yes')
 parser.add_argument('--zone-id', '-z', dest='zone_id', required='yes')
+parser.add_argument('--ttl', '-t', dest='ttl', default=60)
 parser.add_argument('--access-key-id', '-i', dest='id', required='yes')
 parser.add_argument('--access-key', '-k', dest='key', required='yes')
 args = parser.parse_args()
@@ -52,23 +51,30 @@ def main():
 
     if conn is not None:
         # If a connection to Route53 has been returned from connect(), check to see if the record exists
-        current = conn.get_all_rrsets(args.zone_id, type, args.record, maxitems=1)[0]
-        changes = ResourceRecordSets(conn, args.zone_id)                             # Initialise a changes object
-        if len(current.resource_records) == 1 and current.resource_records[0] != new_ip or current.ttl[0] != ttl:
-            # The new IP is different, so we need to delete the current record first
-            old_ip = current.resource_records[0]                                     # Capture the old IP from Route53
-            old_ttl = current.ttl[0]                                                 # Capture the old TTL from Route53
-            delete_record = changes.add_change('DELETE', args.record, type, old_ttl) # Add a change to delete the current record
-            delete_record.add_value(old_ip)                                          # Add the old IP to the delete charge
+        current = conn.get_all_rrsets(args.zone_id, 'A', args.record, maxitems=1)[0]
+
+        changes = ResourceRecordSets(conn, args.zone_id)                                  # Initialise a changes object
+        current_rname = str(current.name)                                                 # Capture the name of the current record returned
+        current_rip = str(current.resource_records[0])                                    # Capture the value of the current record returned
+        current_rttl = int(current.ttl)                                                   # Capture the TTL of the current record returned
+
+        if current_rname == args.record and ( current_rip != new_ip or ( current_rip == new_ip and current_rttl != args.ttl ) ):
+            # The record currently exists, but the IP or TTL is different so we need to delete the current record first
+            delete_record = changes.add_change('DELETE', args.record, 'A', current_rttl)  # Add a change to delete the current record
+            delete_record.add_value(current_rip)                                          # Add the old IP to the delete charge
+            # Now create a new one
+            create_record = changes.add_change('CREATE', args.record, 'A', args.ttl)      # Add a change to create the new record
+            create_record.add_value(new_ip)                                               # Add the new IP to the create charge
+        elif current_rname != args.record:
+            # The record does not currently exist, creating a new one
+            create_record = changes.add_change('CREATE', args.record, 'A', args.ttl)      # Add a change to create the new record
+            create_record.add_value(new_ip)                                               # Add the new IP to the create charge
         else:
-            print 'The current record in Route53 is already set to the current IP'
+            print 'The current record in Route53 is already up to date'
             return True
 
-        create_record = changes.add_change('CREATE', args.record, type, ttl)         # Add a change to create the new record
-        create_record.add_value(new_ip)                                              # Add the new IP to the create charge
-
         if changes.commit():
-            print 'Successfully set the hostname ' + args.record + ' to the IP ' + new_ip + ' with the TTL ' + str(ttl)
+            print 'Successfully set the hostname ' + args.record + ' to the IP ' + new_ip + ' with the TTL ' + str(args.ttl)
             return True
 
     else:
