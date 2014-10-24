@@ -32,3 +32,8 @@ shopt -s checkjobs
 shopt -s cdspell
 shopt -s dirspell
 
+# Configure Bash history
+HISTTIMEFORMAT='%c '
+HISTSIZE=100000
+HISTFILESIZE=100000
+
