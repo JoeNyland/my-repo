@@ -1,10 +1,10 @@
 # Generate a random alphanumeric string. Takes string length as an argument, defaults to 32 characters.
-random-string() {
+getrandomstring() {
     cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w ${1:-32} | head -n 1
 }
 
 # Strips the protocol prefix and path suffix from a URL, leaving just the FQDN
-strip-url() {
+stripurl() {
     # Strip off the protocol identifier, so everything from start of $url to '://'
     url=$(echo $1 | sed -e 's/^[a-zA-Z0-9]*:\/\///g')
     # Chop the path off the end, from the first '/'
@@ -12,7 +12,7 @@ strip-url() {
 }
 
 # Return the current public IP
-public-ip() {
+getpublicip() {
     curl icanhazip.com
 }
 
