@@ -3,9 +3,9 @@
 # Reset DBs for demo.joenyland.me sites
 
 # MySQL variables
-HOST='rds1.aws.joenyland.me'
-USER_NAME='demo'
-PASSWORD='VBMiElHFoGv7aZ7vsSu8wpQcCoRntajV'
+HOST=$1
+USER_NAME=$2
+PASSWORD=$3
 
 # αCRM Demo
 SITE_ROOT=/var/www/demo.joenyland.me/alpha-crm
